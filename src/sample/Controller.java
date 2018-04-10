@@ -1,8 +1,6 @@
 package sample;
 
 public class Controller {
-    private String message = " Hej Pojkar små ni är för söta";
-    private String m2 = "Hello";
-    private String  m3 = "Test";
+  private String message = "Final test Filip";
 
 }
