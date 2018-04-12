@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Hyperlink?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+
+<AnchorPane fx:id="pane" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/9" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.ControllerMainMenu">
+   <children>
+      <Label fx:id="menuName" contentDisplay="CENTER" layoutX="212.0" layoutY="26.0" prefHeight="27.0" prefWidth="177.0" text="Menu for employees" textAlignment="CENTER" underline="true">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Label>
+      <Button fx:id="Schedule" layoutX="235.0" layoutY="83.0" mnemonicParsing="false" prefHeight="35.0" prefWidth="132.0" text="Schedule" />
+      <Button fx:id="Settings" layoutX="235.0" layoutY="248.0" mnemonicParsing="false" prefHeight="35.0" prefWidth="132.0" text="Settings" />
+      <Button fx:id="Sickness" layoutX="235.0" layoutY="138.0" mnemonicParsing="false" prefHeight="35.0" prefWidth="132.0" text="Sickness" />
+      <Button fx:id="availableSlots" layoutX="234.0" layoutY="192.0" mnemonicParsing="false" prefHeight="35.0" prefWidth="132.0" text="Available slots" />
+      <Button fx:id="logoff" layoutX="235.0" layoutY="307.0" mnemonicParsing="false" prefHeight="35.0" prefWidth="132.0" text="Log off" />
+      <Hyperlink fx:id="help" layoutX="14.0" layoutY="361.0" prefHeight="25.0" prefWidth="55.0" text="help" />
+   </children>
+</AnchorPane>
