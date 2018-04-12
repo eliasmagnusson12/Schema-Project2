@@ -1,4 +1,4 @@
-package sampleMainMenu;
+package sample;
 
 import java.sql.*;
 

@@ -1,4 +1,4 @@
-package sampleMainMenu;
+package sample;
 
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -29,11 +29,11 @@ public class ControllerMainMenu implements Initializable {
     @FXML
     private Hyperlink help;
 
+
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         anchorPane.setStyle("fx-background-color: RED");
     }
 
-
-
 }
+

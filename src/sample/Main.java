@@ -1,4 +1,4 @@
-package sampleMainMenu;
+package sample;
 
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -13,9 +13,9 @@ public class Main extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception {
-        Parent root = FXMLLoader.load(getClass().getResource("sampleMainMenu.fxml"));
+        Parent root = FXMLLoader.load(getClass().getResource("sampleCalendar.fxml"));
         primaryStage.setTitle("Schedule 1.0");
-        primaryStage.setScene(new Scene(root));
+        primaryStage.setScene(new Scene(root, 1280, 800));
         primaryStage.show();
     }
 
