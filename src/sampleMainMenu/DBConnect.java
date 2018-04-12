@@ -1,21 +1,14 @@
-package sample;
-
-import javafx.scene.control.Alert;
+package sampleMainMenu;
 
 import java.sql.*;
 
 
 public class DBConnect {
 
-    private Connection connection;
-    private Statement statement;
-
-
-
     String url = "jdbc:mysql://den1.mysql2.gear.host/gadorsmydb?user=gadorsmydb&password=Xf8Q-P3WxQR_"; //githost address
     Statement st;
 
-    //TODO planera databasen, hur vill vi ha den (Till en början i alla fall)
+
 
     public DBConnect() {
         try {
@@ -32,16 +25,10 @@ public class DBConnect {
             ResultSet rs = st.executeQuery(sql);
             while (rs.next()) {
                 {
-                    System.out.println(rs.getString("firstName"));
+                    System.out.print(rs.getString("firstName"));
+                    System.out.print(" ");
                     System.out.println(rs.getString("lastName"));
                 }
             }
-    }
-
-    private void callAlert(){
-        Alert alert = new Alert(Alert.AlertType.ERROR);
-        alert.setHeaderText("Error");
-        alert.setContentText("Does not exist!");
-        alert.showAndWait();
     }
 }
