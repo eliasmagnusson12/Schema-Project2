@@ -1,5 +1,7 @@
 package sample;
 
+import javafx.scene.control.Alert;
+
 import java.sql.*;
 
 
@@ -7,7 +9,7 @@ public class DBConnect {
 
     private Connection connection;
     private Statement statement;
-    private ResultSet resultSet;
+
 
 
     String url = "jdbc:mysql://den1.mysql2.gear.host/gadorsmydb?user=gadorsmydb&password=Xf8Q-P3WxQR_"; //githost address
@@ -24,8 +26,22 @@ public class DBConnect {
         }
     }
 
-    public void getData() throws SQLException {
-        String query = "select * from Person;";
-        statement.executeQuery("query");
+    public void getFirstName() throws SQLException {
+
+            String sql = ("SELECT * FROM person;");
+            ResultSet rs = st.executeQuery(sql);
+            while (rs.next()) {
+                {
+                    System.out.println(rs.getString("firstName"));
+                    System.out.println(rs.getString("lastName"));
+                }
+            }
+    }
+
+    private void callAlert(){
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setHeaderText("Error");
+        alert.setContentText("Does not exist!");
+        alert.showAndWait();
     }
 }
