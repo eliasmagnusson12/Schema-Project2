@@ -5,6 +5,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.layout.VBox;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
 
@@ -23,11 +24,13 @@ public class Main extends Application {
         primaryStage.show();
 
 
-        Rectangle2D primaryScreenBounds = Screen.getPrimary().getVisualBounds();
-        primaryStage.setX(primaryScreenBounds.getMinX());
-        primaryStage.setY(primaryScreenBounds.getMinY());
-        primaryStage.setWidth(primaryScreenBounds.getWidth());
-        primaryStage.setHeight(primaryScreenBounds.getHeight());
+
+
+//        Rectangle2D primaryScreenBounds = Screen.getPrimary().getVisualBounds();
+//        primaryStage.setX(primaryScreenBounds.getMinX());
+//        primaryStage.setY(primaryScreenBounds.getMinY());
+//        primaryStage.setWidth(primaryScreenBounds.getWidth());
+//        primaryStage.setHeight(primaryScreenBounds.getHeight());
     }
 
 
