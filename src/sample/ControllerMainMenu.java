@@ -50,7 +50,7 @@ public class ControllerMainMenu implements Initializable {
         ImageView imageView = new ImageView(logo);
         anchorPane.getChildren().add(imageView);
         imageView.fitWidthProperty().bind(anchorPane.widthProperty().divide(1.5));
-        imageView.setX(150);
+        imageView.setX(80);
     }
 
     @FXML
@@ -72,6 +72,7 @@ public class ControllerMainMenu implements Initializable {
         ((Button) alert.getDialogPane().lookupButton(ButtonType.OK)).setText("Yes!");
         ((Button) alert.getDialogPane().lookupButton(ButtonType.CANCEL)).setText("No!");
         alert.setHeaderText("Are you sure you want to exit the application?");
+        alert.setTitle("Exit");
         Optional<ButtonType> result = alert.showAndWait();
         if (result.get() == ButtonType.OK) {
             System.exit(1);

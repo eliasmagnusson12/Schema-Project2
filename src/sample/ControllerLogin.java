@@ -7,15 +7,14 @@ import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.CheckBox;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
-import javafx.scene.shape.Line;
-import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
-import javafx.stage.Window;
 
+import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
@@ -34,6 +33,11 @@ public class ControllerLogin implements Initializable {
     private TextField passwordTextField;
     @FXML
     private Button backButton;
+    @FXML
+    private CheckBox checkBoxUsername, checkBoxPassword;
+
+    private boolean saveUsername;
+    private boolean savePassword;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -75,6 +79,7 @@ public class ControllerLogin implements Initializable {
         }else{
             System.out.println("Something went wrong");
         }
+
     }
 
     @FXML
@@ -88,5 +93,29 @@ public class ControllerLogin implements Initializable {
         stage.setScene(scene);
         stage.show();
         ((Node) (event.getSource())).getScene().getWindow().hide();
+    }
+
+    @FXML
+    private void handleCheckBoxUsername(ActionEvent event) {
+        if (event.getSource() instanceof CheckBox) {
+            checkBoxUsername = (CheckBox) event.getSource();
+            if (checkBoxUsername.isSelected()){
+                saveUsername = true;
+            }else {
+                saveUsername = false;
+            }
+        }
+    }
+
+    @FXML
+    private void handleCheckBoxPassword(ActionEvent event) {
+        if (event.getSource() instanceof CheckBox) {
+            checkBoxPassword = (CheckBox) event.getSource();
+            if (checkBoxPassword.isSelected()) {
+                savePassword = true;
+            }else {
+                savePassword = false;
+            }
+        }
     }
 }
