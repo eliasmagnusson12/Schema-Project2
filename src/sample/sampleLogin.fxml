@@ -7,12 +7,12 @@
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/9" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.ControllerLogin">
+<AnchorPane fx:id="anchorPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.ControllerLogin">
    <children>
-      <Label fx:id="nameLabel" contentDisplay="CENTER" layoutX="242.0" layoutY="41.0" prefHeight="25.0" prefWidth="116.0" text="Name of company" />
-      <TextField fx:id="usernameField" layoutX="217.0" layoutY="109.0" promptText="Username" />
-      <PasswordField fx:id="passwordField" layoutX="217.0" layoutY="173.0" promptText="Password" />
-      <Button fx:id="loginButton" layoutX="274.0" layoutY="240.0" mnemonicParsing="false" prefHeight="10.0" prefWidth="52.0" text="Login" />
+      <Label fx:id="nameLabel" contentDisplay="CENTER" layoutX="202.0" layoutY="40.0" prefHeight="25.0" prefWidth="217.0" text="LOGGA IN MED 911001 / oskar" />
+      <TextField fx:id="usernameTextField" layoutX="217.0" layoutY="109.0" promptText="Username" />
+      <PasswordField fx:id="passwordTextField" layoutX="217.0" layoutY="173.0" promptText="Password" />
+      <Button fx:id="loginButton" layoutX="237.0" layoutY="230.0" mnemonicParsing="false" onAction="#handleLoginButton" prefHeight="31.0" prefWidth="126.0" text="Login" />
       <Hyperlink fx:id="forgotLink" layoutX="14.0" layoutY="354.0" text="forgot password?" />
    </children>
 </AnchorPane>

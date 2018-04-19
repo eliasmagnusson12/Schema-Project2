@@ -18,7 +18,7 @@ public class Main extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception {
-        Parent root = FXMLLoader.load(getClass().getResource("sampleCalendar.fxml"));
+        Parent root = FXMLLoader.load(getClass().getResource("sampleLogin.fxml"));
         primaryStage.setTitle("Schedule 1.0");
         primaryStage.setScene(new Scene(root));
         primaryStage.show();
@@ -37,7 +37,7 @@ public class Main extends Application {
     public static void main(String[] args) throws SQLException {
         launch(args);
         DBConnect dbConnect = new DBConnect();
-        dbConnect.getFirstName();
+        //dbConnect.getFirstName();
 
 
 
