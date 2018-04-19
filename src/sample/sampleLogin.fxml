@@ -6,13 +6,16 @@
 <?import javafx.scene.control.PasswordField?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.shape.Line?>
 
-<AnchorPane fx:id="anchorPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.ControllerLogin">
+<AnchorPane fx:id="anchorPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="480.0" prefWidth="640.0" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.ControllerLogin">
    <children>
-      <Label fx:id="nameLabel" contentDisplay="CENTER" layoutX="202.0" layoutY="40.0" prefHeight="25.0" prefWidth="217.0" text="LOGGA IN MED 911001 / oskar" />
-      <TextField fx:id="usernameTextField" layoutX="217.0" layoutY="109.0" promptText="Username" />
-      <PasswordField fx:id="passwordTextField" layoutX="217.0" layoutY="173.0" promptText="Password" />
-      <Button fx:id="loginButton" layoutX="237.0" layoutY="230.0" mnemonicParsing="false" onAction="#handleLoginButton" prefHeight="31.0" prefWidth="126.0" text="Login" />
-      <Hyperlink fx:id="forgotLink" layoutX="14.0" layoutY="354.0" text="forgot password?" />
+      <Hyperlink fx:id="forgotLink" layoutX="14.0" layoutY="434.0" text="forgot password?" />
+      <Label fx:id="nameLabel" contentDisplay="CENTER" layoutX="212.0" layoutY="423.0" prefHeight="25.0" prefWidth="217.0" text="LOGGA IN MED 911001 / oskar" />
+      <TextField fx:id="usernameTextField" layoutX="227.0" layoutY="179.0" prefHeight="31.0" prefWidth="202.0" promptText="Username" />
+      <PasswordField fx:id="passwordTextField" layoutX="227.0" layoutY="240.0" prefHeight="31.0" prefWidth="202.0" promptText="Password" />
+      <Button fx:id="loginButton" layoutX="257.0" layoutY="339.0" mnemonicParsing="false" onAction="#handleLoginButton" prefHeight="31.0" prefWidth="126.0" text="Login" />
+      <Line fx:id="line" endX="210.0" layoutX="300.0" layoutY="300.0" startX="-170.0" />
+      <Button fx:id="backButton" layoutX="14.0" layoutY="14.0" mnemonicParsing="false" onAction="#handleBackButton" prefHeight="39.0" prefWidth="86.0" />
    </children>
 </AnchorPane>

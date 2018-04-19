@@ -8,8 +8,13 @@ import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
-import javafx.scene.layout.AnchorPane;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.scene.layout.*;
+import javafx.scene.shape.Line;
+import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
+import javafx.stage.Window;
 
 import java.io.IOException;
 import java.net.URL;
@@ -20,17 +25,34 @@ import java.util.ResourceBundle;
 public class ControllerLogin implements Initializable {
 
     @FXML
-    AnchorPane anchorPane;
+    private AnchorPane anchorPane;
     @FXML
-    Button loginButton;
+    private Button loginButton;
     @FXML
-    TextField usernameTextField;
+    private TextField usernameTextField;
     @FXML
-    TextField passwordTextField;
+    private TextField passwordTextField;
+    @FXML
+    private Button backButton;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        anchorPane.setStyle("-fx-backgorund-color: LIGHTGRAY");
+        Image image = new Image("resourses/2.jpg");
+        BackgroundImage backgroundImage = new BackgroundImage(image, BackgroundRepeat.REPEAT, BackgroundRepeat.REPEAT, BackgroundPosition.CENTER, BackgroundSize.DEFAULT);
+        anchorPane.setBackground(new Background(backgroundImage));
+        Image logo = new Image("resourses/logo.png");
+        ImageView imageView = new ImageView(logo);
+        anchorPane.getChildren().add(imageView);
+        imageView.fitWidthProperty().bind(anchorPane.widthProperty().divide(1.5));
+        imageView.setX(80);
+
+        Image back = new Image("resourses/arrowB.png");
+        ImageView imageView1 = new ImageView(back);
+        backButton.setGraphic(imageView1);
+
+
+
+
     }
 
     @FXML
@@ -53,5 +75,18 @@ public class ControllerLogin implements Initializable {
         }else{
             System.out.println("Something went wrong");
         }
+    }
+
+    @FXML
+    private void handleBackButton(ActionEvent event) throws IOException {
+        Stage stage = new Stage();
+        FXMLLoader fxmlLoader = new FXMLLoader();
+        fxmlLoader.setLocation(getClass().getResource("sampleMainMenu.fxml"));
+        stage.setTitle("Schedule 1.0");
+        Scene scene = new Scene(fxmlLoader.load());
+        stage.setResizable(false);
+        stage.setScene(scene);
+        stage.show();
+        ((Node) (event.getSource())).getScene().getWindow().hide();
     }
 }
