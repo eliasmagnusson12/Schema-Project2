@@ -10,6 +10,7 @@ import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
+import javafx.scene.shape.Circle;
 import javafx.stage.Stage;
 
 
@@ -25,7 +26,7 @@ public class ControllerMainMenu implements Initializable {
     @FXML
     private Label menuName;
     @FXML
-    private Button loginButton;
+    private Button exitButton;
     @FXML
     private Button settings;
     @FXML
@@ -51,6 +52,11 @@ public class ControllerMainMenu implements Initializable {
         anchorPane.getChildren().add(imageView);
         imageView.fitWidthProperty().bind(anchorPane.widthProperty().divide(1.5));
         imageView.setX(80);
+
+        Image exitImage = new Image("resourses/exit.png");
+        ImageView exitImageView = new ImageView(exitImage);
+        exitButton.setGraphic(exitImageView);
+
     }
 
     @FXML

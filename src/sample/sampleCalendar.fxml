@@ -67,5 +67,6 @@
       </Label>
       <Label layoutX="52.0" layoutY="703.0" text="Logged in as:" />
       <Hyperlink fx:id="loggedInAs" alignment="CENTER" layoutX="50.0" layoutY="724.0" text="????????????" />
+      <Button fx:id="homeButton" layoutX="14.0" layoutY="14.0" mnemonicParsing="false" onAction="#handleHomeButton" prefHeight="31.0" prefWidth="32.0" />
    </children>
 </Pane>

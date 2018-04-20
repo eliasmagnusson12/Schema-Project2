@@ -2,15 +2,20 @@ package sample;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.GridPane;
-import javafx.scene.layout.Pane;
+import javafx.scene.layout.*;
+import javafx.stage.Stage;
+
+import java.io.IOException;
 import java.net.URL;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -49,6 +54,8 @@ public class ControllerCalendar implements Initializable {
      @FXML
      Button nextWeek;
      @FXML
+     Button homeButton;
+     @FXML
      TextField textFieldMonday;
     @FXML
     TextField textFieldTuesday;
@@ -78,6 +85,10 @@ public class ControllerCalendar implements Initializable {
         ImageView imageView1 = new ImageView(image1);
         nextWeek.setGraphic(imageView);
         lastWeek.setGraphic(imageView1);
+
+        Image homeImage = new Image("resourses/home.png");
+        ImageView homeImageView = new ImageView(homeImage);
+        homeButton.setGraphic(homeImageView);
 
         week = new Week();
         weekString = Integer.toString(week.getWeek());
@@ -243,4 +254,16 @@ public class ControllerCalendar implements Initializable {
         weekString = String.valueOf(week.getNextWeek(weekChosen));
         setWeekLabel(weekString);
     }
+    @FXML
+    private void handleHomeButton(ActionEvent event) throws IOException {
+        Stage stage = new Stage();
+        FXMLLoader fxmlLoader = new FXMLLoader();
+        fxmlLoader.setLocation(getClass().getResource("sampleMainMenu.fxml"));
+        stage.setTitle("Schedule 1.0");
+        Scene scene = new Scene(fxmlLoader.load());
+        stage.setResizable(false);
+        stage.setScene(scene);
+        stage.show();
+        ((Node) (event.getSource())).getScene().getWindow().hide();
     }
+}
