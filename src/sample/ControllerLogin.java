@@ -11,6 +11,7 @@ import javafx.scene.control.CheckBox;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
 import javafx.stage.Stage;
 
@@ -60,10 +61,12 @@ public class ControllerLogin implements Initializable {
         Image back = new Image("resourses/arrowBsmall.png");
         ImageView imageView1 = new ImageView(back);
         backButton.setGraphic(imageView1);
+        backButton.setStyle("-fx-background-color: TRANSPARENT");
 
         Image signInImage = new Image("resourses/signIn.png");
         ImageView signInImageView = new ImageView(signInImage);
         loginButton.setGraphic(signInImageView);
+        loginButton.setStyle("-fx-background-color: TRANSPARENT");
 
 
 
@@ -171,5 +174,17 @@ public class ControllerLogin implements Initializable {
             }
             bufferedReader.close();
         }
+    }
+
+    @FXML
+    private void handleHoverEffect(MouseEvent event) {
+        Button button = (Button) event.getSource();
+        button.setStyle("-fx-background-color: LIGHTGRAY");
+    }
+
+    @FXML
+    private void handleNoHoverEffect(MouseEvent event) {
+        Button button = (Button) event.getSource();
+        button.setStyle("-fx-background-color: TRANSPARENT");
     }
 }

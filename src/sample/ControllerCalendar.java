@@ -78,17 +78,20 @@ public class ControllerCalendar implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        background.setStyle("-fx-background-color: LIGHTGRAY");
+        background.setStyle("-fx-background-color: LIGHTBLUE");
         Image image = new Image("resourses/arrowF.png");
         Image image1 = new Image("resourses/arrowB.png");
         ImageView imageView = new ImageView(image);
         ImageView imageView1 = new ImageView(image1);
         nextWeek.setGraphic(imageView);
+        nextWeek.setStyle("-fx-background-color: TRANSPARENT");
         lastWeek.setGraphic(imageView1);
+        lastWeek.setStyle("-fx-background-color: TRANSPARENT");
 
         Image homeImage = new Image("resourses/home.png");
         ImageView homeImageView = new ImageView(homeImage);
         homeButton.setGraphic(homeImageView);
+        homeButton.setStyle("-fx-background-color: TRANSPARENT");
 
         week = new Week();
         weekString = Integer.toString(week.getWeek());
@@ -265,5 +268,17 @@ public class ControllerCalendar implements Initializable {
         stage.setScene(scene);
         stage.show();
         ((Node) (event.getSource())).getScene().getWindow().hide();
+    }
+
+    @FXML
+    private void handleHoverEffect(MouseEvent event) {
+        Button button = (Button) event.getSource();
+        button.setStyle("-fx-background-color: LIGHTGRAY");
+    }
+
+    @FXML
+    private void handleNoHoverEffect(MouseEvent event) {
+        Button button = (Button) event.getSource();
+        button.setStyle("-fx-background-color: TRANSPARENT");
     }
 }

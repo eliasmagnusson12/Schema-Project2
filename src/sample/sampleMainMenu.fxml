@@ -5,9 +5,11 @@
 
 <AnchorPane fx:id="anchorPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="480.0" prefWidth="640.0" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.ControllerMainMenu">
    <children>
-      <Button fx:id="loginButton" layoutX="243.0" layoutY="143.0" mnemonicParsing="false" onAction="#handleLoginButton" prefHeight="44.0" prefWidth="154.0" text="Log in" />
-      <Button layoutX="243.0" layoutY="205.0" mnemonicParsing="false" prefHeight="44.0" prefWidth="154.0" text="Send Mail" />
-      <Button layoutX="243.0" layoutY="272.0" mnemonicParsing="false" prefHeight="44.0" prefWidth="154.0" text="Settings" />
-      <Button fx:id="exitButton" layoutX="541.0" layoutY="410.0" mnemonicParsing="false" onAction="#handleExitButton" prefHeight="56.0" prefWidth="85.0" />
+      <Button fx:id="loginButton" layoutX="265.0" layoutY="163.0" mnemonicParsing="false" onAction="#handleLoginButton" onMouseEntered="#handleHoverEffect" onMouseExited="#handleNoHoverEffect" prefHeight="104.0" prefWidth="113.0" />
+      <Button fx:id="mailButton" layoutX="15.0" layoutY="406.0" mnemonicParsing="false" onAction="#handlePressMailButton" onMouseEntered="#handleHoverEffect" onMouseExited="#handleNoHoverEffect" prefHeight="60.0" prefWidth="60.0" />
+      <Button fx:id="settingsButton" layoutX="278.0" layoutY="406.0" mnemonicParsing="false" onAction="#handlePressSettingsButton" onMouseEntered="#handleHoverEffect" onMouseExited="#handleNoHoverEffect" prefHeight="60.0" prefWidth="60.0" />
+      <Button fx:id="exitButton" layoutX="566.0" layoutY="406.0" mnemonicParsing="false" onAction="#handleExitButton" onMouseEntered="#handleHoverEffect" onMouseExited="#handleNoHoverEffect" prefHeight="60.0" prefWidth="60.0" />
+      <Button fx:id="helpButton" layoutX="142.0" layoutY="406.0" mnemonicParsing="false" onMouseEntered="#handleHoverEffect" onMouseExited="#handleNoHoverEffect" prefHeight="60.0" prefWidth="60.0" />
+      <Button fx:id="infoButton" layoutX="418.0" layoutY="406.0" mnemonicParsing="false" onMouseEntered="#handleHoverEffect" onMouseExited="#handleNoHoverEffect" prefHeight="60.0" prefWidth="60.0" />
    </children>
 </AnchorPane>

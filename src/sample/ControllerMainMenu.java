@@ -9,8 +9,8 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
-import javafx.scene.shape.Circle;
 import javafx.stage.Stage;
 
 
@@ -24,19 +24,17 @@ public class ControllerMainMenu implements Initializable {
     @FXML
     private AnchorPane anchorPane;
     @FXML
-    private Label menuName;
-    @FXML
     private Button exitButton;
     @FXML
-    private Button settings;
+    private Button settingsButton;
     @FXML
-    private Button sickness;
+    private Button mailButton;
     @FXML
-    private Button availableSlots;
+    private Button loginButton;
     @FXML
-    private Button logOff;
+    private Button helpButton;
     @FXML
-    private Hyperlink help;
+    private Button infoButton;
     @FXML
     private HBox hBox;
 
@@ -56,7 +54,32 @@ public class ControllerMainMenu implements Initializable {
         Image exitImage = new Image("resourses/exit.png");
         ImageView exitImageView = new ImageView(exitImage);
         exitButton.setGraphic(exitImageView);
+        exitButton.setStyle("-fx-background-color: TRANSPARENT");
 
+        Image settingsImage = new Image("resourses/settings.png");
+        ImageView settingsImageView = new ImageView(settingsImage);
+        settingsButton.setGraphic(settingsImageView);
+        settingsButton.setStyle("-fx-background-color: TRANSPARENT");
+
+        Image mailImage = new Image("resourses/email.png");
+        ImageView mailImageView = new ImageView(mailImage);
+        mailButton.setGraphic(mailImageView);
+        mailButton.setStyle("-fx-background-color: TRANSPARENT");
+
+        Image loginImage = new Image("resourses/login.png");
+        ImageView loginImageView = new ImageView(loginImage);
+        loginButton.setGraphic(loginImageView);
+        loginButton.setStyle("-fx-background-color: TRANSPARENT");
+
+        Image helpImage = new Image("resourses/help.png");
+        ImageView helpImageView = new ImageView(helpImage);
+        helpButton.setGraphic(helpImageView);
+        helpButton.setStyle("-fx-background-color: TRANSPARENT");
+
+        Image infoImage = new Image("resourses/info.png");
+        ImageView infoImageView = new ImageView(infoImage);
+        infoButton.setGraphic(infoImageView);
+        infoButton.setStyle("-fx-background-color: TRANSPARENT");
     }
 
     @FXML
@@ -85,5 +108,26 @@ public class ControllerMainMenu implements Initializable {
         }
     }
 
+    @FXML
+    private void handleHoverEffect(MouseEvent event) {
+        Button button = (Button) event.getSource();
+        button.setStyle("-fx-background-color: LIGHTGRAY");
+    }
+
+    @FXML
+    private void handleNoHoverEffect(MouseEvent event) {
+        Button button = (Button) event.getSource();
+        button.setStyle("-fx-background-color: TRANSPARENT");
+    }
+
+    @FXML
+    private void handlePressSettingsButton(ActionEvent event) {
+
+    }
+
+    @FXML
+    private void handlePressMailButton(ActionEvent event) {
+
+    }
 }
 

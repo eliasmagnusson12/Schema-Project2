@@ -58,8 +58,8 @@
             <Button fx:id="sunday" mnemonicParsing="false" onMouseEntered="#handleMouseButtonEntered" onMouseExited="#handleMouseButtonExited" prefHeight="31.0" prefWidth="108.0" text="Sunday" textFill="#ee0808" GridPane.columnIndex="6" />
          </children>
       </GridPane>
-      <Button fx:id="lastWeek" layoutX="140.0" layoutY="69.0" mnemonicParsing="false" onAction="#changeWeekBackwards" prefHeight="53.0" prefWidth="115.0" />
-      <Button fx:id="nextWeek" layoutX="1053.0" layoutY="69.0" mnemonicParsing="false" onAction="#changeWeekForward" prefHeight="53.0" prefWidth="115.0" />
+      <Button fx:id="lastWeek" layoutX="140.0" layoutY="69.0" mnemonicParsing="false" onAction="#changeWeekBackwards" onMouseEntered="#handleHoverEffect" onMouseExited="#handleNoHoverEffect" prefHeight="53.0" prefWidth="115.0" />
+      <Button fx:id="nextWeek" layoutX="1053.0" layoutY="69.0" mnemonicParsing="false" onAction="#changeWeekForward" onMouseEntered="#handleHoverEffect" onMouseExited="#handleNoHoverEffect" prefHeight="53.0" prefWidth="115.0" />
       <Label fx:id="weekLabel" alignment="CENTER" contentDisplay="CENTER" layoutX="618.0" layoutY="56.0" text="Week">
          <font>
             <Font size="18.0" />
@@ -67,6 +67,6 @@
       </Label>
       <Label layoutX="52.0" layoutY="703.0" text="Logged in as:" />
       <Hyperlink fx:id="loggedInAs" alignment="CENTER" layoutX="50.0" layoutY="724.0" text="????????????" />
-      <Button fx:id="homeButton" layoutX="14.0" layoutY="14.0" mnemonicParsing="false" onAction="#handleHomeButton" prefHeight="31.0" prefWidth="32.0" />
+      <Button fx:id="homeButton" layoutX="14.0" layoutY="14.0" mnemonicParsing="false" onAction="#handleHomeButton" onMouseEntered="#handleHoverEffect" onMouseExited="#handleNoHoverEffect" prefHeight="31.0" prefWidth="32.0" />
    </children>
 </Pane>
