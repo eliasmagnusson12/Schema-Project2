@@ -89,6 +89,8 @@ public class ControllerLogin implements Initializable {
 
         if (password.equals(dbConnect.getUser(username))) {
 
+            dbConnect.getData(username);
+
             Stage stage = new Stage();
             FXMLLoader fxmlLoader = new FXMLLoader();
             fxmlLoader.setLocation(getClass().getResource("sampleCalendar.fxml"));

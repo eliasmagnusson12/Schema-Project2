@@ -1,11 +1,8 @@
 package sample;
 
 import javafx.scene.control.Alert;
-import javafx.scene.control.Button;
-import javafx.scene.control.ButtonType;
 
 import java.sql.*;
-import java.util.Optional;
 
 
 public class DBConnect {
@@ -14,6 +11,15 @@ public class DBConnect {
     Statement st;
     String dataBasePassword;
     String sql;
+
+    String firstName;
+    String lastName;
+    String initials;
+    String role;
+    String email;
+    String phoneNumber;
+    String departementName;
+
 
 
     public DBConnect() {
@@ -25,17 +31,35 @@ public class DBConnect {
         }
     }
 
-    public void getFirstName() throws SQLException {
+    public void getData(String username) throws SQLException {
 
-        String sql = ("SELECT * FROM person;");
+        String sql = ("SELECT * FROM person, email, phoneNumber, person_has_departement WHERE socialSecurityNumber = '" + username + "' and socialSecurityNumber = email.Person_socialSecurityNumber " +
+                "and socialSecurityNumber = phoneNumber.Person_socialSecurityNumber and socialSecurityNumber = person_has_departement.Person_socialSecurityNumber");
         ResultSet rs = st.executeQuery(sql);
         while (rs.next()) {
-            {
-                System.out.print(rs.getString("firstName"));
-                System.out.print(" ");
-                System.out.println(rs.getString("lastName"));
-            }
+
+            firstName = rs.getString("firstName");
+            lastName = rs.getString("lastName");
+            initials = rs.getString("initials");
+            role = rs.getString("role");
+            email = rs.getString("email");
+            phoneNumber = rs.getString("phoneNumber");
+            departementName = rs.getString("departement_departementName");
+
         }
+            User user = new User();
+            user.setFirstName(firstName);
+            user.setLastName(lastName);
+            user.setInitials(initials);
+            user.setRole(role);
+            user.setEmail(email);
+            user.setPhoneNumber(phoneNumber);
+            user.setDepartmentName(departementName);
+
+            Singleton.getInstance().setUser(user);
+
+
+
     }
 
     public String getUser(String username) {
@@ -56,4 +80,5 @@ public class DBConnect {
         }
         return dataBasePassword;
     }
+
 }

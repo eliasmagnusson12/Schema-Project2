@@ -35,8 +35,7 @@ public class ControllerMainMenu implements Initializable {
     private Button helpButton;
     @FXML
     private Button infoButton;
-    @FXML
-    private HBox hBox;
+
 
 
     @Override
@@ -80,10 +79,11 @@ public class ControllerMainMenu implements Initializable {
         ImageView infoImageView = new ImageView(infoImage);
         infoButton.setGraphic(infoImageView);
         infoButton.setStyle("-fx-background-color: TRANSPARENT");
+
     }
 
     @FXML
-    private void handleLoginButton(ActionEvent event) throws IOException {
+    private void handlePressLoginButton(ActionEvent event) throws IOException {
         Stage stage = new Stage();
         FXMLLoader fxmlLoader = new FXMLLoader();
         fxmlLoader.setLocation(getClass().getResource("sampleLogin.fxml"));
@@ -96,7 +96,7 @@ public class ControllerMainMenu implements Initializable {
     }
 
     @FXML
-    private void handleExitButton(ActionEvent event) {
+    private void handlePressExitButton(ActionEvent event) {
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
         ((Button) alert.getDialogPane().lookupButton(ButtonType.OK)).setText("Yes!");
         ((Button) alert.getDialogPane().lookupButton(ButtonType.CANCEL)).setText("No!");
@@ -121,13 +121,51 @@ public class ControllerMainMenu implements Initializable {
     }
 
     @FXML
-    private void handlePressSettingsButton(ActionEvent event) {
-
+    private void handlePressSettingsButton(ActionEvent event) throws IOException {
+        Stage stage = new Stage();
+        FXMLLoader fxmlLoader = new FXMLLoader();
+        fxmlLoader.setLocation(getClass().getResource("sampleSettings.fxml"));
+        stage.setTitle("Settings");
+        Scene scene = new Scene(fxmlLoader.load());
+        stage.setResizable(false);
+        stage.setScene(scene);
+        stage.show();
     }
 
     @FXML
-    private void handlePressMailButton(ActionEvent event) {
+    private void handlePressMailButton(ActionEvent event) throws IOException {
+        Stage stage = new Stage();
+        FXMLLoader fxmlLoader = new FXMLLoader();
+        fxmlLoader.setLocation(getClass().getResource("sampleMail.fxml"));
+        stage.setTitle("Mail");
+        Scene scene = new Scene(fxmlLoader.load());
+        stage.setResizable(false);
+        stage.setScene(scene);
+        stage.show();
+    }
 
+    @FXML
+    private void handlePressInfoButton(ActionEvent event) throws IOException {
+        Stage stage = new Stage();
+        FXMLLoader fxmlLoader = new FXMLLoader();
+        fxmlLoader.setLocation(getClass().getResource("sampleInfo.fxml"));
+        stage.setTitle("Information");
+        Scene scene = new Scene(fxmlLoader.load());
+        stage.setResizable(false);
+        stage.setScene(scene);
+        stage.show();
+    }
+
+    @FXML
+    private void handlePressHelpButton(ActionEvent event) throws IOException {
+        Stage stage = new Stage();
+        FXMLLoader fxmlLoader = new FXMLLoader();
+        fxmlLoader.setLocation(getClass().getResource("sampleHelp.fxml"));
+        stage.setTitle("Help");
+        Scene scene = new Scene(fxmlLoader.load());
+        stage.setResizable(false);
+        stage.setScene(scene);
+        stage.show();
     }
 }
 
