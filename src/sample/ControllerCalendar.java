@@ -9,16 +9,12 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
-import javafx.scene.effect.BlurType;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
-import javafx.scene.shape.Circle;
 import javafx.stage.Stage;
-
-import javax.script.Bindings;
 import java.io.IOException;
 import java.net.URL;
 import java.text.DateFormat;
@@ -81,8 +77,6 @@ public class ControllerCalendar implements Initializable {
      private int weekChosen = 0;
      private Calendar calendar = new GregorianCalendar(Locale.ENGLISH);
 
-    public ControllerCalendar() {
-    }
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -330,7 +324,7 @@ public class ControllerCalendar implements Initializable {
         button.setStyle("-fx-background-color: TRANSPARENT");
     }
 
-    public void setUserInfo() {
+    private void setUserInfo() {
     User user = Singleton.getInstance().getUser();
     nameLabel.setText(user.getFirstName() + " " + user.getLastName());
 

@@ -73,7 +73,7 @@
       <Button layoutX="100.0" layoutY="245.0" mnemonicParsing="false" prefHeight="50.0" prefWidth="50.0" />
       <Button layoutX="100.0" layoutY="345.0" mnemonicParsing="false" prefHeight="50.0" prefWidth="50.0" />
       <Button layoutX="100.0" layoutY="445.0" mnemonicParsing="false" prefHeight="50.0" prefWidth="50.0" />
-      <Button fx:id="changeScheduleButton" layoutX="1111.0" layoutY="245.0" mnemonicParsing="false" onMouseEntered="#handleHoverEffect" onMouseExited="#handleNoHoverEffect" prefHeight="50.0" prefWidth="50.0" />
-      <Button fx:id="addEmployeeButton" layoutX="1111.0" layoutY="445.0" mnemonicParsing="false" onAction="#addEmployeeButton" onMouseEntered="#handleHoverEffect" onMouseExited="#handleNoHoverEffect" prefHeight="50.0" prefWidth="50.0" />
+      <Button fx:id="changeScheduleButton" layoutX="1111.0" layoutY="295.0" mnemonicParsing="false" onMouseEntered="#handleHoverEffect" onMouseExited="#handleNoHoverEffect" prefHeight="50.0" prefWidth="50.0" />
+      <Button fx:id="addEmployeeButton" layoutX="1111.0" layoutY="395.0" mnemonicParsing="false" onAction="#addEmployeeButton" onMouseEntered="#handleHoverEffect" onMouseExited="#handleNoHoverEffect" prefHeight="50.0" prefWidth="50.0" />
    </children>
 </Pane>
