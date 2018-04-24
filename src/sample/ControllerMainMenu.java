@@ -24,19 +24,7 @@ public class ControllerMainMenu implements Initializable {
     @FXML
     private AnchorPane anchorPane;
     @FXML
-    private Button exitButton;
-    @FXML
-    private Button settingsButton;
-    @FXML
-    private Button mailButton;
-    @FXML
-    private Button loginButton;
-    @FXML
-    private Button helpButton;
-    @FXML
-    private Button infoButton;
-
-
+    private Button exitButton, settingsButton, mailButton, loginButton, helpButton, infoButton;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {

@@ -4,6 +4,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -24,53 +25,17 @@ import java.util.*;
 public class ControllerCalendar implements Initializable {
 
      @FXML
-     private GridPane gridPane;
-     @FXML
-     private GridPane smallGridPane;
+     private GridPane gridPane, smallGridPane, miniGridPane;
      @FXML
      private Pane pane;
      @FXML
-     private Button monday;
+     private Button monday, tuesday, wednesday, thursday, friday, saturday, sunday;
      @FXML
-     private Button tuesday;
+     private Button changeScheduleButton, addEmployeeButton, lastWeek, nextWeek, homeButton;
      @FXML
-     private Button wednesday;
+     private TextField textFieldMonday, textFieldTuesday, textFieldWednesday, textFieldThursday, textFieldFriday, textFieldSaturday, textFieldSunday;
      @FXML
-     private Button thursday;
-     @FXML
-     private Button friday;
-     @FXML
-     private Button saturday;
-     @FXML
-     private Button sunday;
-     @FXML
-     private Button changeScheduleButton;
-     @FXML
-     private Button addEmployeeButton;
-     @FXML
-     private Button lastWeek;
-     @FXML
-     private Button nextWeek;
-     @FXML
-     private Button homeButton;
-     @FXML
-     private TextField textFieldMonday;
-     @FXML
-     private TextField textFieldTuesday;
-     @FXML
-     private TextField textFieldWednesday;
-     @FXML
-     private TextField textFieldThursday;
-     @FXML
-     private TextField textFieldFriday;
-     @FXML
-     private TextField textFieldSaturday;
-     @FXML
-     private TextField textFieldSunday;
-     @FXML
-     private Label nameLabel;
-     @FXML
-     private Label weekLabel;
+     private Label nameLabel, weekLabel, loggedInLabel;
 
      private Week week;
      private String weekString;
@@ -83,13 +48,15 @@ public class ControllerCalendar implements Initializable {
         Image background = new Image("resourses/2.jpg");
         BackgroundImage backgroundImage = new BackgroundImage(background, BackgroundRepeat.REPEAT, BackgroundRepeat.REPEAT, BackgroundPosition.CENTER, BackgroundSize.DEFAULT);
         pane.setBackground(new Background(backgroundImage));
-        Image image = new Image("resourses/arrowF.png");
-        Image image1 = new Image("resourses/arrowB.png");
-        ImageView imageView = new ImageView(image);
-        ImageView imageView1 = new ImageView(image1);
-        nextWeek.setGraphic(imageView);
+
+        Image forwardImage = new Image("resourses/arrowF.png");
+        ImageView forwardImageView = new ImageView(forwardImage);
+        nextWeek.setGraphic(forwardImageView);
         nextWeek.setStyle("-fx-background-color: TRANSPARENT");
-        lastWeek.setGraphic(imageView1);
+
+        Image backImage = new Image("resourses/arrowB.png");
+        ImageView backImageView = new ImageView(backImage);
+        lastWeek.setGraphic(backImageView);
         lastWeek.setStyle("-fx-background-color: TRANSPARENT");
 
         Image homeImage = new Image("resourses/home.png");
@@ -101,6 +68,13 @@ public class ControllerCalendar implements Initializable {
         ImageView addImageView = new ImageView(addImage);
         Image changeImage = new Image("resourses/change.png");
         ImageView changeImageView = new ImageView(changeImage);
+
+        Image smallLogoImage = new Image("resourses/smallLogo.png");
+        ImageView smallLogoImageView = new ImageView(smallLogoImage);
+        pane.getChildren().add(smallLogoImageView);
+        smallLogoImageView.layoutXProperty().bind(gridPane.widthProperty().add(275));
+        smallLogoImageView.layoutYProperty().bind(gridPane.heightProperty());
+
 
         if (Singleton.getInstance().getUser().getRole().equals("Boss") || Singleton.getInstance().getUser().getRole().equals("Admin")) {
             addEmployeeButton.setGraphic(addImageView);
@@ -119,17 +93,13 @@ public class ControllerCalendar implements Initializable {
             changeScheduleButton.setDisable(true);
             changeScheduleButton.setVisible(false);
         }
-        setUserInfo();
-
-        week = new Week();
-        weekString = Integer.toString(week.getWeek());
-        setWeekLabel(weekString);
-        setToday();
 
         gridPane.prefWidthProperty().bind(pane.widthProperty().multiply(0.6));
         gridPane.prefHeightProperty().bind(pane.heightProperty().multiply(0.8));
 
         smallGridPane.prefWidthProperty().bind(pane.widthProperty().multiply(0.6));
+
+        miniGridPane.prefWidthProperty().bind(pane.widthProperty().multiply(0.6));
 
         monday.prefWidthProperty().bind(smallGridPane.widthProperty());
         tuesday.prefWidthProperty().bind(smallGridPane.widthProperty());
@@ -138,7 +108,7 @@ public class ControllerCalendar implements Initializable {
         friday.prefWidthProperty().bind(smallGridPane.widthProperty());
         saturday.prefWidthProperty().bind(smallGridPane.widthProperty());
         sunday.prefWidthProperty().bind(smallGridPane.widthProperty());
-        weekLabel.layoutXProperty().bind(pane.widthProperty().divide(2));
+
         nextWeek.layoutXProperty().bind(smallGridPane.widthProperty().add(285));
         textFieldMonday.prefHeightProperty().bind(gridPane.heightProperty());
         textFieldTuesday.prefHeightProperty().bind(gridPane.heightProperty());
@@ -147,7 +117,19 @@ public class ControllerCalendar implements Initializable {
         textFieldFriday.prefHeightProperty().bind(gridPane.heightProperty());
         textFieldSaturday.prefHeightProperty().bind(gridPane.heightProperty());
         textFieldSunday.prefHeightProperty().bind(gridPane.heightProperty());
+        weekLabel.prefWidthProperty().bind(miniGridPane.widthProperty());
+        addEmployeeButton.layoutXProperty().bind(smallGridPane.widthProperty().add(385));
+        changeScheduleButton.layoutXProperty().bind(smallGridPane.widthProperty().add(385));
 
+        loggedInLabel.layoutYProperty().bind(gridPane.heightProperty().add(60));
+        nameLabel.layoutYProperty().bind(gridPane.heightProperty().add(80));
+
+        setUserInfo();
+
+        week = new Week();
+        weekString = Integer.toString(week.getWeek());
+        setWeekLabel(weekString);
+        setToday();
 
     }
 
@@ -193,8 +175,6 @@ public class ControllerCalendar implements Initializable {
 
         switch (day){
             case "Monday":
-
-
                 calendar.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY);
                 Date one = calendar.getTime();
                 reportDate = df.format(one);
@@ -327,12 +307,17 @@ public class ControllerCalendar implements Initializable {
     private void setUserInfo() {
     User user = Singleton.getInstance().getUser();
     nameLabel.setText(user.getFirstName() + " " + user.getLastName());
-
-
     }
 
     @FXML
-    private void addEmployeeButton(ActionEvent event) {
-
+    private void addEmployeeButton(ActionEvent event) throws IOException {
+        Stage stage = new Stage();
+        FXMLLoader fxmlLoader = new FXMLLoader();
+        fxmlLoader.setLocation(getClass().getResource("sampleAddEmployee.fxml"));
+        stage.setTitle("Add Person");
+        Scene scene = new Scene(fxmlLoader.load());
+        stage.setResizable(false);
+        stage.setScene(scene);
+        stage.show();
     }
 }

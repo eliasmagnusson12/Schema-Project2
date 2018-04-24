@@ -30,20 +30,13 @@ public class ControllerLogin implements Initializable {
     @FXML
     private AnchorPane anchorPane;
     @FXML
-    private Button loginButton;
+    private Button loginButton, backButton;
     @FXML
-    private TextField usernameTextField;
+    private TextField usernameTextField, passwordTextField;
     @FXML
-    private TextField passwordTextField;
-    @FXML
-    private Button backButton;
-    @FXML
-    private CheckBox checkBoxUsername;
-    @FXML
-    private CheckBox checkBoxPassword;
+    private CheckBox checkBoxUsername, checkBoxPassword;
 
-    private String saveUsername;
-    private String savePassword;
+    private String saveUsername, savePassword;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
