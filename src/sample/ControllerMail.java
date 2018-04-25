@@ -48,7 +48,6 @@ public class ControllerMail implements Initializable {
         BackgroundImage backgroundImage = new BackgroundImage(smallBackgroundImage, BackgroundRepeat.REPEAT, BackgroundRepeat.REPEAT, BackgroundPosition.CENTER, BackgroundSize.DEFAULT);
         anchorPane.setBackground(new Background(backgroundImage));
 
-
     }
     @FXML
     private void handleHoverEffect(MouseEvent event) {
