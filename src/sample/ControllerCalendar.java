@@ -2,95 +2,104 @@ package sample;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.geometry.Pos;
+import javafx.scene.Node;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.GridPane;
-import javafx.scene.layout.Pane;
+import javafx.scene.layout.*;
+import javafx.scene.paint.Color;
+import javafx.stage.Stage;
+import java.io.IOException;
 import java.net.URL;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.time.DayOfWeek;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.GregorianCalendar;
-import java.util.ResourceBundle;
+import java.util.*;
 
 public class ControllerCalendar implements Initializable {
 
      @FXML
-     GridPane gridPane;
+     private GridPane gridPane, smallGridPane, miniGridPane;
      @FXML
-     GridPane smallGridPane;
+     private Pane pane;
      @FXML
-     Pane background;
+     private Button monday, tuesday, wednesday, thursday, friday, saturday, sunday;
      @FXML
-     Button monday;
+     private Button changeScheduleButton, addEmployeeButton, lastWeek, nextWeek, homeButton;
      @FXML
-     Button tuesday;
+     private TextField textFieldMonday, textFieldTuesday, textFieldWednesday, textFieldThursday, textFieldFriday, textFieldSaturday, textFieldSunday;
      @FXML
-     Button wednesday;
-     @FXML
-     Button thursday;
-     @FXML
-     Button friday;
-     @FXML
-     Button saturday;
-     @FXML
-     Button sunday;
-     @FXML
-     Label weekLabel;
-     @FXML
-     Button lastWeek;
-     @FXML
-     Button nextWeek;
-     @FXML
-     TextField textFieldMonday;
-    @FXML
-    TextField textFieldTuesday;
-    @FXML
-    TextField textFieldWednesday;
-    @FXML
-    TextField textFieldThursday;
-    @FXML
-    TextField textFieldFriday;
-    @FXML
-    TextField textFieldSaturday;
-    @FXML
-    TextField textFieldSunday;
+     private Label nameLabel, weekLabel, loggedInLabel;
+
      private Week week;
      private String weekString;
      private int weekChosen = 0;
-     private Calendar calendar = new GregorianCalendar();
-
+     private Calendar calendar = new GregorianCalendar(Locale.ENGLISH);
 
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        background.setStyle("-fx-background-color: LIGHTGRAY");
-        Image image = new Image("resourses/arrowF.png");
-        Image image1 = new Image("resourses/arrowB.png");
-        ImageView imageView = new ImageView(image);
-        ImageView imageView1 = new ImageView(image1);
-        nextWeek.setGraphic(imageView);
-        lastWeek.setGraphic(imageView1);
+        Image background = new Image("resourses/2.jpg");
+        BackgroundImage backgroundImage = new BackgroundImage(background, BackgroundRepeat.REPEAT, BackgroundRepeat.REPEAT, BackgroundPosition.CENTER, BackgroundSize.DEFAULT);
+        pane.setBackground(new Background(backgroundImage));
 
-        week = new Week();
-        weekString = Integer.toString(week.getWeek());
-        setWeekLabel(weekString);
-        setFirstDay();
+        Image forwardImage = new Image("resourses/arrowF.png");
+        ImageView forwardImageView = new ImageView(forwardImage);
+        nextWeek.setGraphic(forwardImageView);
+        nextWeek.setStyle("-fx-background-color: TRANSPARENT");
 
-        gridPane.prefWidthProperty().bind(background.widthProperty().multiply(0.6));
-        gridPane.prefHeightProperty().bind(background.heightProperty().multiply(0.8));
+        Image backImage = new Image("resourses/arrowB.png");
+        ImageView backImageView = new ImageView(backImage);
+        lastWeek.setGraphic(backImageView);
+        lastWeek.setStyle("-fx-background-color: TRANSPARENT");
+
+        Image homeImage = new Image("resourses/home.png");
+        ImageView homeImageView = new ImageView(homeImage);
+        homeButton.setGraphic(homeImageView);
+        homeButton.setStyle("-fx-background-color: TRANSPARENT");
+
+        Image addImage = new Image("resourses/add.png");
+        ImageView addImageView = new ImageView(addImage);
+        Image changeImage = new Image("resourses/change.png");
+        ImageView changeImageView = new ImageView(changeImage);
+
+        Image smallLogoImage = new Image("resourses/smallLogo.png");
+        ImageView smallLogoImageView = new ImageView(smallLogoImage);
+        pane.getChildren().add(smallLogoImageView);
+        smallLogoImageView.layoutXProperty().bind(gridPane.widthProperty().add(275));
+        smallLogoImageView.layoutYProperty().bind(gridPane.heightProperty());
 
 
-//        gridPane.setPrefSize(background.getPrefWidth()/2, background.getPrefHeight()/1.3);
-//        gridPane.layoutXProperty().bind(background.widthProperty().divide(4));
-        smallGridPane.prefWidthProperty().bind(background.widthProperty().multiply(0.6));
+        if (Singleton.getInstance().getUser().getRole().equals("Boss") || Singleton.getInstance().getUser().getRole().equals("Admin")) {
+            addEmployeeButton.setGraphic(addImageView);
+            addEmployeeButton.setStyle("-fx-background-color: TRANSPARENT");
+
+            changeScheduleButton.setGraphic(changeImageView);
+            changeScheduleButton.setStyle("-fx-background-color: TRANSPARENT");
+        }else {
+            addEmployeeButton.setGraphic(addImageView);
+            addEmployeeButton.setStyle("-fx-background-color: TRANSPARENT");
+            addEmployeeButton.setDisable(true);
+            addEmployeeButton.setVisible(false);
+
+            changeScheduleButton.setGraphic(changeImageView);
+            changeScheduleButton.setStyle("-fx-background-color: TRANSPARENT");
+            changeScheduleButton.setDisable(true);
+            changeScheduleButton.setVisible(false);
+        }
+
+        gridPane.prefWidthProperty().bind(pane.widthProperty().multiply(0.6));
+        gridPane.prefHeightProperty().bind(pane.heightProperty().multiply(0.8));
+
+        smallGridPane.prefWidthProperty().bind(pane.widthProperty().multiply(0.6));
+
+        miniGridPane.prefWidthProperty().bind(pane.widthProperty().multiply(0.6));
 
         monday.prefWidthProperty().bind(smallGridPane.widthProperty());
         tuesday.prefWidthProperty().bind(smallGridPane.widthProperty());
@@ -99,7 +108,7 @@ public class ControllerCalendar implements Initializable {
         friday.prefWidthProperty().bind(smallGridPane.widthProperty());
         saturday.prefWidthProperty().bind(smallGridPane.widthProperty());
         sunday.prefWidthProperty().bind(smallGridPane.widthProperty());
-        weekLabel.layoutXProperty().bind(background.widthProperty().divide(2));
+
         nextWeek.layoutXProperty().bind(smallGridPane.widthProperty().add(285));
         textFieldMonday.prefHeightProperty().bind(gridPane.heightProperty());
         textFieldTuesday.prefHeightProperty().bind(gridPane.heightProperty());
@@ -108,6 +117,19 @@ public class ControllerCalendar implements Initializable {
         textFieldFriday.prefHeightProperty().bind(gridPane.heightProperty());
         textFieldSaturday.prefHeightProperty().bind(gridPane.heightProperty());
         textFieldSunday.prefHeightProperty().bind(gridPane.heightProperty());
+        weekLabel.prefWidthProperty().bind(miniGridPane.widthProperty());
+        addEmployeeButton.layoutXProperty().bind(smallGridPane.widthProperty().add(385));
+        changeScheduleButton.layoutXProperty().bind(smallGridPane.widthProperty().add(385));
+
+        loggedInLabel.layoutYProperty().bind(gridPane.heightProperty().add(60));
+        nameLabel.layoutYProperty().bind(gridPane.heightProperty().add(80));
+
+        setUserInfo();
+
+        week = new Week();
+        weekString = Integer.toString(week.getWeek());
+        setWeekLabel(weekString);
+        setToday();
 
     }
 
@@ -116,75 +138,89 @@ public class ControllerCalendar implements Initializable {
         weekLabel.setText("Week " + weekString);
     }
 
-    private void setFirstDay(){
+    private void setToday(){
 
+        switch (calendar.get(Calendar.DAY_OF_WEEK)){
+            case Calendar.MONDAY:
+                monday.setBorder(new Border(new BorderStroke(Color.LIGHTSEAGREEN, BorderStrokeStyle.SOLID, null, new BorderWidths(4))));
+                break;
+            case Calendar.TUESDAY:
+                tuesday.setBorder(new Border(new BorderStroke(Color.LIGHTSEAGREEN, BorderStrokeStyle.SOLID, null, new BorderWidths(4))));
+                break;
+            case Calendar.WEDNESDAY:
+                wednesday.setBorder(new Border(new BorderStroke(Color.LIGHTSEAGREEN, BorderStrokeStyle.SOLID, null, new BorderWidths(4))));
+                break;
+            case Calendar.THURSDAY:
+                thursday.setBorder(new Border(new BorderStroke(Color.LIGHTSEAGREEN, BorderStrokeStyle.SOLID, null, new BorderWidths(4))));
+                break;
+            case Calendar.FRIDAY:
+                friday.setBorder(new Border(new BorderStroke(Color.LIGHTSEAGREEN, BorderStrokeStyle.SOLID, null, new BorderWidths(4))));
+                break;
+            case Calendar.SATURDAY:
+                saturday.setBorder(new Border(new BorderStroke(Color.LIGHTSEAGREEN, BorderStrokeStyle.SOLID, null, new BorderWidths(4))));
+                break;
+            case Calendar.SUNDAY:
+                sunday.setBorder(new Border(new BorderStroke(Color.LIGHTSEAGREEN, BorderStrokeStyle.SOLID, null, new BorderWidths(4))));
+                break;
+        }
     }
 
     @FXML
     private void handleMouseButtonEntered(MouseEvent event) {
         Button button = (Button) event.getSource();
-        String text = button.getText();
+        String day = button.getText();
         DateFormat df = new SimpleDateFormat("yyyy/MM/dd");
         String reportDate;
         calendar.setFirstDayOfWeek(Calendar.MONDAY);
-        int dayOfWeek = calendar.get(Calendar.DAY_OF_WEEK) - 1;
 
-        switch (text){
+        switch (day){
             case "Monday":
-
-                calendar.add(Calendar.DAY_OF_YEAR, -dayOfWeek+1);
+                calendar.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY);
                 Date one = calendar.getTime();
                 reportDate = df.format(one);
                 monday.setText(reportDate);
-                calendar.add(Calendar.DAY_OF_YEAR, +dayOfWeek-1);
                 break;
 
             case "Tuesday":
-                calendar.add(Calendar.DAY_OF_YEAR, -dayOfWeek+2);
+                calendar.set(Calendar.DAY_OF_WEEK, Calendar.TUESDAY);
                 Date two = calendar.getTime();
                 reportDate = df.format(two);
                 tuesday.setText(reportDate);
-                calendar.add(Calendar.DAY_OF_YEAR, +dayOfWeek-2);
                 break;
 
             case "Wednesday":
-                calendar.add(Calendar.DAY_OF_YEAR, -dayOfWeek+3);
+                calendar.set(Calendar.DAY_OF_WEEK, Calendar.WEDNESDAY);
                 Date three = calendar.getTime();
                 reportDate = df.format(three);
                 wednesday.setText(reportDate);
-                calendar.add(Calendar.DAY_OF_YEAR, +dayOfWeek-3);
                 break;
 
             case "Thursday":
-                calendar.add(Calendar.DAY_OF_YEAR, -dayOfWeek+4);
+                calendar.set(Calendar.DAY_OF_WEEK, Calendar.THURSDAY);
                 Date four = calendar.getTime();
                 reportDate = df.format(four);
                 thursday.setText(reportDate);
-                calendar.add(Calendar.DAY_OF_YEAR, +dayOfWeek-4);
                 break;
 
             case "Friday":
-                calendar.add(Calendar.DAY_OF_YEAR, -dayOfWeek+5);
+                calendar.set(Calendar.DAY_OF_WEEK, Calendar.FRIDAY);
                 Date five = calendar.getTime();
                 reportDate = df.format(five);
                 friday.setText(reportDate);
-                calendar.add(Calendar.DAY_OF_YEAR, +dayOfWeek-5);
                 break;
 
             case "Saturday":
-                calendar.add(Calendar.DAY_OF_YEAR, -dayOfWeek+6);
+                calendar.set(Calendar.DAY_OF_WEEK, Calendar.SATURDAY);
                 Date six = calendar.getTime();
                 reportDate = df.format(six);
                 saturday.setText(reportDate);
-                calendar.add(Calendar.DAY_OF_YEAR, +dayOfWeek-6);
                 break;
 
             case "Sunday":
-                calendar.add(Calendar.DAY_OF_YEAR, -dayOfWeek+7);
+                calendar.set(Calendar.DAY_OF_WEEK, Calendar.SUNDAY);
                 Date seven = calendar.getTime();
                 reportDate = df.format(seven);
                 sunday.setText(reportDate);
-                calendar.add(Calendar.DAY_OF_YEAR, +dayOfWeek-7);
                 break;
 
         }
@@ -243,4 +279,45 @@ public class ControllerCalendar implements Initializable {
         weekString = String.valueOf(week.getNextWeek(weekChosen));
         setWeekLabel(weekString);
     }
+    @FXML
+    private void handleHomeButton(ActionEvent event) throws IOException {
+        Stage stage = new Stage();
+        FXMLLoader fxmlLoader = new FXMLLoader();
+        fxmlLoader.setLocation(getClass().getResource("sampleMainMenu.fxml"));
+        stage.setTitle("Schedule 1.0");
+        Scene scene = new Scene(fxmlLoader.load());
+        stage.setResizable(false);
+        stage.setScene(scene);
+        stage.show();
+        ((Node) (event.getSource())).getScene().getWindow().hide();
     }
+
+    @FXML
+    private void handleHoverEffect(MouseEvent event) {
+        Button button = (Button) event.getSource();
+        button.setStyle("-fx-background-color: LIGHTGRAY");
+    }
+
+    @FXML
+    private void handleNoHoverEffect(MouseEvent event) {
+        Button button = (Button) event.getSource();
+        button.setStyle("-fx-background-color: TRANSPARENT");
+    }
+
+    private void setUserInfo() {
+    User user = Singleton.getInstance().getUser();
+    nameLabel.setText(user.getFirstName() + " " + user.getLastName());
+    }
+
+    @FXML
+    private void addEmployeeButton(ActionEvent event) throws IOException {
+        Stage stage = new Stage();
+        FXMLLoader fxmlLoader = new FXMLLoader();
+        fxmlLoader.setLocation(getClass().getResource("sampleAddEmployee.fxml"));
+        stage.setTitle("Add Person");
+        Scene scene = new Scene(fxmlLoader.load());
+        stage.setResizable(false);
+        stage.setScene(scene);
+        stage.show();
+    }
+}
