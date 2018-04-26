@@ -59,6 +59,8 @@ public class ControllerLoginChangePassword implements Initializable {
             alert.setHeaderText("Wrong username or password.");
             alert.showAndWait();
         }
+
+        //test test
     }
     }
 
