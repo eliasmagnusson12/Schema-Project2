@@ -18,21 +18,21 @@ import java.sql.SQLException;
 import java.util.ResourceBundle;
 
 public class ControllerLoginEmail implements Initializable {
-
+    private String hest;
     @FXML
-    private TextField usernameTextfield, passwordTextField;
+    private TextField usernameTextField, passwordTextField;
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+
 
     }
 
     @FXML
     private void handleLoginButton(ActionEvent event) throws SQLException, IOException {
-        String username = usernameTextfield.getText();
+        String username = usernameTextField.getText();
         String password = passwordTextField.getText();
 
         DBConnect dbConnect = new DBConnect();
-
 
         if (password.equals(dbConnect.getUser(username))) {
 

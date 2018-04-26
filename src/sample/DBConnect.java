@@ -3,6 +3,7 @@ package sample;
 import javafx.scene.control.Alert;
 
 import java.sql.*;
+import java.util.ArrayList;
 
 
 public class DBConnect {
@@ -20,6 +21,7 @@ public class DBConnect {
     String phoneNumber;
     String departementName;
 
+    ArrayList<String> list = new ArrayList<>();
 
 
     public DBConnect() {
@@ -58,8 +60,6 @@ public class DBConnect {
 
             Singleton.getInstance().setUser(user);
 
-
-
     }
 
     public String getUser(String username) {
@@ -81,4 +81,16 @@ public class DBConnect {
         return dataBasePassword;
     }
 
+    public ArrayList getUnderDepartments(String department) {
+        try {
+            sql = ("SELECT * FROM underdepartment WHERE departement_departementName = '" + department + "'");
+            ResultSet rs = st.executeQuery(sql);
+            while (rs.next()) {
+                list.add(rs.getString("underDepartmentName"));
+            }
+        }catch (Exception e){
+
+        }
+        return list;
+    }
 }
