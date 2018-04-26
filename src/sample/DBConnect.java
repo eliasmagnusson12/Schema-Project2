@@ -89,8 +89,24 @@ public class DBConnect {
                 list.add(rs.getString("underDepartmentName"));
             }
         }catch (Exception e){
-
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Error");
+            alert.setHeaderText("Something went wrong!");
+            alert.showAndWait();
         }
         return list;
+    }
+
+    public void addPerson(Person person){
+        try {
+            sql = "INSERT INTO person (socialSecurityNumber, firstName, lastName, initials, role) " +
+                    "VALUES('" + person.getSocialSecurityNumber() + "', '" + person.getFirstName() + "', '" + person.getLastName() + "', '" + person.getInitials() + "', '" + person.getRole() + "')";
+            st.executeUpdate(sql);
+        }catch (Exception e){
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Error");
+            alert.setHeaderText("Something went wrong!");
+            alert.showAndWait();
+        }
     }
 }

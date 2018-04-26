@@ -24,11 +24,13 @@ public class ControllerAddEmployee implements Initializable {
     @FXML
     private Button addButton;
     @FXML
-    private TextField firstNameTextField, lastNameTextField, emailTextField, phoneNumberTextField;
+    private TextField firstNameTextField, lastNameTextField, emailTextField, phoneNumberTextField, socialSecurityNumberTextField;
     @FXML
     private ChoiceBox choiceBox;
     @FXML
     private CheckBox checkBox1, checkBox2;
+    @FXML
+    private Label successLabel, successLabel1;
 
     private String department;
 
@@ -70,11 +72,33 @@ public class ControllerAddEmployee implements Initializable {
     }
 
     @FXML
-    private void handleInput(ActionEvent event) {
+    private void handleAddButton(ActionEvent event) {
         String firstName = firstNameTextField.getText();
         String lastName = lastNameTextField.getText();
         String email = emailTextField.getText();
         String phoneNumber = phoneNumberTextField.getText();
+        String socialSecurityNumber = socialSecurityNumberTextField.getText();
+        String role = "Employee";
+        String department = choiceBox.getSelectionModel().getSelectedItem().toString();
+
+        String firstLetterFirstName;
+        firstLetterFirstName = String.valueOf(firstName.charAt(0));
+
+        String firstLetterLastName;
+        firstLetterLastName = String.valueOf(lastName.charAt(0));
+        String initials = firstLetterFirstName + firstLetterLastName;
+
+        Person person = new Person(firstName, lastName, initials, role, email, phoneNumber, department, socialSecurityNumber);
+
+
+            DBConnect dbConnect = new DBConnect();
+            dbConnect.addPerson(person);
+
+            successLabel.setText("Successfully added "+person.getFirstName());
+            successLabel1.setText(" to the database.");
+
+
+
     }
 
     @FXML

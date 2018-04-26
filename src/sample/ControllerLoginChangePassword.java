@@ -17,7 +17,6 @@ import java.util.ResourceBundle;
 
 public class ControllerLoginChangePassword implements Initializable {
 
-    //private String hest;
 
     @FXML
     private TextField usernameTextfield, passwordTextField;
@@ -47,7 +46,7 @@ public class ControllerLoginChangePassword implements Initializable {
 
             Stage stage = new Stage();
             FXMLLoader fxmlLoader = new FXMLLoader();
-            fxmlLoader.setLocation(getClass().getResource(  "sampleChangePasword.fxml"));
+            fxmlLoader.setLocation(getClass().getResource(  "sampleChangePassword.fxml"));
             stage.setTitle("Change Password");
             Scene scene = new Scene(fxmlLoader.load());
             stage.setScene(scene);
