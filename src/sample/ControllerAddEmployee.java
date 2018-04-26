@@ -49,6 +49,7 @@ public class ControllerAddEmployee implements Initializable {
         firstNameTextField.addEventFilter(KeyEvent.KEY_TYPED, letter_Validation(20));
         lastNameTextField.addEventFilter(KeyEvent.KEY_TYPED, letter_Validation(20));
 
+        choiceBox.autosize();
     }
 
     @FXML
@@ -102,14 +103,14 @@ public class ControllerAddEmployee implements Initializable {
         setChoiseBox(department);
     }
 
-    private void setChoiseBox(String department){
+    private void setChoiseBox(String department) {
         DBConnect dbConnect = new DBConnect();
         underDepartmentList = (dbConnect.getUnderDepartments(department));
 
-        for (int i = 0; i<underDepartmentList.size(); i++) {
-
-
+        if (underDepartmentList.size() == 5) {
+            choiceBox.setItems(FXCollections.observableArrayList(underDepartmentList.get(0), underDepartmentList.get(1), underDepartmentList.get(2), underDepartmentList.get(3), underDepartmentList.get(4)));
+        }else if (underDepartmentList.size() == 4){
+            choiceBox.setItems(FXCollections.observableArrayList(underDepartmentList.get(0), underDepartmentList.get(1), underDepartmentList.get(2), underDepartmentList.get(3)));
         }
-        choiceBox.setItems(FXCollections.observableArrayList(underDepartmentList.get(0), underDepartmentList.get(1)));
     }
 }
