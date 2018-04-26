@@ -19,6 +19,8 @@ import java.util.ResourceBundle;
 
 public class ControllerLoginEmail implements Initializable {
 
+    //private String hest;
+
     @FXML
     private TextField usernameTextfield, passwordTextField;
     @Override
@@ -33,6 +35,13 @@ public class ControllerLoginEmail implements Initializable {
 
         DBConnect dbConnect = new DBConnect();
 
+//        Button button = (Button) event.getSource();
+//        if (button.getId().equals("mailButton")){
+//            hest = "sampleMail";
+//        }else if (button.getId().equals("settingsButton")){
+//            hest = "sampleSettings";
+//        }
+
 
         if (password.equals(dbConnect.getUser(username))) {
 
@@ -40,7 +49,7 @@ public class ControllerLoginEmail implements Initializable {
 
             Stage stage = new Stage();
             FXMLLoader fxmlLoader = new FXMLLoader();
-            fxmlLoader.setLocation(getClass().getResource("sampleMail.fxml"));
+            fxmlLoader.setLocation(getClass().getResource(  "sampleMail.fxml"));
             stage.setTitle("Mail");
             Scene scene = new Scene(fxmlLoader.load());
             stage.setScene(scene);
