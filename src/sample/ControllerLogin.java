@@ -6,6 +6,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.TextField;
@@ -90,6 +91,11 @@ public class ControllerLogin implements Initializable {
             stage.setScene(scene);
             stage.show();
             ((Node) (event.getSource())).getScene().getWindow().hide();
+        }else {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Error");
+            alert.setHeaderText("Wrong username or password.");
+            alert.showAndWait();
         }
     }
 

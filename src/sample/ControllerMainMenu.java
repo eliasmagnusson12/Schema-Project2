@@ -124,7 +124,7 @@ public class ControllerMainMenu implements Initializable {
     private void handlePressMailButton(ActionEvent event) throws IOException {
         Stage stage = new Stage();
         FXMLLoader fxmlLoader = new FXMLLoader();
-        fxmlLoader.setLocation(getClass().getResource("sampleMail.fxml"));
+        fxmlLoader.setLocation(getClass().getResource("sampleLoginEmail.fxml"));
         stage.setTitle("Mail");
         Scene scene = new Scene(fxmlLoader.load());
         stage.setResizable(false);

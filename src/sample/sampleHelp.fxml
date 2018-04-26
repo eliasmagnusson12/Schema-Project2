@@ -8,9 +8,9 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<TabPane fx:id="tabPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" tabClosingPolicy="UNAVAILABLE" xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.ControllerHelp">
+<TabPane fx:id="tabPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" tabClosingPolicy="UNAVAILABLE" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.ControllerHelp">
   <tabs>
-    <Tab fx:id="tabInstruction" text="Instruction">
+    <Tab fx:id="tabInstruction" text="Instructions">
       <content>
         <AnchorPane fx:id="paneInstruction" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                <children>
@@ -22,7 +22,7 @@
                </children></AnchorPane>
       </content>
     </Tab>
-    <Tab fx:id="tabContact" text="Contact">
+    <Tab fx:id="tabContact" text="Contacts">
       <content>
         <AnchorPane fx:id="paneContact" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                <children>
