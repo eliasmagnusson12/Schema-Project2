@@ -1,5 +1,10 @@
 package sample;
 
+import javafx.beans.binding.Bindings;
+import javafx.beans.binding.IntegerBinding;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableSet;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
@@ -24,17 +29,24 @@ import java.util.ResourceBundle;
 public class ControllerMail implements Initializable {
 
     @FXML
-    CheckBox box1, box2, box3, box4;
+    private CheckBox box1, box2, box3, box4;
     @FXML
-    TextArea mailTextArea;
+    private TextArea mailTextArea;
     @FXML
-    Button send;
+    private Button send;
     @FXML
-    AnchorPane anchorPane;
+    private AnchorPane anchorPane;
     @FXML
-    TextField subject;
+    private TextField subject;
     @FXML
-    Label messageSent;
+    private Label messageSent;
+
+    private String email;
+
+    private ObservableSet<CheckBox> selectedCheckBoxes = FXCollections.observableSet();
+    private ObservableSet<CheckBox> unselectedCheckBoxes = FXCollections.observableSet();
+    private IntegerBinding numCheckBoxesSelected = Bindings.size(selectedCheckBoxes);
+    private final int maxNumSelected =  1;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -48,6 +60,21 @@ public class ControllerMail implements Initializable {
         BackgroundImage backgroundImage = new BackgroundImage(smallBackgroundImage, BackgroundRepeat.REPEAT, BackgroundRepeat.REPEAT, BackgroundPosition.CENTER, BackgroundSize.DEFAULT);
         anchorPane.setBackground(new Background(backgroundImage));
 
+
+        configureCheckBox(box1);
+        configureCheckBox(box2);
+        configureCheckBox(box3);
+        configureCheckBox(box4);
+
+        numCheckBoxesSelected.addListener((obs, oldSelectedCount, newSelectedCount) -> {
+            if (newSelectedCount.intValue() >= maxNumSelected) {
+                unselectedCheckBoxes.forEach(cb -> cb.setDisable(true));
+                send.setDisable(false);
+            } else {
+                unselectedCheckBoxes.forEach(cb -> cb.setDisable(false));
+                send.setDisable(true);
+            }
+        });
 
     }
     @FXML
@@ -67,7 +94,7 @@ public class ControllerMail implements Initializable {
         String from = "kristianstad.gadors@hotmail.com";
         String pass = "gadors123";
 
-        String to = "Schedule.Kristianstad@hotmail.com";
+        String to = email;
 
         String host = "smtp.live.com";
         Properties properties = System.getProperties();
@@ -91,7 +118,8 @@ public class ControllerMail implements Initializable {
 
             message.setSubject(subject.getText());
 
-            message.setText(mailTextArea.getText() + "\nYou can not respond to this mail. ");
+            message.setText(mailTextArea.getText() + "\n\nThis email was sent by " + Singleton.getInstance().getUser().getFirstName() + " "
+                    + Singleton.getInstance().getUser().getLastName() +"\n\nYou can not respond to this mail. ");
 
 
 
@@ -99,17 +127,13 @@ public class ControllerMail implements Initializable {
             transport.connect(host, from, pass);
             transport.sendMessage(message, message.getAllRecipients());
             transport.close();
-            System.out.println("Sent message successfully....");
 
             subject.clear();
             mailTextArea.clear();
-            subject.setPromptText("Subject...");
-            mailTextArea.setPromptText("Message...");
+            subject.setPromptText("Subject..");
+            mailTextArea.setPromptText("Message..");
 
             messageSent.setText("Your message was sent successfully");
-
-
-
 
 
         } catch (AddressException e) {
@@ -118,5 +142,47 @@ public class ControllerMail implements Initializable {
             e.printStackTrace();
         }
 
+    }
+
+    @FXML
+    private void toEmail(ActionEvent event) {
+        if (event.getSource() instanceof CheckBox) {
+            String id = ((CheckBox) event.getSource()).getId();
+
+            switch (id){
+                case "box1":
+                    email = "Schedule.Kristianstad@hotmail.com";
+                    break;
+                case "box2":
+                    email = "some Email";
+                    break;
+                case "box3":
+                    email = "some other Email";
+                    break;
+                case "box4":
+                    email = "some other other Email";
+                    break;
+            }
+        }
+    }
+
+    private void configureCheckBox(CheckBox checkBox) {
+
+        if (checkBox.isSelected()) {
+            selectedCheckBoxes.add(checkBox);
+        } else {
+            unselectedCheckBoxes.add(checkBox);
+        }
+
+        checkBox.selectedProperty().addListener((obs, wasSelected, isNowSelected) -> {
+            if (isNowSelected) {
+                unselectedCheckBoxes.remove(checkBox);
+                selectedCheckBoxes.add(checkBox);
+            } else {
+                selectedCheckBoxes.remove(checkBox);
+                unselectedCheckBoxes.add(checkBox);
+            }
+
+        });
     }
 }
