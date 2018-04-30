@@ -87,6 +87,9 @@ public class ControllerLogin implements Initializable {
             FXMLLoader fxmlLoader = new FXMLLoader();
             fxmlLoader.setLocation(getClass().getResource("sampleCalendar.fxml"));
             stage.setTitle("Schedule 1.0");
+            if (Singleton.getInstance().isFullScreenSetting()){
+                stage.setFullScreen(true);
+            }
             Scene scene = new Scene(fxmlLoader.load());
             stage.setScene(scene);
             stage.show();

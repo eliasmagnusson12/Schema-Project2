@@ -19,13 +19,8 @@ public class ControllerSettings implements Initializable {
 
     @FXML
     private AnchorPane anchorPane;
-
     @FXML
     private Button passwordButton;
-
-    @FXML
-    private CheckBox fullScreenBox;
-
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -35,7 +30,7 @@ public class ControllerSettings implements Initializable {
     }
 
     @FXML
-    private void handlePresspasswordButton(ActionEvent event) throws IOException {
+    private void handlePressPasswordButton(ActionEvent event) throws IOException {
         Stage stage = new Stage();
         FXMLLoader fxmlLoader = new FXMLLoader();
         fxmlLoader.setLocation(getClass().getResource("sampleLoginChangePassword.fxml"));
@@ -45,5 +40,13 @@ public class ControllerSettings implements Initializable {
         stage.setScene(scene);
         stage.show();
 
+    }
+
+    @FXML
+    private void fullScreenCheckBox(ActionEvent event) {
+        CheckBox checkBox = (CheckBox) event.getSource();
+        if (checkBox.isSelected()) {
+            Singleton.getInstance().setFullScreenSetting(true);
+        }
     }
 }

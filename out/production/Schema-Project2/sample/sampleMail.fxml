@@ -13,20 +13,32 @@
       <Button fx:id="send" layoutX="468.0" layoutY="311.0" mnemonicParsing="false" onAction="#sendEmail" onMouseEntered="#handleHoverEffect" onMouseExited="#handleNoHoverEffect" />
       <TextField fx:id="subject" layoutX="302.0" layoutY="47.0" prefHeight="25.0" prefWidth="220.0" promptText="Subject.." />
       <TextArea fx:id="mailTextArea" layoutX="302.0" layoutY="84.0" prefHeight="227.0" prefWidth="220.0" promptText="Message.." />
-      <Label layoutX="302.0" layoutY="26.0" text="Write email:">
+      <Label layoutX="300.0" layoutY="14.0" text="Write email:" textFill="#1abf1f">
          <font>
-            <Font size="15.0" />
+            <Font size="18.0" />
          </font>
       </Label>
-      <Label layoutX="13.0" layoutY="61.0" text="Email to:">
+      <Label layoutX="13.0" layoutY="61.0" text="Email to:" textFill="#21c631">
          <font>
-            <Font size="15.0" />
+            <Font size="18.0" />
          </font>
       </Label>
-      <CheckBox fx:id="box1" layoutX="14.0" layoutY="102.0" mnemonicParsing="false" onAction="#toEmail" text="Admin" />
-      <CheckBox fx:id="box2" layoutX="14.0" layoutY="133.0" mnemonicParsing="false" onAction="#toEmail" text="Boss 1" />
-      <CheckBox fx:id="box3" layoutX="14.0" layoutY="165.0" mnemonicParsing="false" onAction="#toEmail" text="Boss 2" />
-      <CheckBox fx:id="box4" layoutX="14.0" layoutY="200.0" mnemonicParsing="false" onAction="#toEmail" text="Boss 3" />
+      <CheckBox fx:id="box1" layoutX="14.0" layoutY="102.0" mnemonicParsing="false" onAction="#toEmail" text="Admin" textFill="#1bcd20">
+         <font>
+            <Font size="18.0" />
+         </font></CheckBox>
+      <CheckBox fx:id="box2" layoutX="14.0" layoutY="139.0" mnemonicParsing="false" onAction="#toEmail" text="Boss 1" textFill="#0fc60f">
+         <font>
+            <Font size="18.0" />
+         </font></CheckBox>
+      <CheckBox fx:id="box3" layoutX="14.0" layoutY="173.0" mnemonicParsing="false" onAction="#toEmail" text="Boss 2" textFill="#1ecd30">
+         <font>
+            <Font size="18.0" />
+         </font></CheckBox>
+      <CheckBox fx:id="box4" layoutX="14.0" layoutY="209.0" mnemonicParsing="false" onAction="#toEmail" text="Boss 3" textFill="#22bc31">
+         <font>
+            <Font size="18.0" />
+         </font></CheckBox>
       <Label fx:id="messageSent" layoutX="302.0" layoutY="315.0" textFill="#02ff20">
          <font>
             <Font size="10.0" />

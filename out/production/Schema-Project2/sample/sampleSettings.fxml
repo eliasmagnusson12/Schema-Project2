@@ -5,14 +5,14 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane fx:id="anchorPane" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/9" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.ControllerSettings">
+<AnchorPane fx:id="anchorPane" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.ControllerSettings">
    <children>
-      <Button fx:id="passwordButton" layoutX="195.0" layoutY="108.0" mnemonicParsing="false" onAction="#handlePresspasswordButton" prefHeight="35.0" prefWidth="176.0" text="Change Password">
+      <Button fx:id="passwordButton" layoutX="212.0" layoutY="105.0" mnemonicParsing="false" onAction="#handlePressPasswordButton" prefHeight="35.0" prefWidth="176.0" text="Change Password">
          <font>
             <Font size="14.0" />
          </font>
       </Button>
-      <CheckBox fx:id="fullScreenBox" layoutX="178.0" layoutY="191.0" mnemonicParsing="false" text="Open Schedule in fullscreen">
+      <CheckBox fx:id="fullScreenBox" layoutX="202.0" layoutY="190.0" mnemonicParsing="false" onAction="#fullScreenCheckBox" text="Open Schedule in fullscreen">
          <font>
             <Font size="14.0" />
          </font>
