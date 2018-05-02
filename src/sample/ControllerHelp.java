@@ -37,8 +37,12 @@ public class ControllerHelp implements Initializable {
         tabInstruction.setStyle("-fx-background-color: SILVER");
         tabPane.setStyle("-fx-background-color: BLACK");
 
-        labelInstruction.setText("Skriv instruktioner till programmet här");
-        labelContact.setText("Skriv kontaktuppgifter till olika chefer/avdelningar här");
+        labelInstruction.setText("Sign in - To see your schedule you have to sign in with your social security number \nand your personal password. \n\n" +
+                                 "Send Email - To send an email you simply click the box of whom you want to contact,\nthen write your message with the appropriate subject and then just click send. \n\n" +
+                                 "Change password - To change your password, go into settings,\nclick the ''change password''-button then write your new desired password.");
+        labelContact.setText("Boss 1 - 07xxxxxxxx \n\n" +
+                             "Boss 2 - 07xxxxxxxx\n\n" +
+                             "Boss 3 - 07xxxxxxxx");
 
     }
 }
