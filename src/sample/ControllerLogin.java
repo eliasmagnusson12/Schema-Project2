@@ -1,15 +1,13 @@
 package sample;
 
 import javafx.event.ActionEvent;
+import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Scene;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Button;
-import javafx.scene.control.CheckBox;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
@@ -36,6 +34,8 @@ public class ControllerLogin implements Initializable {
     private TextField usernameTextField, passwordTextField;
     @FXML
     private CheckBox checkBoxUsername, checkBoxPassword;
+    @FXML
+    private Hyperlink forgotLink;
 
     private String saveUsername, savePassword;
 
@@ -188,5 +188,16 @@ public class ControllerLogin implements Initializable {
     private void handleNoHoverEffect(MouseEvent event) {
         Button button = (Button) event.getSource();
         button.setStyle("-fx-background-color: TRANSPARENT");
+    }
+    @FXML
+    private void handleForgotPasswordLink(ActionEvent event) throws IOException {
+        Stage stage = new Stage();
+        FXMLLoader fxmlLoader = new FXMLLoader();
+        fxmlLoader.setLocation(getClass().getResource(  "sampleResetPassword.fxml"));
+        stage.setTitle("Reset Password");
+        Scene scene = new Scene(fxmlLoader.load());
+        stage.setScene(scene);
+        stage.show();
+        ((Node) (event.getSource())).getScene().getWindow().hide();
     }
 }
