@@ -34,13 +34,11 @@ public class ControllerAddEmployee implements Initializable {
 
     private String department;
 
-    private ArrayList<String> underDepartmentList = new ArrayList<>();
-
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        Image mediumBackgroundimage = new Image("resourses/mediumBackground.jpg");
-        BackgroundImage backgroundImage = new BackgroundImage(mediumBackgroundimage, BackgroundRepeat.REPEAT, BackgroundRepeat.REPEAT, BackgroundPosition.CENTER, BackgroundSize.DEFAULT);
+        Image mediumBackgroundImage = new Image("resourses/mediumBackground.jpg");
+        BackgroundImage backgroundImage = new BackgroundImage(mediumBackgroundImage, BackgroundRepeat.REPEAT, BackgroundRepeat.REPEAT, BackgroundPosition.CENTER, BackgroundSize.DEFAULT);
         anchorPane.setBackground(new Background(backgroundImage));
 
         Image checkImage = new Image("resourses/check.png");
@@ -124,12 +122,12 @@ public class ControllerAddEmployee implements Initializable {
             checkBox1.setSelected(false);
 
         }
-        setChoiseBox(department);
+        setChoiceBox(department);
     }
 
-    private void setChoiseBox(String department) {
+    private void setChoiceBox(String department) {
         DBConnect dbConnect = new DBConnect();
-        underDepartmentList = (dbConnect.getUnderDepartments(department));
+        ArrayList underDepartmentList = (dbConnect.getUnderDepartments(department));
 
         if (underDepartmentList.size() == 5) {
             choiceBox.setItems(FXCollections.observableArrayList(underDepartmentList.get(0), underDepartmentList.get(1), underDepartmentList.get(2), underDepartmentList.get(3), underDepartmentList.get(4)));
