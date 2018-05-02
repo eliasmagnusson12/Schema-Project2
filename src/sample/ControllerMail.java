@@ -88,6 +88,7 @@ public class ControllerMail implements Initializable {
         Button button = (Button) event.getSource();
         button.setStyle("-fx-background-color: TRANSPARENT");
     }
+
     @FXML
     public void sendEmail(){
 

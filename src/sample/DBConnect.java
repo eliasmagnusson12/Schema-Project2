@@ -35,8 +35,8 @@ public class DBConnect {
 
     public void getData(String username) throws SQLException {
 
-        String sql = ("SELECT * FROM person, email, phoneNumber, person_has_department WHERE socialSecurityNumber = '" + username + "' and socialSecurityNumber = email.Person_socialSecurityNumber " +
-                "and socialSecurityNumber = phoneNumber.Person_socialSecurityNumber and socialSecurityNumber = person_has_department.Person_socialSecurityNumber");
+        String sql = ("SELECT * FROM person, email, phoneNumber, person_has_underdepartment WHERE socialSecurityNumber = '" + username + "' and socialSecurityNumber = email.Person_socialSecurityNumber " +
+                "and socialSecurityNumber = phoneNumber.Person_socialSecurityNumber and socialSecurityNumber = person_has_underdepartment.Person_socialSecurityNumber");
         ResultSet rs = st.executeQuery(sql);
         while (rs.next()) {
 
@@ -46,7 +46,7 @@ public class DBConnect {
             role = rs.getString("role");
             email = rs.getString("email");
             phoneNumber = rs.getString("phoneNumber");
-            departementName = rs.getString("department_departmentName");
+            departementName = rs.getString("underDepartment_underDepartmentName");
 
         }
             User user = new User();
@@ -84,7 +84,7 @@ public class DBConnect {
 
     public ArrayList getUnderDepartments(String department) {
         try {
-            sql = ("SELECT * FROM underdepartment WHERE department_departmentName = '" + department + "'");
+            sql = ("SELECT * FROM underDepartment WHERE department_departmentName = '" + department + "'");
             ResultSet rs = st.executeQuery(sql);
             while (rs.next()) {
                 list.add(rs.getString("underDepartmentName"));
@@ -106,18 +106,18 @@ public class DBConnect {
         }catch (Exception e){
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("Error");
-            alert.setHeaderText("Something went wrong!");
+            alert.setHeaderText("Something went wrong with insert into person!");
             alert.showAndWait();
         }
 
         try {
-            String sqlTwo = ("INSERT INTO person_has_department (Person_socialSecurityNumber, Department_departmentName) " +
+            String sqlTwo = ("INSERT INTO person_has_underdepartment (person_socialSecurityNumber, underDepartment_underDepartmentName) " +
                     "VALUES ('" + person.getSocialSecurityNumber() + "', '" + person.getDepartment() + "');");
             st.executeUpdate(sqlTwo);
         }catch (Exception e){
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("Error");
-            alert.setHeaderText("Something went wrong!");
+            alert.setHeaderText("Something went wrong with person_has_department!");
             alert.showAndWait();
         }
 
@@ -128,7 +128,7 @@ public class DBConnect {
         }catch (Exception e){
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("Error");
-            alert.setHeaderText("Something went wrong!");
+            alert.setHeaderText("Something went wrong with login!");
             alert.showAndWait();
         }
 
@@ -139,7 +139,7 @@ public class DBConnect {
         }catch (Exception e){
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("Error");
-            alert.setHeaderText("Something went wrong!");
+            alert.setHeaderText("Something went wrong email!");
             alert.showAndWait();
         }
 
@@ -150,7 +150,7 @@ public class DBConnect {
         }catch (Exception e){
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("Error");
-            alert.setHeaderText("Something went wrong!");
+            alert.setHeaderText("Something went wrong with phoneNumber!");
             alert.showAndWait();
         }
     }

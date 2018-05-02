@@ -188,5 +188,7 @@ public class ControllerLogin implements Initializable {
     private void handleNoHoverEffect(MouseEvent event) {
         Button button = (Button) event.getSource();
         button.setStyle("-fx-background-color: TRANSPARENT");
+
+
     }
 }
