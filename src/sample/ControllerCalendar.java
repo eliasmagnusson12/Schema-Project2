@@ -5,10 +5,13 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.geometry.Pos;
+import javafx.print.Printer;
+import javafx.print.PrinterJob;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -24,23 +27,23 @@ import java.util.*;
 
 public class ControllerCalendar implements Initializable {
 
-     @FXML
-     private GridPane gridPane, smallGridPane, miniGridPane;
-     @FXML
-     private Pane pane;
-     @FXML
-     private Button monday, tuesday, wednesday, thursday, friday, saturday, sunday;
-     @FXML
-     private Button changeScheduleButton, addEmployeeButton, lastWeek, nextWeek, homeButton;
-     @FXML
-     private TextField textFieldMonday, textFieldTuesday, textFieldWednesday, textFieldThursday, textFieldFriday, textFieldSaturday, textFieldSunday;
-     @FXML
-     private Label nameLabel, weekLabel, loggedInLabel;
+    @FXML
+    private GridPane gridPane, smallGridPane, miniGridPane;
+    @FXML
+    private Pane pane;
+    @FXML
+    private Button monday, tuesday, wednesday, thursday, friday, saturday, sunday;
+    @FXML
+    private Button changeScheduleButton, addEmployeeButton, lastWeek, nextWeek, homeButton, savePdfButton;
+    @FXML
+    private TextField textFieldMonday, textFieldTuesday, textFieldWednesday, textFieldThursday, textFieldFriday, textFieldSaturday, textFieldSunday;
+    @FXML
+    private Label nameLabel, weekLabel, loggedInLabel;
 
-     private Week week;
-     private String weekString;
-     private int weekChosen = 0;
-     private Calendar calendar = new GregorianCalendar(Locale.ENGLISH);
+    private Week week;
+    private String weekString;
+    private int weekChosen = 0;
+    private Calendar calendar = new GregorianCalendar(Locale.ENGLISH);
 
 
     @Override
@@ -83,7 +86,7 @@ public class ControllerCalendar implements Initializable {
 
             changeScheduleButton.setGraphic(changeImageView);
             changeScheduleButton.setStyle("-fx-background-color: TRANSPARENT");
-        }else {
+        } else {
             addEmployeeButton.setGraphic(addImageView);
             addEmployeeButton.setStyle("-fx-background-color: TRANSPARENT");
             addEmployeeButton.setDisable(true);
@@ -133,14 +136,14 @@ public class ControllerCalendar implements Initializable {
 
     }
 
-    private void setWeekLabel(String weekString){
+    private void setWeekLabel(String weekString) {
 
         weekLabel.setText("Week " + weekString);
     }
 
-    private void setToday(){
+    private void setToday() {
 
-        switch (calendar.get(Calendar.DAY_OF_WEEK)){
+        switch (calendar.get(Calendar.DAY_OF_WEEK)) {
             case Calendar.MONDAY:
                 monday.setBorder(new Border(new BorderStroke(Color.LIGHTSEAGREEN, BorderStrokeStyle.SOLID, null, new BorderWidths(4))));
                 break;
@@ -173,7 +176,7 @@ public class ControllerCalendar implements Initializable {
         String reportDate;
         calendar.setFirstDayOfWeek(Calendar.MONDAY);
 
-        switch (day){
+        switch (day) {
             case "Monday":
                 calendar.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY);
                 Date one = calendar.getTime();
@@ -227,12 +230,13 @@ public class ControllerCalendar implements Initializable {
 
     }
 
-    @FXML private void handleMouseButtonExited(MouseEvent event) {
+    @FXML
+    private void handleMouseButtonExited(MouseEvent event) {
         Button button = (Button) event.getSource();
 
         String text = button.getId();
 
-        switch (text){
+        switch (text) {
             case "monday":
                 monday.setText("Monday");
                 break;
@@ -263,7 +267,7 @@ public class ControllerCalendar implements Initializable {
     }
 
     @FXML
-    private void changeWeekForward(ActionEvent event){
+    private void changeWeekForward(ActionEvent event) {
         Week week = new Week();
         weekChosen++;
         calendar.add(Calendar.WEEK_OF_YEAR, 1);
@@ -272,7 +276,7 @@ public class ControllerCalendar implements Initializable {
     }
 
     @FXML
-    private void changeWeekBackwards(ActionEvent event){
+    private void changeWeekBackwards(ActionEvent event) {
         Week week = new Week();
         weekChosen--;
         calendar.add(Calendar.WEEK_OF_YEAR, -1);
@@ -306,8 +310,32 @@ public class ControllerCalendar implements Initializable {
     }
 
     private void setUserInfo() {
-    User user = Singleton.getInstance().getUser();
-    nameLabel.setText(user.getFirstName() + " " + user.getLastName());
+        User user = Singleton.getInstance().getUser();
+        nameLabel.setText(user.getFirstName() + " " + user.getLastName());
+    }
+
+
+    @FXML
+    private void saveToPdf(ActionEvent event) throws IOException {
+
+        Stage stage = new Stage();
+        FXMLLoader fxmlLoader = new FXMLLoader();
+        fxmlLoader.setLocation(getClass().getResource("sampleCalendar.fxml"));
+
+        Image test = new Scene(fxmlLoader.load(getClass().getResource("sampleCalendar.fxml"))).snapshot(null);
+        ScrollPane root = new ScrollPane(new ImageView(test));
+
+        //Scene scene = new Scene(fxmlLoader.load());
+        //stage.setScene(scene);
+        //stage.show();
+
+        PrinterJob job = PrinterJob.createPrinterJob();
+        if (job != null) {
+            job.showPrintDialog(stage);
+            job.printPage(root);
+            //job.printPage(smallGridPane);
+            job.endJob();
+        }
     }
 
     @FXML
