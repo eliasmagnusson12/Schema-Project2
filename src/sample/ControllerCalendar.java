@@ -41,7 +41,7 @@ public class ControllerCalendar implements Initializable {
      @FXML
      private Button monday, tuesday, wednesday, thursday, friday, saturday, sunday;
      @FXML
-     private Button changeScheduleButton, addEmployeeButton, lastWeek, nextWeek, homeButton;
+     private Button changeScheduleButton, addEmployeeButton, lastWeek, nextWeek, homeButton, savePdfButton;
      @FXML
      private TextField textFieldMonday, textFieldTuesday, textFieldWednesday, textFieldThursday, textFieldFriday, textFieldSaturday, textFieldSunday;
      @FXML
@@ -84,6 +84,11 @@ public class ControllerCalendar implements Initializable {
         pane.getChildren().add(smallLogoImageView);
         smallLogoImageView.layoutXProperty().bind(gridPane.widthProperty().add(275));
         smallLogoImageView.layoutYProperty().bind(gridPane.heightProperty());
+
+        Image pdfImage = new Image("resourses/pdficon.png");
+        ImageView pdfImageView = new ImageView(pdfImage);
+        savePdfButton.setGraphic(pdfImageView);
+        savePdfButton.setStyle("-fx-background-color: TRANSPARENT");
 
         setUserInfo();
 
