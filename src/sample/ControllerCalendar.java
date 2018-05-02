@@ -79,6 +79,7 @@ public class ControllerCalendar implements Initializable {
         smallLogoImageView.layoutXProperty().bind(gridPane.widthProperty().add(275));
         smallLogoImageView.layoutYProperty().bind(gridPane.heightProperty());
 
+        setUserInfo();
 
         if (Singleton.getInstance().getUser().getRole().equals("Boss") || Singleton.getInstance().getUser().getRole().equals("Admin")) {
             addEmployeeButton.setGraphic(addImageView);
@@ -128,7 +129,6 @@ public class ControllerCalendar implements Initializable {
         loggedInLabel.layoutYProperty().bind(gridPane.heightProperty().add(60));
         nameLabel.layoutYProperty().bind(gridPane.heightProperty().add(80));
 
-        setUserInfo();
 
         week = new Week();
         weekString = Integer.toString(week.getWeek());
@@ -283,6 +283,7 @@ public class ControllerCalendar implements Initializable {
         weekString = String.valueOf(week.getNextWeek(weekChosen));
         setWeekLabel(weekString);
     }
+
     @FXML
     private void handleHomeButton(ActionEvent event) throws IOException {
         Stage stage = new Stage();

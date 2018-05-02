@@ -3,7 +3,7 @@ package sample;
 public class Singleton {
     private static Singleton ourInstance = new Singleton();
 
-    User user;
+    private User user;
     boolean fullScreenSetting;
 
     public static Singleton getOurInstance() {
