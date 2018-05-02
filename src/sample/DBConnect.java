@@ -36,7 +36,7 @@ public class DBConnect {
     public void getData(String username) throws SQLException {
 
         String sql = ("SELECT * FROM person, email, phoneNumber, person_has_underdepartment WHERE socialSecurityNumber = '" + username + "' and socialSecurityNumber = email.Person_socialSecurityNumber " +
-                "and socialSecurityNumber = phoneNumber.Person_socialSecurityNumber and socialSecurityNumber = person_has_underdepartment.Person_socialSecurityNumber");
+                "and socialSecurityNumber = phonenumber.Person_socialSecurityNumber and socialSecurityNumber = person_has_underdepartment.person_socialSecurityNumber");
         ResultSet rs = st.executeQuery(sql);
         while (rs.next()) {
 
@@ -47,6 +47,7 @@ public class DBConnect {
             email = rs.getString("email");
             phoneNumber = rs.getString("phoneNumber");
             departementName = rs.getString("underDepartment_underDepartmentName");
+
 
         }
             User user = new User();
