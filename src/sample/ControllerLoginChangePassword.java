@@ -8,6 +8,8 @@ import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.TextField;
+import javafx.scene.image.Image;
+import javafx.scene.layout.*;
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -20,8 +22,13 @@ public class ControllerLoginChangePassword implements Initializable {
 
     @FXML
     private TextField usernameTextfield, passwordTextField;
+    @FXML
+    private AnchorPane pane;
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        Image background = new Image("resourses/2.jpg");
+        BackgroundImage backgroundImage = new BackgroundImage(background, BackgroundRepeat.REPEAT, BackgroundRepeat.REPEAT, BackgroundPosition.CENTER, BackgroundSize.DEFAULT);
+        pane.setBackground(new Background(backgroundImage));
 
     }
 

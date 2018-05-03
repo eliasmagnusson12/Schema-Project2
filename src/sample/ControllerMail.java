@@ -56,7 +56,7 @@ public class ControllerMail implements Initializable {
         send.setGraphic(sendImageView);
         send.setStyle("-fx-background-color: TRANSPARENT");
 
-        Image smallBackgroundImage = new Image("resourses/smallBackground.jpg");
+        Image smallBackgroundImage = new Image("resourses/2.jpg");
         BackgroundImage backgroundImage = new BackgroundImage(smallBackgroundImage, BackgroundRepeat.REPEAT, BackgroundRepeat.REPEAT, BackgroundPosition.CENTER, BackgroundSize.DEFAULT);
         anchorPane.setBackground(new Background(backgroundImage));
 
