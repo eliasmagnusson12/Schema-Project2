@@ -31,4 +31,10 @@ public class Week {
         return week;
     }
 
+    public int getYear() {
+        Date date = new Date();
+        calendar.setTime(date);
+        int year = calendar.get(Calendar.YEAR);
+        return year;
+    }
 }

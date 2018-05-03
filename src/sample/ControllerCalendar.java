@@ -1,5 +1,6 @@
 package sample;
 
+import javafx.css.Stylesheet;
 import javafx.event.ActionEvent;
 
 import javafx.fxml.FXML;
@@ -33,6 +34,8 @@ import java.net.URL;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.*;
+
+import static javafx.application.Application.STYLESHEET_CASPIAN;
 
 public class ControllerCalendar implements Initializable {
 
@@ -148,7 +151,9 @@ public class ControllerCalendar implements Initializable {
         week = new Week();
         weekString = Integer.toString(week.getWeek());
         setWeekLabel(weekString);
-        setToday();
+
+            setToday();
+
 
     }
 
@@ -157,30 +162,46 @@ public class ControllerCalendar implements Initializable {
         weekLabel.setText("Week " + weekString);
     }
 
-    private void setToday(){
+    private void setToday() {
 
-        switch (calendar.get(Calendar.DAY_OF_WEEK)){
-            case Calendar.MONDAY:
-                monday.setBorder(new Border(new BorderStroke(Color.LIGHTSEAGREEN, BorderStrokeStyle.SOLID, null, new BorderWidths(4))));
-                break;
-            case Calendar.TUESDAY:
-                tuesday.setBorder(new Border(new BorderStroke(Color.LIGHTSEAGREEN, BorderStrokeStyle.SOLID, null, new BorderWidths(4))));
-                break;
-            case Calendar.WEDNESDAY:
-                wednesday.setBorder(new Border(new BorderStroke(Color.LIGHTSEAGREEN, BorderStrokeStyle.SOLID, null, new BorderWidths(4))));
-                break;
-            case Calendar.THURSDAY:
-                thursday.setBorder(new Border(new BorderStroke(Color.LIGHTSEAGREEN, BorderStrokeStyle.SOLID, null, new BorderWidths(4))));
-                break;
-            case Calendar.FRIDAY:
-                friday.setBorder(new Border(new BorderStroke(Color.LIGHTSEAGREEN, BorderStrokeStyle.SOLID, null, new BorderWidths(4))));
-                break;
-            case Calendar.SATURDAY:
-                saturday.setBorder(new Border(new BorderStroke(Color.LIGHTSEAGREEN, BorderStrokeStyle.SOLID, null, new BorderWidths(4))));
-                break;
-            case Calendar.SUNDAY:
-                sunday.setBorder(new Border(new BorderStroke(Color.LIGHTSEAGREEN, BorderStrokeStyle.SOLID, null, new BorderWidths(4))));
-                break;
+        if (calendar.get(Calendar.YEAR) == week.getYear()) {
+            if (calendar.get(Calendar.WEEK_OF_YEAR) == week.getWeek()) {
+                Date date = new Date();
+                calendar.setTime(date);
+
+                switch (calendar.get(Calendar.DAY_OF_WEEK)) {
+                    case Calendar.MONDAY:
+                        monday.setBorder(new Border(new BorderStroke(Color.LIGHTSEAGREEN, BorderStrokeStyle.SOLID, null, new BorderWidths(4))));
+                        break;
+                    case Calendar.TUESDAY:
+                        tuesday.setBorder(new Border(new BorderStroke(Color.LIGHTSEAGREEN, BorderStrokeStyle.SOLID, null, new BorderWidths(4))));
+                        break;
+                    case Calendar.WEDNESDAY:
+                        wednesday.setBorder(new Border(new BorderStroke(Color.LIGHTSEAGREEN, BorderStrokeStyle.SOLID, null, new BorderWidths(4))));
+                        break;
+                    case Calendar.THURSDAY:
+                        thursday.setBorder(new Border(new BorderStroke(Color.LIGHTSEAGREEN, BorderStrokeStyle.SOLID, null, new BorderWidths(4))));
+                        break;
+                    case Calendar.FRIDAY:
+                        friday.setBorder(new Border(new BorderStroke(Color.LIGHTSEAGREEN, BorderStrokeStyle.SOLID, null, new BorderWidths(4))));
+                        break;
+                    case Calendar.SATURDAY:
+                        saturday.setBorder(new Border(new BorderStroke(Color.LIGHTSEAGREEN, BorderStrokeStyle.SOLID, null, new BorderWidths(4))));
+                        break;
+                    case Calendar.SUNDAY:
+                        sunday.setBorder(new Border(new BorderStroke(Color.LIGHTSEAGREEN, BorderStrokeStyle.SOLID, null, new BorderWidths(4))));
+                        break;
+                }
+            } else {
+                monday.setBorder(null);
+                tuesday.setBorder(null);
+                wednesday.setBorder(null);
+                thursday.setBorder(null);
+                friday.setBorder(null);
+                saturday.setBorder(null);
+                sunday.setBorder(null);
+
+            }
         }
     }
 
@@ -288,6 +309,7 @@ public class ControllerCalendar implements Initializable {
         calendar.add(Calendar.WEEK_OF_YEAR, 1);
         weekString = String.valueOf(week.getNextWeek(weekChosen));
         setWeekLabel(weekString);
+        setToday();
     }
 
     @FXML
@@ -297,6 +319,7 @@ public class ControllerCalendar implements Initializable {
         calendar.add(Calendar.WEEK_OF_YEAR, -1);
         weekString = String.valueOf(week.getNextWeek(weekChosen));
         setWeekLabel(weekString);
+        setToday();
     }
 
     @FXML
