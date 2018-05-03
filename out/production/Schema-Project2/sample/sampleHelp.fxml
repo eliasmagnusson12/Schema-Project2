@@ -8,18 +8,18 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<TabPane fx:id="tabPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" tabClosingPolicy="UNAVAILABLE" xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.ControllerHelp">
+<TabPane fx:id="tabPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" tabClosingPolicy="UNAVAILABLE" xmlns="http://javafx.com/javafx/9" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.ControllerHelp">
   <tabs>
     <Tab fx:id="tabInstruction" text="Instructions">
       <content>
         <AnchorPane fx:id="paneInstruction" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                <children>
-                  <Label fx:id="labelInstruction" layoutX="14.0" layoutY="122.0" text="Label" textFill="WHITE">
+                  <Label fx:id="labelInstruction" layoutX="14.0" layoutY="122.0" text="Label" textFill="#171515">
                      <font>
                         <Font size="15.0" />
                      </font>
                   </Label>
-                  <Label layoutX="14.0" layoutY="52.0" text="Instructions" textFill="WHITE">
+                  <Label layoutX="14.0" layoutY="52.0" text="Instructions" textFill="#0a0808">
                      <font>
                         <Font size="26.0" />
                      </font>
@@ -31,12 +31,12 @@
       <content>
         <AnchorPane fx:id="paneContact" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                <children>
-                  <Label fx:id="labelContact" layoutX="14.0" layoutY="122.0" text="Label" textFill="WHITE">
+                  <Label fx:id="labelContact" layoutX="14.0" layoutY="122.0" text="Label" textFill="#171313">
                      <font>
                         <Font size="15.0" />
                      </font>
                   </Label>
-                  <Label layoutX="14.0" layoutY="52.0" text="Contact" textFill="WHITE">
+                  <Label layoutX="14.0" layoutY="52.0" text="Contact" textFill="#221a1a">
                      <font>
                         <Font size="26.0" />
                      </font>

@@ -8,56 +8,56 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane fx:id="anchorPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="480.0" prefWidth="640.0" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.ControllerAddEmployee">
+<AnchorPane fx:id="anchorPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="480.0" prefWidth="640.0" xmlns="http://javafx.com/javafx/9" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.ControllerAddEmployee">
    <children>
       <TextField fx:id="firstNameTextField" layoutX="208.0" layoutY="163.0" prefHeight="31.0" prefWidth="228.0" />
       <TextField fx:id="lastNameTextField" layoutX="206.0" layoutY="225.0" prefHeight="31.0" prefWidth="228.0" />
       <TextField fx:id="emailTextField" layoutX="207.0" layoutY="285.0" prefHeight="31.0" prefWidth="228.0" />
       <TextField fx:id="phoneNumberTextField" layoutX="208.0" layoutY="345.0" prefHeight="31.0" prefWidth="228.0" />
       <TextField fx:id="socialSecurityNumberTextField" layoutX="208.0" layoutY="404.0" prefHeight="31.0" prefWidth="228.0" />
-      <Label layoutX="8.0" layoutY="165.0" prefHeight="27.0" prefWidth="199.0" text="First Name:" textFill="#14cd26">
+      <Label layoutX="8.0" layoutY="165.0" prefHeight="27.0" prefWidth="199.0" text="First Name:" textFill="#080a08">
          <font>
             <Font size="18.0" />
          </font>
       </Label>
-      <Label layoutX="8.0" layoutY="227.0" prefHeight="27.0" prefWidth="199.0" text="Last Name:" textFill="#1eb926">
+      <Label layoutX="8.0" layoutY="227.0" prefHeight="27.0" prefWidth="199.0" text="Last Name:" textFill="#060a07">
          <font>
             <Font size="18.0" />
          </font>
       </Label>
-      <Label layoutX="7.0" layoutY="287.0" prefHeight="27.0" prefWidth="199.0" text="Email:" textFill="#1ab227">
+      <Label layoutX="7.0" layoutY="287.0" prefHeight="27.0" prefWidth="199.0" text="Email:" textFill="#040705">
          <font>
             <Font size="18.0" />
          </font>
       </Label>
-      <Label layoutX="8.0" layoutY="347.0" prefHeight="27.0" prefWidth="199.0" text="Phone Number:" textFill="#1db22c">
+      <Label layoutX="8.0" layoutY="347.0" prefHeight="27.0" prefWidth="199.0" text="Phone Number:" textFill="#0d110d">
          <font>
             <Font size="18.0" />
          </font>
       </Label>
-      <Label layoutX="8.0" layoutY="406.0" prefHeight="27.0" prefWidth="199.0" text="Social Security Number:" textFill="#1db22c">
+      <Label layoutX="8.0" layoutY="406.0" prefHeight="27.0" prefWidth="199.0" text="Social Security Number:" textFill="#09110a">
          <font>
             <Font size="18.0" />
          </font>
       </Label>
-      <Label layoutX="64.0" layoutY="81.0" prefHeight="21.0" prefWidth="143.0" text="Department:" textFill="#00c614">
+      <Label layoutX="64.0" layoutY="81.0" prefHeight="21.0" prefWidth="143.0" text="Department:" textFill="#0b110b">
          <font>
             <Font size="18.0" />
          </font>
       </Label>
       <CheckBox fx:id="checkBox1" layoutX="234.0" layoutY="84.0" mnemonicParsing="false" onAction="#handleCheckBoxes" />
       <CheckBox fx:id="checkBox2" layoutX="373.0" layoutY="84.0" mnemonicParsing="false" onAction="#handleCheckBoxes" />
-      <Label fx:id="headerLabel" alignment="CENTER" layoutX="233.0" layoutY="14.0" prefHeight="48.0" prefWidth="177.0" text="Add Person" textFill="#4fe036">
+      <Label fx:id="headerLabel" alignment="CENTER" layoutX="233.0" layoutY="14.0" prefHeight="48.0" prefWidth="177.0" text="Add Person" textFill="#0a0d0a">
          <font>
             <Font name="System Bold" size="24.0" />
          </font>
       </Label>
       <Button fx:id="addButton" layoutX="509.0" layoutY="301.0" mnemonicParsing="false" onAction="#handleAddButton" onMouseEntered="#handleHoverEffect" onMouseExited="#handleNoHoverEffect" prefHeight="60.0" prefWidth="60.0" />
-      <Label fx:id="department1Label" alignment="CENTER" layoutX="177.0" layoutY="108.0" prefHeight="31.0" prefWidth="143.0" text="Lanternan" textFill="#07c60e">
+      <Label fx:id="department1Label" alignment="CENTER" layoutX="177.0" layoutY="108.0" prefHeight="31.0" prefWidth="143.0" text="Lanternan" textFill="#090d0a">
          <font>
             <Font size="18.0" />
          </font></Label>
-      <Label fx:id="department2Label" alignment="CENTER" layoutX="316.0" layoutY="108.0" prefHeight="31.0" prefWidth="143.0" text="Åhaga" textFill="#09cd24">
+      <Label fx:id="department2Label" alignment="CENTER" layoutX="316.0" layoutY="108.0" prefHeight="31.0" prefWidth="143.0" text="Åhaga" textFill="#0e140e">
          <font>
             <Font size="18.0" />
          </font></Label>

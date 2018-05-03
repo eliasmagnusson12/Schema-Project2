@@ -22,7 +22,7 @@ public class DBConnect {
     private String departementName;
 
     private ArrayList<String> list = new ArrayList<>();
-
+    private ControllerMail cm = new ControllerMail();
 
     public DBConnect() {
         try {
@@ -125,7 +125,7 @@ public class DBConnect {
 
         try {
             String sqlThree = ("INSERT INTO login (password, person_socialSecurityNumber) " +
-                    "VALUES ('password1', '" + person.getSocialSecurityNumber() + "');");
+                    "VALUES ('" + cm.sendFirstPW(person) + "', '" + person.getSocialSecurityNumber() + "');");
             st.executeUpdate(sqlThree);
         }catch (Exception e){
             Alert alert = new Alert(Alert.AlertType.ERROR);
