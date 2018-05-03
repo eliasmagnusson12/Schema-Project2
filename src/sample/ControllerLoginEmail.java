@@ -10,6 +10,8 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
+import javafx.scene.image.Image;
+import javafx.scene.layout.*;
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -22,8 +24,13 @@ public class ControllerLoginEmail implements Initializable {
 
     @FXML
     private TextField usernameTextField, passwordTextField;
+    @FXML
+    private AnchorPane anchorPane;
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        Image image = new Image("resourses/2.jpg");
+        BackgroundImage backgroundImage = new BackgroundImage(image, BackgroundRepeat.REPEAT, BackgroundRepeat.REPEAT, BackgroundPosition.CENTER, BackgroundSize.DEFAULT);
+        anchorPane.setBackground(new Background(backgroundImage));
 
     }
 

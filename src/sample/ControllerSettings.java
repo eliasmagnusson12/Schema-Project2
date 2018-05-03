@@ -31,6 +31,7 @@ public class ControllerSettings implements Initializable {
 
     @FXML
     private void handlePressPasswordButton(ActionEvent event) throws IOException {
+
         Stage stage = new Stage();
         FXMLLoader fxmlLoader = new FXMLLoader();
         fxmlLoader.setLocation(getClass().getResource("sampleLoginChangePassword.fxml"));
@@ -39,6 +40,7 @@ public class ControllerSettings implements Initializable {
         stage.setResizable(false);
         stage.setScene(scene);
         stage.show();
+
 
     }
 
