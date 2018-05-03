@@ -9,6 +9,7 @@ import javafx.fxml.Initializable;
 
 import javafx.print.Printer;
 import javafx.print.PrinterJob;
+import javafx.scene.Group;
 import javafx.scene.Node;
 
 import javafx.scene.Scene;
@@ -19,6 +20,7 @@ import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.image.WritableImage;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
@@ -46,6 +48,8 @@ public class ControllerCalendar implements Initializable {
      private TextField textFieldMonday, textFieldTuesday, textFieldWednesday, textFieldThursday, textFieldFriday, textFieldSaturday, textFieldSunday;
      @FXML
      private Label nameLabel, weekLabel, loggedInLabel;
+    @FXML
+     private Group group;
 
      private Week week;
      private String weekString;
@@ -336,12 +340,13 @@ public class ControllerCalendar implements Initializable {
         stage.show();
         ((Node) (event.getSource())).getScene().getWindow().hide();
 
-        Image test = new Scene(fxmlLoader.load(getClass().getResource("sampleCalendar.fxml"))).snapshot(null);
+        WritableImage test = group.snapshot(null, null);
         ImageView imageview = new ImageView(test);
         imageview.setPreserveRatio(true);
         imageview.setFitHeight(1000);
-        imageview.setFitWidth(400);
+        imageview.setFitWidth(480);
         imageview.setSmooth(true);
+
         ScrollPane root = new ScrollPane(imageview);
 
         PrinterJob job = PrinterJob.createPrinterJob();
