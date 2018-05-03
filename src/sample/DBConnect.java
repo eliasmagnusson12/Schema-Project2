@@ -36,8 +36,9 @@ public class DBConnect {
     public void getData(String username) throws SQLException {
 
         String sql = ("SELECT * FROM person, email, phoneNumber, person_has_underdepartment WHERE socialSecurityNumber = '" + username + "' and socialSecurityNumber = email.Person_socialSecurityNumber " +
-                "and socialSecurityNumber = phoneNumber.Person_socialSecurityNumber and socialSecurityNumber = person_has_underdepartment.Person_socialSecurityNumber");
+                "and socialSecurityNumber = phonenumber.Person_socialSecurityNumber and socialSecurityNumber = person_has_underdepartment.person_socialSecurityNumber");
         ResultSet rs = st.executeQuery(sql);
+
         while (rs.next()) {
 
             firstName = rs.getString("firstName");
@@ -47,6 +48,7 @@ public class DBConnect {
             email = rs.getString("email");
             phoneNumber = rs.getString("phoneNumber");
             departementName = rs.getString("underDepartment_underDepartmentName");
+
 
         }
             User user = new User();
@@ -66,7 +68,7 @@ public class DBConnect {
     public String getUser(String username) {
 
         try {
-            sql = ("SELECT password FROM person, login WHERE socialSecurityNumber = login.Person_socialSecurityNumber and socialSecurityNumber = " + username);
+            sql = ("SELECT password FROM person, login WHERE socialSecurityNumber = login.person_socialSecurityNumber and socialSecurityNumber = '" + username + "';");
             ResultSet rs = st.executeQuery(sql);
             if (rs.next()) {
                 dataBasePassword = rs.getString("password");
@@ -123,7 +125,7 @@ public class DBConnect {
 
         try {
             String sqlThree = ("INSERT INTO login (password, person_socialSecurityNumber) " +
-                    "VALUES ('password', '"+ person.getSocialSecurityNumber() + "');");
+                    "VALUES ('password1', '" + person.getSocialSecurityNumber() + "');");
             st.executeUpdate(sqlThree);
         }catch (Exception e){
             Alert alert = new Alert(Alert.AlertType.ERROR);
