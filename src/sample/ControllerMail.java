@@ -12,16 +12,15 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
+import org.apache.commons.lang3.RandomStringUtils;
 
-import javax.mail.Message;
+import javax.mail.*;
 import javax.mail.Message.RecipientType;
-import javax.mail.MessagingException;
-import javax.mail.Session;
-import javax.mail.Transport;
 import javax.mail.internet.AddressException;
 import javax.mail.internet.*;
 import javax.mail.internet.MimeMessage;
 import java.net.URL;
+import java.security.SecureRandom;
 import java.util.Properties;
 import java.util.ResourceBundle;
 
@@ -43,10 +42,12 @@ public class ControllerMail implements Initializable {
 
     private String email;
 
+    private String pw;
+
     private ObservableSet<CheckBox> selectedCheckBoxes = FXCollections.observableSet();
     private ObservableSet<CheckBox> unselectedCheckBoxes = FXCollections.observableSet();
     private IntegerBinding numCheckBoxesSelected = Bindings.size(selectedCheckBoxes);
-    private final int maxNumSelected =  1;
+    private final int maxNumSelected = 1;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -59,6 +60,7 @@ public class ControllerMail implements Initializable {
         Image smallBackgroundImage = new Image("resourses/smallBackground.jpg");
         BackgroundImage backgroundImage = new BackgroundImage(smallBackgroundImage, BackgroundRepeat.REPEAT, BackgroundRepeat.REPEAT, BackgroundPosition.CENTER, BackgroundSize.DEFAULT);
         anchorPane.setBackground(new Background(backgroundImage));
+
 
 
         configureCheckBox(box1);
@@ -77,6 +79,7 @@ public class ControllerMail implements Initializable {
         });
 
     }
+
     @FXML
     private void handleHoverEffect(MouseEvent event) {
         Button button = (Button) event.getSource();
@@ -90,7 +93,7 @@ public class ControllerMail implements Initializable {
     }
 
     @FXML
-    public void sendEmail(){
+    public void sendEmail() {
 
         String from = "kristianstad.gadors@hotmail.com";
         String pass = "gadors123";
@@ -109,7 +112,7 @@ public class ControllerMail implements Initializable {
 
         Session session = Session.getDefaultInstance(properties);
 
-        try{
+        try {
 
 
             MimeMessage message = new MimeMessage(session);
@@ -120,8 +123,7 @@ public class ControllerMail implements Initializable {
             message.setSubject(subject.getText());
 
             message.setText(mailTextArea.getText() + "\n\nThis email was sent by " + Singleton.getInstance().getUser().getFirstName() + " "
-                    + Singleton.getInstance().getUser().getLastName() +"\n\nYou can not respond to this mail. ");
-
+                    + Singleton.getInstance().getUser().getLastName() + "\n\nYou can not respond to this mail. ");
 
 
             Transport transport = session.getTransport("smtp");
@@ -150,7 +152,7 @@ public class ControllerMail implements Initializable {
         if (event.getSource() instanceof CheckBox) {
             String id = ((CheckBox) event.getSource()).getId();
 
-            switch (id){
+            switch (id) {
                 case "box1":
                     email = "Schedule.Kristianstad@hotmail.com";
                     break;
@@ -186,4 +188,52 @@ public class ControllerMail implements Initializable {
 
         });
     }
+
+    public String sendFirstPW(Person person) throws AddressException {
+
+        String from = "kristianstad.gadors@hotmail.com";
+        String pass = "gadors123";
+
+        String to = person.getEmail();
+
+        String host = "smtp.live.com";
+        Properties properties = System.getProperties();
+
+        properties.put("mail.smtp.starttls.enable", "true");
+        properties.put("mail.smtp.host", host);
+        properties.put("mail.smtp.user", from);
+        properties.put("mail.smtp.password", pass);
+        properties.put("mail.smtp.port", "587");
+        properties.put("mail.smtp.auth", "true");
+
+        Session session = Session.getDefaultInstance(properties);
+
+        try {
+            String pwChars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+             pw = RandomStringUtils.random(8, pwChars);
+
+            System.out.println(pw);
+            MimeMessage message = new MimeMessage(session);
+            message.setFrom(new InternetAddress(from));
+            message.addRecipients(RecipientType.TO, to);
+
+            message.setSubject("Your password");
+            message.setText("Your password is " + pw + "\n\nYou can not respond to this mail. ");
+
+
+            Transport transport = session.getTransport("smtp");
+            transport.connect(host, from, pass);
+            transport.sendMessage(message, message.getAllRecipients());
+            transport.close();
+
+
+        } catch (NoSuchProviderException e) {
+            e.printStackTrace();
+
+        } catch (MessagingException e) {
+            e.printStackTrace();
+        }
+        return pw;
+    }
+
 }

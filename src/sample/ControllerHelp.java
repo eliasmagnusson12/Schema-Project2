@@ -2,6 +2,7 @@ package sample;
 
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.print.PrinterJob;
 import javafx.scene.control.Label;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
@@ -43,6 +44,7 @@ public class ControllerHelp implements Initializable {
         labelContact.setText("Boss 1 - 07xxxxxxxx \n\n" +
                              "Boss 2 - 07xxxxxxxx\n\n" +
                              "Boss 3 - 07xxxxxxxx");
+
 
     }
 }
