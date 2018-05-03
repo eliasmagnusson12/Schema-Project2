@@ -37,7 +37,7 @@ public class ControllerAddEmployee implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        Image mediumBackgroundImage = new Image("resourses/mediumBackground.jpg");
+        Image mediumBackgroundImage = new Image("resourses/2.jpg");
         BackgroundImage backgroundImage = new BackgroundImage(mediumBackgroundImage, BackgroundRepeat.REPEAT, BackgroundRepeat.REPEAT, BackgroundPosition.CENTER, BackgroundSize.DEFAULT);
         anchorPane.setBackground(new Background(backgroundImage));
 

@@ -7,19 +7,27 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 
 
+import javafx.print.Printer;
+import javafx.print.PrinterJob;
+import javafx.scene.Group;
 import javafx.scene.Node;
 
 import javafx.scene.Scene;
+import javafx.scene.SnapshotResult;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.image.WritableImage;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
+import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
+import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.text.DateFormat;
@@ -35,11 +43,13 @@ public class ControllerCalendar implements Initializable {
      @FXML
      private Button monday, tuesday, wednesday, thursday, friday, saturday, sunday;
      @FXML
-     private Button changeScheduleButton, addEmployeeButton, lastWeek, nextWeek, homeButton;
+     private Button changeScheduleButton, addEmployeeButton, lastWeek, nextWeek, homeButton, savePdfButton;
      @FXML
      private TextField textFieldMonday, textFieldTuesday, textFieldWednesday, textFieldThursday, textFieldFriday, textFieldSaturday, textFieldSunday;
      @FXML
      private Label nameLabel, weekLabel, loggedInLabel;
+    @FXML
+     private Group group;
 
      private Week week;
      private String weekString;
@@ -78,6 +88,11 @@ public class ControllerCalendar implements Initializable {
         pane.getChildren().add(smallLogoImageView);
         smallLogoImageView.layoutXProperty().bind(gridPane.widthProperty().add(275));
         smallLogoImageView.layoutYProperty().bind(gridPane.heightProperty());
+
+        Image pdfImage = new Image("resourses/pdficon.png");
+        ImageView pdfImageView = new ImageView(pdfImage);
+        savePdfButton.setGraphic(pdfImageView);
+        savePdfButton.setStyle("-fx-background-color: TRANSPARENT");
 
         setUserInfo();
 
@@ -312,6 +327,34 @@ public class ControllerCalendar implements Initializable {
     private void setUserInfo() {
     User user = Singleton.getInstance().getUser();
     nameLabel.setText(user.getFirstName() + " " + user.getLastName());
+    }
+
+    @FXML
+    private void saveToPdf(ActionEvent event) throws IOException {
+        Stage stage = new Stage();
+        FXMLLoader fxmlLoader = new FXMLLoader();
+        fxmlLoader.setLocation(getClass().getResource("sampleCalendar.fxml"));
+        stage.setTitle("Schedule 1.0");
+        Scene scene = new Scene(fxmlLoader.load());
+        stage.setScene(scene);
+        stage.show();
+        ((Node) (event.getSource())).getScene().getWindow().hide();
+
+        WritableImage test = group.snapshot(null, null);
+        ImageView imageview = new ImageView(test);
+        imageview.setPreserveRatio(true);
+        imageview.setFitHeight(1000);
+        imageview.setFitWidth(480);
+        imageview.setSmooth(true);
+
+        ScrollPane root = new ScrollPane(imageview);
+
+        PrinterJob job = PrinterJob.createPrinterJob();
+        if (job != null) {
+            job.showPrintDialog(stage);
+            job.printPage(root);
+            job.endJob();
+        }
     }
 
     @FXML
