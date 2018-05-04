@@ -212,7 +212,6 @@ public class ControllerMail implements Initializable {
             String pwChars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
              pw = RandomStringUtils.random(8, pwChars);
 
-            System.out.println(pw);
             MimeMessage message = new MimeMessage(session);
             message.setFrom(new InternetAddress(from));
             message.addRecipients(RecipientType.TO, to);

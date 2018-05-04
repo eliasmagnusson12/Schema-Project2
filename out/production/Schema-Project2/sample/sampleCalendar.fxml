@@ -10,7 +10,7 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.text.Font?>
 
-<Pane fx:id="pane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.ControllerCalendar">
+<Pane fx:id="pane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.ControllerCalendar">
    <children>
       <Group fx:id="group">
          <children>
@@ -92,7 +92,7 @@
       <Button fx:id="homeButton" layoutX="14.0" layoutY="14.0" mnemonicParsing="false" onAction="#handleHomeButton" onMouseEntered="#handleHoverEffect" onMouseExited="#handleNoHoverEffect" prefHeight="31.0" prefWidth="32.0" />
       <Button fx:id="savePdfButton" layoutX="100.0" layoutY="245.0" mnemonicParsing="false" onAction="#saveToPdf" onMouseEntered="#handleHoverEffect" onMouseExited="#handleNoHoverEffect" prefHeight="50.0" prefWidth="50.0" />
       <Button layoutX="100.0" layoutY="345.0" mnemonicParsing="false" prefHeight="50.0" prefWidth="50.0" />
-      <Button layoutX="100.0" layoutY="445.0" mnemonicParsing="false" prefHeight="50.0" prefWidth="50.0" />
+      <Button fx:id="deleteEmployeeButton" layoutX="1111.0" layoutY="489.0" mnemonicParsing="false" onAction="#deletePerson" onMouseEntered="#handleHoverEffect" onMouseExited="#handleNoHoverEffect" prefHeight="50.0" prefWidth="50.0" />
       <Button fx:id="changeScheduleButton" layoutX="1111.0" layoutY="295.0" mnemonicParsing="false" onMouseEntered="#handleHoverEffect" onMouseExited="#handleNoHoverEffect" prefHeight="50.0" prefWidth="50.0" />
       <Button fx:id="addEmployeeButton" layoutX="1111.0" layoutY="395.0" mnemonicParsing="false" onAction="#addEmployeeButton" onMouseEntered="#handleHoverEffect" onMouseExited="#handleNoHoverEffect" prefHeight="50.0" prefWidth="50.0" />
       <Label fx:id="nameLabel" alignment="CENTER" layoutX="30.0" layoutY="738.0" prefHeight="21.0" prefWidth="159.0" />

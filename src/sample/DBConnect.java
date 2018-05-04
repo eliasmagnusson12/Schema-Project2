@@ -156,4 +156,56 @@ public class DBConnect {
             alert.showAndWait();
         }
     }
+
+    public void removePerson(String username) {
+        String sqlOne = ("DELETE FROM phoneNumber where person_socialSecurityNumber = '" + username + "';");
+        try {
+            st.executeUpdate(sqlOne);
+        }catch (Exception e){
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Error");
+            alert.setHeaderText("Something went wrong with delete phoneNumber!");
+            alert.showAndWait();
+        }
+
+        String sqlTwo = ("DELETE FROM email where person_socialSecurityNumber = '" + username + "';");
+        try {
+            st.executeUpdate(sqlTwo);
+        }catch (Exception e){
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Error");
+            alert.setHeaderText("Something went wrong with delete email!");
+            alert.showAndWait();
+        }
+
+        String sqlThree = ("DELETE FROM login where person_socialSecurityNumber = '" + username + "';");
+        try {
+            st.executeUpdate(sqlThree);
+        }catch (Exception e){
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Error");
+            alert.setHeaderText("Something went wrong with delete login!");
+            alert.showAndWait();
+        }
+
+        String sqlFour = ("DELETE FROM person_has_underdepartment where person_socialSecurityNumber = '" + username + "';");
+        try {
+            st.executeUpdate(sqlFour);
+        }catch (Exception e){
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Error");
+            alert.setHeaderText("Something went wrong with delete underdepartment!");
+            alert.showAndWait();
+        }
+
+        String sqlFive = ("DELETE FROM person where socialSecurityNumber = '" + username + "';");
+        try {
+            st.executeUpdate(sqlFive);
+        }catch (Exception e){
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Error");
+            alert.setHeaderText("Something went wrong with  delete person!");
+            alert.showAndWait();
+        }
+    }
 }

@@ -15,6 +15,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.ResourceBundle;
 
 public class ControllerAddEmployee implements Initializable {
@@ -129,11 +130,8 @@ public class ControllerAddEmployee implements Initializable {
     private void setChoiceBox(String department) {
         DBConnect dbConnect = new DBConnect();
         ArrayList underDepartmentList = (dbConnect.getUnderDepartments(department));
+        ObservableList<String> test = FXCollections.observableList(underDepartmentList);
 
-        if (underDepartmentList.size() == 5) {
-            choiceBox.setItems(FXCollections.observableArrayList(underDepartmentList.get(0), underDepartmentList.get(1), underDepartmentList.get(2), underDepartmentList.get(3), underDepartmentList.get(4)));
-        }else if (underDepartmentList.size() == 4){
-            choiceBox.setItems(FXCollections.observableArrayList(underDepartmentList.get(0), underDepartmentList.get(1), underDepartmentList.get(2), underDepartmentList.get(3)));
-        }
+            choiceBox.setItems(test);
     }
 }

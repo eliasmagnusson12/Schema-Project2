@@ -46,7 +46,7 @@ public class ControllerCalendar implements Initializable {
      @FXML
      private Button monday, tuesday, wednesday, thursday, friday, saturday, sunday;
      @FXML
-     private Button changeScheduleButton, addEmployeeButton, lastWeek, nextWeek, homeButton, savePdfButton;
+     private Button changeScheduleButton, addEmployeeButton, deleteEmployeeButton, lastWeek, nextWeek, homeButton, savePdfButton;
      @FXML
      private TextField textFieldMonday, textFieldTuesday, textFieldWednesday, textFieldThursday, textFieldFriday, textFieldSaturday, textFieldSunday;
      @FXML
@@ -115,6 +115,9 @@ public class ControllerCalendar implements Initializable {
             changeScheduleButton.setStyle("-fx-background-color: TRANSPARENT");
             changeScheduleButton.setDisable(true);
             changeScheduleButton.setVisible(false);
+
+            deleteEmployeeButton.setDisable(true);
+            deleteEmployeeButton.setVisible(false);
         }
 
         gridPane.prefWidthProperty().bind(pane.widthProperty().multiply(0.6));
@@ -392,4 +395,16 @@ public class ControllerCalendar implements Initializable {
         stage.show();
     }
 
+    @FXML
+    private void deletePerson(ActionEvent event) throws IOException {
+        Stage stage = new Stage();
+        FXMLLoader fxmlLoader = new FXMLLoader();
+        fxmlLoader.setLocation(getClass().getResource("sampleDeletePerson.fxml"));
+        stage.setTitle("Remove Person");
+        Scene scene = new Scene(fxmlLoader.load(), 640, 480);
+        stage.setResizable(false);
+        stage.setScene(scene);
+        stage.show();
+
+    }
 }
