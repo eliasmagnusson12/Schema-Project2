@@ -33,7 +33,7 @@ public class DBConnect {
         }
     }
 
-    public void getData(String username) throws SQLException {
+    public void setUser(String username) throws SQLException {
 
         String sql = ("SELECT * FROM person, email, phoneNumber, person_has_underdepartment WHERE socialSecurityNumber = '" + username + "' and socialSecurityNumber = email.Person_socialSecurityNumber " +
                 "and socialSecurityNumber = phonenumber.Person_socialSecurityNumber and socialSecurityNumber = person_has_underdepartment.person_socialSecurityNumber");
@@ -65,7 +65,7 @@ public class DBConnect {
 
     }
 
-    public String getUser(String username) {
+    public boolean isPasswordCorrect(String username, String password) {
 
         try {
             sql = ("SELECT password FROM person, login WHERE socialSecurityNumber = login.person_socialSecurityNumber and socialSecurityNumber = '" + username + "';");
@@ -79,9 +79,12 @@ public class DBConnect {
             alert.setHeaderText("Username or password is incorrect!");
             alert.setTitle("Error");
             alert.showAndWait();
-
         }
-        return dataBasePassword;
+        if (dataBasePassword.equals(password)){
+            return true;
+        }else {
+            return false;
+        }
     }
 
     public ArrayList getUnderDepartments(String department) {

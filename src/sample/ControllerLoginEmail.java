@@ -41,17 +41,9 @@ public class ControllerLoginEmail implements Initializable {
 
         DBConnect dbConnect = new DBConnect();
 
-//        Button button = (Button) event.getSource();
-//        if (button.getId().equals("mailButton")){
-//            hest = "sampleMail";
-//        }else if (button.getId().equals("settingsButton")){
-//            hest = "sampleSettings";
-//        }
+        if (dbConnect.isPasswordCorrect(username, password)) {
 
-
-        if (password.equals(dbConnect.getUser(username))) {
-
-            dbConnect.getData(username);
+            dbConnect.setUser(username);
 
             Stage stage = new Stage();
             FXMLLoader fxmlLoader = new FXMLLoader();

@@ -6,9 +6,7 @@ public class Singleton {
     private User user;
     boolean fullScreenSetting;
 
-    public static Singleton getOurInstance() {
-        return ourInstance;
-    }
+
 
     public boolean isFullScreenSetting() {
         return fullScreenSetting;
@@ -18,9 +16,6 @@ public class Singleton {
         this.fullScreenSetting = fullScreenSetting;
     }
 
-    public static void setOurInstance(Singleton ourInstance) {
-        Singleton.ourInstance = ourInstance;
-    }
 
     public User getUser() {
         return user;

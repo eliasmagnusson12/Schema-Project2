@@ -47,9 +47,9 @@ public class ControllerLoginChangePassword implements Initializable {
 //        }
 
 
-        if (password.equals(dbConnect.getUser(username))) {
+        if ((dbConnect.isPasswordCorrect(username, password))) {
 
-            dbConnect.getData(username);
+            dbConnect.setUser(username);
 
             Stage stage = new Stage();
             FXMLLoader fxmlLoader = new FXMLLoader();
