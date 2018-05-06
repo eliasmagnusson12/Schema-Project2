@@ -43,8 +43,7 @@ public class ControllerAddEmployee implements Initializable {
         anchorPane.setBackground(new Background(backgroundImage));
 
         Image checkImage = new Image("resourses/check.png");
-        ImageView checkImageView = new ImageView(checkImage);
-        addButton.setGraphic(checkImageView);
+        addButton.setGraphic(new ImageView(checkImage));
         addButton.setStyle("-fx-background-color: TRANSPARENT");
 
         firstNameTextField.addEventFilter(KeyEvent.KEY_TYPED, letter_Validation(20));

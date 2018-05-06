@@ -40,7 +40,7 @@ import static javafx.application.Application.STYLESHEET_CASPIAN;
 public class ControllerCalendar implements Initializable {
 
      @FXML
-     private GridPane gridPane, smallGridPane, miniGridPane;
+     private GridPane gridPane, miniGridPane;
      @FXML
      private Pane pane;
      @FXML
@@ -67,24 +67,24 @@ public class ControllerCalendar implements Initializable {
         pane.setBackground(new Background(backgroundImage));
 
         Image forwardImage = new Image("resourses/arrowF.png");
-        ImageView forwardImageView = new ImageView(forwardImage);
-        nextWeek.setGraphic(forwardImageView);
+        nextWeek.setGraphic(new ImageView(forwardImage));
         nextWeek.setStyle("-fx-background-color: TRANSPARENT");
 
         Image backImage = new Image("resourses/arrowB.png");
-        ImageView backImageView = new ImageView(backImage);
-        lastWeek.setGraphic(backImageView);
+        lastWeek.setGraphic(new ImageView(backImage));
         lastWeek.setStyle("-fx-background-color: TRANSPARENT");
 
         Image homeImage = new Image("resourses/home.png");
-        ImageView homeImageView = new ImageView(homeImage);
-        homeButton.setGraphic(homeImageView);
+        homeButton.setGraphic(new ImageView(homeImage));
         homeButton.setStyle("-fx-background-color: TRANSPARENT");
 
+        Image pdfImage = new Image("resourses/pdficon.png");
+        savePdfButton.setGraphic(new ImageView(pdfImage));
+        savePdfButton.setStyle("-fx-background-color: TRANSPARENT");
+
         Image addImage = new Image("resourses/add.png");
-        ImageView addImageView = new ImageView(addImage);
         Image changeImage = new Image("resourses/change.png");
-        ImageView changeImageView = new ImageView(changeImage);
+        Image removeImage = new Image("resourses/remove.png");
 
         Image smallLogoImage = new Image("resourses/smallLogo.png");
         ImageView smallLogoImageView = new ImageView(smallLogoImage);
@@ -92,27 +92,22 @@ public class ControllerCalendar implements Initializable {
         smallLogoImageView.layoutXProperty().bind(gridPane.widthProperty().add(275));
         smallLogoImageView.layoutYProperty().bind(gridPane.heightProperty());
 
-        Image pdfImage = new Image("resourses/pdficon.png");
-        ImageView pdfImageView = new ImageView(pdfImage);
-        savePdfButton.setGraphic(pdfImageView);
-        savePdfButton.setStyle("-fx-background-color: TRANSPARENT");
-
         setUserInfo();
 
         if (Singleton.getInstance().getUser().getRole().equals("Boss") || Singleton.getInstance().getUser().getRole().equals("Admin")) {
-            addEmployeeButton.setGraphic(addImageView);
+            addEmployeeButton.setGraphic(new ImageView(addImage));
             addEmployeeButton.setStyle("-fx-background-color: TRANSPARENT");
 
-            changeScheduleButton.setGraphic(changeImageView);
+            changeScheduleButton.setGraphic(new ImageView(changeImage));
             changeScheduleButton.setStyle("-fx-background-color: TRANSPARENT");
+
+            deleteEmployeeButton.setGraphic(new ImageView(removeImage));
+            deleteEmployeeButton.setStyle("-fx-background-color: TRANSPARENT");
         }else {
-            addEmployeeButton.setGraphic(addImageView);
-            addEmployeeButton.setStyle("-fx-background-color: TRANSPARENT");
+
             addEmployeeButton.setDisable(true);
             addEmployeeButton.setVisible(false);
 
-            changeScheduleButton.setGraphic(changeImageView);
-            changeScheduleButton.setStyle("-fx-background-color: TRANSPARENT");
             changeScheduleButton.setDisable(true);
             changeScheduleButton.setVisible(false);
 
@@ -121,21 +116,20 @@ public class ControllerCalendar implements Initializable {
         }
 
         gridPane.prefWidthProperty().bind(pane.widthProperty().multiply(0.6));
-        gridPane.prefHeightProperty().bind(pane.heightProperty().multiply(0.8));
 
-        smallGridPane.prefWidthProperty().bind(pane.widthProperty().multiply(0.6));
+        gridPane.prefHeightProperty().bind(pane.heightProperty().multiply(0.8));
 
         miniGridPane.prefWidthProperty().bind(pane.widthProperty().multiply(0.6));
 
-        monday.prefWidthProperty().bind(smallGridPane.widthProperty());
-        tuesday.prefWidthProperty().bind(smallGridPane.widthProperty());
-        wednesday.prefWidthProperty().bind(smallGridPane.widthProperty());
-        thursday.prefWidthProperty().bind(smallGridPane.widthProperty());
-        friday.prefWidthProperty().bind(smallGridPane.widthProperty());
-        saturday.prefWidthProperty().bind(smallGridPane.widthProperty());
-        sunday.prefWidthProperty().bind(smallGridPane.widthProperty());
+        monday.prefWidthProperty().bind(gridPane.widthProperty());
+        tuesday.prefWidthProperty().bind(gridPane.widthProperty());
+        wednesday.prefWidthProperty().bind(gridPane.widthProperty());
+        thursday.prefWidthProperty().bind(gridPane.widthProperty());
+        friday.prefWidthProperty().bind(gridPane.widthProperty());
+        saturday.prefWidthProperty().bind(gridPane.widthProperty());
+        sunday.prefWidthProperty().bind(gridPane.widthProperty());
 
-        nextWeek.layoutXProperty().bind(smallGridPane.widthProperty().add(285));
+        nextWeek.layoutXProperty().bind(gridPane.widthProperty().add(285));
         textFieldMonday.prefHeightProperty().bind(gridPane.heightProperty());
         textFieldTuesday.prefHeightProperty().bind(gridPane.heightProperty());
         textFieldWednesday.prefHeightProperty().bind(gridPane.heightProperty());
@@ -144,8 +138,9 @@ public class ControllerCalendar implements Initializable {
         textFieldSaturday.prefHeightProperty().bind(gridPane.heightProperty());
         textFieldSunday.prefHeightProperty().bind(gridPane.heightProperty());
         weekLabel.prefWidthProperty().bind(miniGridPane.widthProperty());
-        addEmployeeButton.layoutXProperty().bind(smallGridPane.widthProperty().add(385));
-        changeScheduleButton.layoutXProperty().bind(smallGridPane.widthProperty().add(385));
+        addEmployeeButton.layoutXProperty().bind(gridPane.widthProperty().add(385));
+        changeScheduleButton.layoutXProperty().bind(gridPane.widthProperty().add(385));
+        deleteEmployeeButton.layoutXProperty().bind(gridPane.widthProperty().add(385));
 
         loggedInLabel.layoutYProperty().bind(gridPane.heightProperty().add(60));
         nameLabel.layoutYProperty().bind(gridPane.heightProperty().add(80));
@@ -156,8 +151,6 @@ public class ControllerCalendar implements Initializable {
         setWeekLabel(weekString);
 
             setToday();
-
-
     }
 
     private void setWeekLabel(String weekString){

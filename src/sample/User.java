@@ -9,6 +9,7 @@ public class User {
     private String email;
     private String phoneNumber;
     private String departmentName;
+    private String ssn;
 
 
     public void setFirstName(String firstName) {
@@ -65,5 +66,13 @@ public class User {
 
     public String getDepartmentName() {
         return departmentName;
+    }
+
+    public String getSsn() {
+        return ssn;
+    }
+
+    public void setSsn(String ssn) {
+        this.ssn = ssn;
     }
 }

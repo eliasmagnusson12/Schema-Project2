@@ -21,9 +21,12 @@ public class ControllerLoginChangePassword implements Initializable {
 
 
     @FXML
-    private TextField usernameTextfield, passwordTextField;
+    private TextField usernameTextField, passwordTextField;
     @FXML
     private AnchorPane pane;
+
+    private String username;
+
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         Image background = new Image("resourses/2.jpg");
@@ -34,39 +37,40 @@ public class ControllerLoginChangePassword implements Initializable {
 
     @FXML
     private void handleLoginButton(ActionEvent event) throws SQLException, IOException {
-        String username = usernameTextfield.getText();
+        username = usernameTextField.getText();
         String password = passwordTextField.getText();
 
         DBConnect dbConnect = new DBConnect();
 
-//        Button button = (Button) event.getSource();
-//        if (button.getId().equals("mailButton")){
-//            hest = "sampleMail";
-//        }else if (button.getId().equals("settingsButton")){
-//            hest = "sampleSettings";
-//        }
+        if (username.isEmpty()) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Error");
+            alert.setHeaderText("Please enter username");
+            alert.showAndWait();
+        } else if (password.isEmpty()) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Error");
+            alert.setHeaderText("Please enter password");
+            alert.showAndWait();
 
-
-        if ((dbConnect.isPasswordCorrect(username, password))) {
+        } else if ((dbConnect.isPasswordCorrect(username, password))) {
 
             dbConnect.setUser(username);
 
             Stage stage = new Stage();
             FXMLLoader fxmlLoader = new FXMLLoader();
-            fxmlLoader.setLocation(getClass().getResource(  "sampleChangePassword.fxml"));
+            fxmlLoader.setLocation(getClass().getResource("sampleChangePassword.fxml"));
             stage.setTitle("Change Password");
             Scene scene = new Scene(fxmlLoader.load());
             stage.setScene(scene);
             stage.show();
             ((Node) (event.getSource())).getScene().getWindow().hide();
-        }else {
+        } else {
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("Error");
             alert.setHeaderText("Wrong username or password.");
             alert.showAndWait();
         }
-
-        //test test test
     }
-    }
+}
 

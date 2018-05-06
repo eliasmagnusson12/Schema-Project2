@@ -1,5 +1,6 @@
 package sample;
 
+import javafx.beans.property.StringProperty;
 import javafx.scene.control.Alert;
 
 import java.sql.*;
@@ -12,6 +13,7 @@ public class DBConnect {
     private Statement st;
     private String dataBasePassword;
     private String sql;
+    private Connection c;
 
     private String firstName;
     private String lastName;
@@ -20,13 +22,16 @@ public class DBConnect {
     private String email;
     private String phoneNumber;
     private String departementName;
+    private String ssn;
+
 
     private ArrayList<String> list = new ArrayList<>();
     private ControllerMail cm = new ControllerMail();
 
+
     public DBConnect() {
         try {
-            Connection c = DriverManager.getConnection(url);
+            c = DriverManager.getConnection(url);
             st = c.createStatement();
         } catch (SQLException ex) {
             System.out.println("Failed to connect to database!");
@@ -48,6 +53,7 @@ public class DBConnect {
             email = rs.getString("email");
             phoneNumber = rs.getString("phoneNumber");
             departementName = rs.getString("underDepartment_underDepartmentName");
+            ssn = username;
 
 
         }
@@ -59,6 +65,7 @@ public class DBConnect {
             user.setEmail(email);
             user.setPhoneNumber(phoneNumber);
             user.setDepartmentName(departementName);
+            user.setSsn(ssn);
 
             Singleton.getInstance().setUser(user);
 
@@ -72,6 +79,8 @@ public class DBConnect {
             ResultSet rs = st.executeQuery(sql);
             if (rs.next()) {
                 dataBasePassword = rs.getString("password");
+            }else{
+                return false;
             }
 
         } catch (Exception e) {
@@ -197,7 +206,7 @@ public class DBConnect {
         }catch (Exception e){
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("Error");
-            alert.setHeaderText("Something went wrong with delete underdepartment!");
+            alert.setHeaderText("Something went wrong with delete under department!");
             alert.showAndWait();
         }
 
@@ -207,8 +216,28 @@ public class DBConnect {
         }catch (Exception e){
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("Error");
-            alert.setHeaderText("Something went wrong with  delete person!");
+            alert.setHeaderText("Something went wrong with delete person!");
             alert.showAndWait();
         }
+    }
+
+    public boolean changePassword(String ssn, String password) throws SQLException {
+        int action;
+        boolean answer = false;
+        String sql = ("UPDATE login SET password = '" + password + "' WHERE person_socialSecurityNumber = '" + ssn + "';");
+        try{
+        action = st.executeUpdate(sql);
+        if (action > 0){
+            answer = true;
+        }
+
+
+    }catch (Exception e){
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Error");
+            alert.setHeaderText("Something went wrong with update password!");
+            alert.showAndWait();
+        }
+        return answer;
     }
 }

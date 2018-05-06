@@ -33,8 +33,7 @@ public class ControllerDeletePerson implements Initializable {
         anchorPane.setBackground(new Background(backgroundImage));
 
         Image checkImage = new Image("resourses/check.png");
-        ImageView checkImageView = new ImageView(checkImage);
-        okDeleteButton.setGraphic(checkImageView);
+        okDeleteButton.setGraphic(new ImageView(checkImage));
         okDeleteButton.setStyle("-fx-background-color: TRANSPARENT");
 
         Platform.runLater(new Runnable() {

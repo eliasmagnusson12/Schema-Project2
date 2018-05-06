@@ -45,8 +45,7 @@ public class ControllerResetPassword implements Initializable {
         anchorPane.setBackground(new Background(backgroundImage));
 
         Image back = new Image("resourses/arrowBsmall.png");
-        ImageView imageView1 = new ImageView(back);
-        backButton.setGraphic(imageView1);
+        backButton.setGraphic(new ImageView(back));
         backButton.setStyle("-fx-background-color: TRANSPARENT");
 
     }

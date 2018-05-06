@@ -44,11 +44,12 @@ public class ControllerLogin implements Initializable {
         Image background = new Image("resourses/2.jpg");
         BackgroundImage backgroundImage = new BackgroundImage(background, BackgroundRepeat.REPEAT, BackgroundRepeat.REPEAT, BackgroundPosition.CENTER, BackgroundSize.DEFAULT);
         anchorPane.setBackground(new Background(backgroundImage));
+
         Image logo = new Image("resourses/logo.png");
-        ImageView imageView = new ImageView(logo);
-        anchorPane.getChildren().add(imageView);
-        imageView.fitWidthProperty().bind(anchorPane.widthProperty().divide(1.5));
-        imageView.setX(80);
+        ImageView logoImageView = new ImageView(logo);
+        anchorPane.getChildren().add(logoImageView);
+        logoImageView.fitWidthProperty().bind(anchorPane.widthProperty().divide(1.5));
+        logoImageView.setX(80);
 
         Image back = new Image("resourses/arrowBsmall.png");
         ImageView imageView1 = new ImageView(back);
@@ -79,7 +80,18 @@ public class ControllerLogin implements Initializable {
 
         saveLoginData();
 
-        if (dbConnect.isPasswordCorrect(username, password)) {
+        if (username.isEmpty()) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Error");
+            alert.setHeaderText("Please enter username");
+            alert.showAndWait();
+        } else if (password.isEmpty()) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Error");
+            alert.setHeaderText("Please enter password");
+            alert.showAndWait();
+
+        }else if (dbConnect.isPasswordCorrect(username, password)) {
 
             dbConnect.setUser(username);
 

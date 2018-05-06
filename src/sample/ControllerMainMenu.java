@@ -36,36 +36,30 @@ public class ControllerMainMenu implements Initializable {
         ImageView imageView = new ImageView(logo);
         anchorPane.getChildren().add(imageView);
         imageView.fitWidthProperty().bind(anchorPane.widthProperty().divide(1.5));
-        imageView.setX(80);
+        imageView.setX(70);
 
         Image exitImage = new Image("resourses/exit.png");
-        ImageView exitImageView = new ImageView(exitImage);
-        exitButton.setGraphic(exitImageView);
+        exitButton.setGraphic(new ImageView(exitImage));
         exitButton.setStyle("-fx-background-color: TRANSPARENT");
 
         Image settingsImage = new Image("resourses/settings.png");
-        ImageView settingsImageView = new ImageView(settingsImage);
-        settingsButton.setGraphic(settingsImageView);
+        settingsButton.setGraphic(new ImageView(settingsImage));
         settingsButton.setStyle("-fx-background-color: TRANSPARENT");
 
         Image mailImage = new Image("resourses/email.png");
-        ImageView mailImageView = new ImageView(mailImage);
-        mailButton.setGraphic(mailImageView);
+        mailButton.setGraphic(new ImageView(mailImage));
         mailButton.setStyle("-fx-background-color: TRANSPARENT");
 
         Image loginImage = new Image("resourses/login.png");
-        ImageView loginImageView = new ImageView(loginImage);
-        loginButton.setGraphic(loginImageView);
+        loginButton.setGraphic(new ImageView(loginImage));
         loginButton.setStyle("-fx-background-color: TRANSPARENT");
 
         Image helpImage = new Image("resourses/help.png");
-        ImageView helpImageView = new ImageView(helpImage);
-        helpButton.setGraphic(helpImageView);
+        helpButton.setGraphic(new ImageView(helpImage));
         helpButton.setStyle("-fx-background-color: TRANSPARENT");
 
         Image infoImage = new Image("resourses/info.png");
-        ImageView infoImageView = new ImageView(infoImage);
-        infoButton.setGraphic(infoImageView);
+        infoButton.setGraphic(new ImageView(infoImage));
         infoButton.setStyle("-fx-background-color: TRANSPARENT");
 
     }
