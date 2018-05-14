@@ -29,7 +29,7 @@ public class ControllerLoginChangePassword implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        Image background = new Image("resourses/2.jpg");
+        Image background = new Image("resources/2.jpg");
         BackgroundImage backgroundImage = new BackgroundImage(background, BackgroundRepeat.REPEAT, BackgroundRepeat.REPEAT, BackgroundPosition.CENTER, BackgroundSize.DEFAULT);
         pane.setBackground(new Background(backgroundImage));
 

@@ -1,7 +1,6 @@
 package sample;
 
 import javafx.event.ActionEvent;
-import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -41,22 +40,22 @@ public class ControllerLogin implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        Image background = new Image("resourses/2.jpg");
+        Image background = new Image("resources/2.jpg");
         BackgroundImage backgroundImage = new BackgroundImage(background, BackgroundRepeat.REPEAT, BackgroundRepeat.REPEAT, BackgroundPosition.CENTER, BackgroundSize.DEFAULT);
         anchorPane.setBackground(new Background(backgroundImage));
 
-        Image logo = new Image("resourses/logo.png");
+        Image logo = new Image("resources/logo.png");
         ImageView logoImageView = new ImageView(logo);
         anchorPane.getChildren().add(logoImageView);
         logoImageView.fitWidthProperty().bind(anchorPane.widthProperty().divide(1.5));
         logoImageView.setX(80);
 
-        Image back = new Image("resourses/arrowBsmall.png");
+        Image back = new Image("resources/arrowBsmall.png");
         ImageView imageView1 = new ImageView(back);
         backButton.setGraphic(imageView1);
         backButton.setStyle("-fx-background-color: TRANSPARENT");
 
-        Image signInImage = new Image("resourses/signIn.png");
+        Image signInImage = new Image("resources/signIn.png");
         ImageView signInImageView = new ImageView(signInImage);
         loginButton.setGraphic(signInImageView);
         loginButton.setStyle("-fx-background-color: TRANSPARENT");
@@ -94,6 +93,8 @@ public class ControllerLogin implements Initializable {
         }else if (dbConnect.isPasswordCorrect(username, password)) {
 
             dbConnect.setUser(username);
+            dbConnect.getAllEmployees();
+            dbConnect.getAllUnderDepartments();
 
             Stage stage = new Stage();
             FXMLLoader fxmlLoader = new FXMLLoader();

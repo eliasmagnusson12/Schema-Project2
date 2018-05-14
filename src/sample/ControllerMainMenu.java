@@ -28,37 +28,37 @@ public class ControllerMainMenu implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        Image image = new Image("resourses/2.jpg");
+        Image image = new Image("resources/2.jpg");
         BackgroundImage backgroundImage = new BackgroundImage(image, BackgroundRepeat.REPEAT, BackgroundRepeat.REPEAT, BackgroundPosition.CENTER, BackgroundSize.DEFAULT);
         anchorPane.setBackground(new Background(backgroundImage));
 
-        Image logo = new Image("resourses/logo.png");
+        Image logo = new Image("resources/logo.png");
         ImageView imageView = new ImageView(logo);
         anchorPane.getChildren().add(imageView);
         imageView.fitWidthProperty().bind(anchorPane.widthProperty().divide(1.5));
         imageView.setX(70);
 
-        Image exitImage = new Image("resourses/exit.png");
+        Image exitImage = new Image("resources/exit.png");
         exitButton.setGraphic(new ImageView(exitImage));
         exitButton.setStyle("-fx-background-color: TRANSPARENT");
 
-        Image settingsImage = new Image("resourses/settings.png");
+        Image settingsImage = new Image("resources/settings.png");
         settingsButton.setGraphic(new ImageView(settingsImage));
         settingsButton.setStyle("-fx-background-color: TRANSPARENT");
 
-        Image mailImage = new Image("resourses/email.png");
+        Image mailImage = new Image("resources/email.png");
         mailButton.setGraphic(new ImageView(mailImage));
         mailButton.setStyle("-fx-background-color: TRANSPARENT");
 
-        Image loginImage = new Image("resourses/login.png");
+        Image loginImage = new Image("resources/login.png");
         loginButton.setGraphic(new ImageView(loginImage));
         loginButton.setStyle("-fx-background-color: TRANSPARENT");
 
-        Image helpImage = new Image("resourses/help.png");
+        Image helpImage = new Image("resources/help.png");
         helpButton.setGraphic(new ImageView(helpImage));
         helpButton.setStyle("-fx-background-color: TRANSPARENT");
 
-        Image infoImage = new Image("resourses/info.png");
+        Image infoImage = new Image("resources/info.png");
         infoButton.setGraphic(new ImageView(infoImage));
         infoButton.setStyle("-fx-background-color: TRANSPARENT");
 

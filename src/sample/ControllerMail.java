@@ -20,7 +20,6 @@ import javax.mail.internet.AddressException;
 import javax.mail.internet.*;
 import javax.mail.internet.MimeMessage;
 import java.net.URL;
-import java.security.SecureRandom;
 import java.util.Properties;
 import java.util.ResourceBundle;
 
@@ -51,11 +50,11 @@ public class ControllerMail implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        Image smallBackgroundImage = new Image("resourses/2.jpg");
+        Image smallBackgroundImage = new Image("resources/2.jpg");
         BackgroundImage backgroundImage = new BackgroundImage(smallBackgroundImage, BackgroundRepeat.REPEAT, BackgroundRepeat.REPEAT, BackgroundPosition.CENTER, BackgroundSize.DEFAULT);
         anchorPane.setBackground(new Background(backgroundImage));
 
-        Image sendImage = new Image("resourses/sendButton.png");
+        Image sendImage = new Image("resources/sendButton.png");
         send.setGraphic(new ImageView(sendImage));
         send.setStyle("-fx-background-color: TRANSPARENT");
 

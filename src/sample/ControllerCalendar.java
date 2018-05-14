@@ -1,6 +1,5 @@
 package sample;
 
-import javafx.css.Stylesheet;
 import javafx.event.ActionEvent;
 
 import javafx.fxml.FXML;
@@ -8,13 +7,11 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 
 
-import javafx.print.Printer;
 import javafx.print.PrinterJob;
 import javafx.scene.Group;
 import javafx.scene.Node;
 
 import javafx.scene.Scene;
-import javafx.scene.SnapshotResult;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
@@ -25,68 +22,70 @@ import javafx.scene.image.WritableImage;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
-import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
-import java.io.File;
 import java.io.IOException;
 import java.net.URL;
+import java.sql.SQLException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
-import static javafx.application.Application.STYLESHEET_CASPIAN;
-
 public class ControllerCalendar implements Initializable {
 
-     @FXML
-     private GridPane gridPane, miniGridPane;
-     @FXML
-     private Pane pane;
-     @FXML
-     private Button monday, tuesday, wednesday, thursday, friday, saturday, sunday;
-     @FXML
-     private Button changeScheduleButton, addEmployeeButton, deleteEmployeeButton, lastWeek, nextWeek, homeButton, savePdfButton;
-     @FXML
-     private TextField textFieldMonday, textFieldTuesday, textFieldWednesday, textFieldThursday, textFieldFriday, textFieldSaturday, textFieldSunday;
-     @FXML
-     private Label nameLabel, weekLabel, loggedInLabel;
     @FXML
-     private Group group;
+    private GridPane gridPane, miniGridPane;
+    @FXML
+    private Pane pane;
+    @FXML
+    private Button monday, tuesday, wednesday, thursday, friday, saturday, sunday;
+    @FXML
+    private Button changeScheduleButton, addEmployeeButton, deleteEmployeeButton, lastWeek, nextWeek, homeButton, savePdfButton;
+    @FXML
+    private TextField textFieldMonday, textFieldTuesday, textFieldWednesday, textFieldThursday, textFieldFriday, textFieldSaturday, textFieldSunday;
+    @FXML
+    private Label nameLabel, weekLabel, loggedInLabel;
+    @FXML
+    private Group group;
+    @FXML
+    private VBox mondayVBox;
 
-     private Week week;
-     private String weekString;
-     private int weekChosen = 0;
-     private Calendar calendar = new GregorianCalendar(Locale.ENGLISH);
-
+    private Week week;
+    private String weekString;
+    private int weekChosen = 0;
+    private int amount = 0;
+    private Calendar calendar = new GregorianCalendar(Locale.ENGLISH);
+    private ArrayList<Schedule> scheduleList = new ArrayList<>();
+    private ArrayList<Button> listOfButtons = new ArrayList<>();
+    private DBConnect dbConnect = new DBConnect();
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        Image background = new Image("resourses/2.jpg");
+        Image background = new Image("resources/2.jpg");
         BackgroundImage backgroundImage = new BackgroundImage(background, BackgroundRepeat.REPEAT, BackgroundRepeat.REPEAT, BackgroundPosition.CENTER, BackgroundSize.DEFAULT);
         pane.setBackground(new Background(backgroundImage));
 
-        Image forwardImage = new Image("resourses/arrowF.png");
+        Image forwardImage = new Image("resources/arrowF.png");
         nextWeek.setGraphic(new ImageView(forwardImage));
         nextWeek.setStyle("-fx-background-color: TRANSPARENT");
 
-        Image backImage = new Image("resourses/arrowB.png");
+        Image backImage = new Image("resources/arrowB.png");
         lastWeek.setGraphic(new ImageView(backImage));
         lastWeek.setStyle("-fx-background-color: TRANSPARENT");
 
-        Image homeImage = new Image("resourses/home.png");
+        Image homeImage = new Image("resources/home.png");
         homeButton.setGraphic(new ImageView(homeImage));
         homeButton.setStyle("-fx-background-color: TRANSPARENT");
 
-        Image pdfImage = new Image("resourses/pdficon.png");
+        Image pdfImage = new Image("resources/pdficon.png");
         savePdfButton.setGraphic(new ImageView(pdfImage));
         savePdfButton.setStyle("-fx-background-color: TRANSPARENT");
 
-        Image addImage = new Image("resourses/add.png");
-        Image changeImage = new Image("resourses/change.png");
-        Image removeImage = new Image("resourses/remove.png");
+        Image addImage = new Image("resources/add.png");
+        Image changeImage = new Image("resources/change.png");
+        Image removeImage = new Image("resources/remove.png");
 
-        Image smallLogoImage = new Image("resourses/smallLogo.png");
+        Image smallLogoImage = new Image("resources/smallLogo.png");
         ImageView smallLogoImageView = new ImageView(smallLogoImage);
         pane.getChildren().add(smallLogoImageView);
         smallLogoImageView.layoutXProperty().bind(gridPane.widthProperty().add(275));
@@ -103,7 +102,7 @@ public class ControllerCalendar implements Initializable {
 
             deleteEmployeeButton.setGraphic(new ImageView(removeImage));
             deleteEmployeeButton.setStyle("-fx-background-color: TRANSPARENT");
-        }else {
+        } else {
 
             addEmployeeButton.setDisable(true);
             addEmployeeButton.setVisible(false);
@@ -130,13 +129,13 @@ public class ControllerCalendar implements Initializable {
         sunday.prefWidthProperty().bind(gridPane.widthProperty());
 
         nextWeek.layoutXProperty().bind(gridPane.widthProperty().add(285));
-        textFieldMonday.prefHeightProperty().bind(gridPane.heightProperty());
-        textFieldTuesday.prefHeightProperty().bind(gridPane.heightProperty());
-        textFieldWednesday.prefHeightProperty().bind(gridPane.heightProperty());
-        textFieldThursday.prefHeightProperty().bind(gridPane.heightProperty());
-        textFieldFriday.prefHeightProperty().bind(gridPane.heightProperty());
-        textFieldSaturday.prefHeightProperty().bind(gridPane.heightProperty());
-        textFieldSunday.prefHeightProperty().bind(gridPane.heightProperty());
+//        textFieldMonday.prefHeightProperty().bind(gridPane.heightProperty());
+//        textFieldTuesday.prefHeightProperty().bind(gridPane.heightProperty());
+//        textFieldWednesday.prefHeightProperty().bind(gridPane.heightProperty());
+//        textFieldThursday.prefHeightProperty().bind(gridPane.heightProperty());
+//        textFieldFriday.prefHeightProperty().bind(gridPane.heightProperty());
+//        textFieldSaturday.prefHeightProperty().bind(gridPane.heightProperty());
+//        textFieldSunday.prefHeightProperty().bind(gridPane.heightProperty());
         weekLabel.prefWidthProperty().bind(miniGridPane.widthProperty());
         addEmployeeButton.layoutXProperty().bind(gridPane.widthProperty().add(385));
         changeScheduleButton.layoutXProperty().bind(gridPane.widthProperty().add(385));
@@ -150,10 +149,11 @@ public class ControllerCalendar implements Initializable {
         weekString = Integer.toString(week.getWeek());
         setWeekLabel(weekString);
 
-            setToday();
+        getScheduleList();
+        setToday();
     }
 
-    private void setWeekLabel(String weekString){
+    private void setWeekLabel(String weekString) {
 
         weekLabel.setText("Week " + weekString);
     }
@@ -209,7 +209,7 @@ public class ControllerCalendar implements Initializable {
         String reportDate;
         calendar.setFirstDayOfWeek(Calendar.MONDAY);
 
-        switch (day){
+        switch (day) {
             case "Monday":
                 calendar.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY);
                 Date one = calendar.getTime();
@@ -263,12 +263,13 @@ public class ControllerCalendar implements Initializable {
 
     }
 
-    @FXML private void handleMouseButtonExited(MouseEvent event) {
+    @FXML
+    private void handleMouseButtonExited(MouseEvent event) {
         Button button = (Button) event.getSource();
 
         String text = button.getId();
 
-        switch (text){
+        switch (text) {
             case "monday":
                 monday.setText("Monday");
                 break;
@@ -299,23 +300,25 @@ public class ControllerCalendar implements Initializable {
     }
 
     @FXML
-    private void changeWeekForward(ActionEvent event){
+    private void changeWeekForward(ActionEvent event) {
         Week week = new Week();
         weekChosen++;
         calendar.add(Calendar.WEEK_OF_YEAR, 1);
         weekString = String.valueOf(week.getNextWeek(weekChosen));
         setWeekLabel(weekString);
         setToday();
+        getScheduleList();
     }
 
     @FXML
-    private void changeWeekBackwards(ActionEvent event){
+    private void changeWeekBackwards(ActionEvent event) {
         Week week = new Week();
         weekChosen--;
         calendar.add(Calendar.WEEK_OF_YEAR, -1);
         weekString = String.valueOf(week.getNextWeek(weekChosen));
         setWeekLabel(weekString);
         setToday();
+        getScheduleList();
     }
 
     @FXML
@@ -344,8 +347,8 @@ public class ControllerCalendar implements Initializable {
     }
 
     private void setUserInfo() {
-    User user = Singleton.getInstance().getUser();
-    nameLabel.setText(user.getFirstName() + " " + user.getLastName());
+        User user = Singleton.getInstance().getUser();
+        nameLabel.setText(user.getFirstName() + " " + user.getLastName());
     }
 
     @FXML
@@ -400,4 +403,58 @@ public class ControllerCalendar implements Initializable {
         stage.show();
 
     }
-}
+
+    @FXML
+    private void changeScheduleButton(ActionEvent event) throws IOException {
+        Stage stage = new Stage();
+        FXMLLoader fxmlLoader = new FXMLLoader();
+        fxmlLoader.setLocation(getClass().getResource("sampleChangeSchedule.fxml"));
+        stage.setTitle("Change Schedule");
+        Scene scene = new Scene(fxmlLoader.load(), 640, 480);
+        stage.setResizable(false);
+        stage.setScene(scene);
+        stage.show();
+    }
+
+    private void getScheduleList() {
+
+        try {
+            scheduleList = dbConnect.getSchedule();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+            mondayVBox.getChildren().clear();
+
+            int displayedWeek = Integer.valueOf(weekString);
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+            Calendar cal = Calendar.getInstance();
+            cal.set(Calendar.WEEK_OF_YEAR, displayedWeek);
+            cal.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY);
+
+
+            Button button = null;
+            for (int i = 0; i < scheduleList.size(); i++) {
+                Schedule schedule = scheduleList.get(i);
+
+                if (schedule.getDate().equals(sdf.format(cal.getTime()))) {
+                    amount++;
+                    System.out.println(amount);
+                }
+            }
+                for (int i = 0; i < amount; i++) {
+                    button = new Button();
+                    listOfButtons.add(button);
+                    button.setStyle("-fx-background-color: LIGHTBLUE");
+                    button.setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE);
+
+                    mondayVBox.setMinHeight(gridPane.getHeight());
+                    button.setMinHeight(mondayVBox.getPrefHeight());
+                    mondayVBox.setSpacing(5);
+                    mondayVBox.getChildren().add(listOfButtons.get(i));
+
+
+            }
+        }
+    }
+

@@ -3,11 +3,11 @@
 <?import javafx.scene.Group?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
 <Pane fx:id="pane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.ControllerCalendar">
@@ -29,13 +29,6 @@
                 <RowConstraints minHeight="10.0" prefHeight="527.0" vgrow="SOMETIMES" />
               </rowConstraints>
                <children>
-                  <TextField fx:id="textFieldMonday" editable="false" prefHeight="576.0" prefWidth="106.0" GridPane.rowIndex="1" />
-                  <TextField fx:id="textFieldTuesday" editable="false" prefHeight="576.0" prefWidth="106.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-                  <TextField fx:id="textFieldWednesday" alignment="CENTER" editable="false" prefHeight="576.0" prefWidth="106.0" GridPane.columnIndex="2" GridPane.rowIndex="1" />
-                  <TextField fx:id="textFieldThursday" alignment="CENTER" editable="false" prefHeight="576.0" prefWidth="106.0" GridPane.columnIndex="3" GridPane.rowIndex="1" />
-                  <TextField fx:id="textFieldFriday" editable="false" prefHeight="576.0" prefWidth="106.0" GridPane.columnIndex="4" GridPane.rowIndex="1" />
-                  <TextField fx:id="textFieldSaturday" alignment="CENTER" editable="false" prefHeight="576.0" prefWidth="106.0" GridPane.columnIndex="5" GridPane.rowIndex="1" />
-                  <TextField fx:id="textFieldSunday" editable="false" prefHeight="576.0" prefWidth="106.0" GridPane.columnIndex="6" GridPane.rowIndex="1" />
                   <Button fx:id="monday" mnemonicParsing="false" onMouseEntered="#handleMouseButtonEntered" onMouseExited="#handleMouseButtonExited" prefHeight="31.0" prefWidth="105.0" text="Monday" />
                   <Button fx:id="tuesday" mnemonicParsing="false" onMouseEntered="#handleMouseButtonEntered" onMouseExited="#handleMouseButtonExited" prefHeight="31.0" prefWidth="108.0" text="Tuesday" GridPane.columnIndex="1" />
                   <Button fx:id="wednesday" mnemonicParsing="false" onMouseEntered="#handleMouseButtonEntered" onMouseExited="#handleMouseButtonExited" prefHeight="31.0" prefWidth="108.0" text="Wednesday" GridPane.columnIndex="2" />
@@ -43,6 +36,7 @@
                   <Button fx:id="friday" mnemonicParsing="false" onMouseEntered="#handleMouseButtonEntered" onMouseExited="#handleMouseButtonExited" prefHeight="31.0" prefWidth="108.0" text="Friday" GridPane.columnIndex="4" />
                   <Button fx:id="saturday" mnemonicParsing="false" onMouseEntered="#handleMouseButtonEntered" onMouseExited="#handleMouseButtonExited" prefHeight="31.0" prefWidth="108.0" text="Saturday" GridPane.columnIndex="5" />
                   <Button fx:id="sunday" mnemonicParsing="false" onMouseEntered="#handleMouseButtonEntered" onMouseExited="#handleMouseButtonExited" prefHeight="31.0" prefWidth="108.0" text="Sunday" textFill="#ee0808" GridPane.columnIndex="6" />
+                  <VBox fx:id="mondayVBox" prefHeight="200.0" prefWidth="100.0" GridPane.rowIndex="1" />
                </children>
             </GridPane>
             <GridPane fx:id="miniGridPane" layoutX="266.0" layoutY="58.0" prefHeight="31.0" prefWidth="742.0">
@@ -78,7 +72,7 @@
       <Button fx:id="savePdfButton" layoutX="100.0" layoutY="245.0" mnemonicParsing="false" onAction="#saveToPdf" onMouseEntered="#handleHoverEffect" onMouseExited="#handleNoHoverEffect" prefHeight="50.0" prefWidth="50.0" />
       <Button layoutX="100.0" layoutY="345.0" mnemonicParsing="false" prefHeight="50.0" prefWidth="50.0" />
       <Button fx:id="deleteEmployeeButton" layoutX="1111.0" layoutY="495.0" mnemonicParsing="false" onAction="#deletePerson" onMouseEntered="#handleHoverEffect" onMouseExited="#handleNoHoverEffect" prefHeight="50.0" prefWidth="50.0" />
-      <Button fx:id="changeScheduleButton" layoutX="1111.0" layoutY="295.0" mnemonicParsing="false" onMouseEntered="#handleHoverEffect" onMouseExited="#handleNoHoverEffect" prefHeight="50.0" prefWidth="50.0" />
+      <Button fx:id="changeScheduleButton" layoutX="1111.0" layoutY="295.0" mnemonicParsing="false" onAction="#changeScheduleButton" onMouseEntered="#handleHoverEffect" onMouseExited="#handleNoHoverEffect" prefHeight="50.0" prefWidth="50.0" />
       <Button fx:id="addEmployeeButton" layoutX="1111.0" layoutY="395.0" mnemonicParsing="false" onAction="#addEmployeeButton" onMouseEntered="#handleHoverEffect" onMouseExited="#handleNoHoverEffect" prefHeight="50.0" prefWidth="50.0" />
       <Label fx:id="nameLabel" alignment="CENTER" layoutX="30.0" layoutY="738.0" prefHeight="21.0" prefWidth="159.0" />
       <Label fx:id="nameLabel1" alignment="CENTER" layoutX="40.0" layoutY="748.0" prefHeight="21.0" prefWidth="159.0" />

@@ -1,6 +1,5 @@
 package sample;
 
-import javafx.beans.property.StringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -15,7 +14,6 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.ResourceBundle;
 
 public class ControllerAddEmployee implements Initializable {
@@ -38,11 +36,11 @@ public class ControllerAddEmployee implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        Image mediumBackgroundImage = new Image("resourses/2.jpg");
+        Image mediumBackgroundImage = new Image("resources/2.jpg");
         BackgroundImage backgroundImage = new BackgroundImage(mediumBackgroundImage, BackgroundRepeat.REPEAT, BackgroundRepeat.REPEAT, BackgroundPosition.CENTER, BackgroundSize.DEFAULT);
         anchorPane.setBackground(new Background(backgroundImage));
 
-        Image checkImage = new Image("resourses/check.png");
+        Image checkImage = new Image("resources/check.png");
         addButton.setGraphic(new ImageView(checkImage));
         addButton.setStyle("-fx-background-color: TRANSPARENT");
 
@@ -95,9 +93,6 @@ public class ControllerAddEmployee implements Initializable {
             successLabel.setText("Successfully added "+person.getFirstName());
             successLabel1.setText(" to the database.");
 
-
-
-
     }
 
     @FXML
@@ -129,8 +124,8 @@ public class ControllerAddEmployee implements Initializable {
     private void setChoiceBox(String department) {
         DBConnect dbConnect = new DBConnect();
         ArrayList underDepartmentList = (dbConnect.getUnderDepartments(department));
-        ObservableList<String> test = FXCollections.observableList(underDepartmentList);
+        ObservableList<String> list = FXCollections.observableList(underDepartmentList);
 
-            choiceBox.setItems(test);
+            choiceBox.setItems(list);
     }
 }

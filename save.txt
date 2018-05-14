@@ -1,4 +1,4 @@
 true
 9110010593
 true
-oskark
+oskar

@@ -28,11 +28,11 @@ public class ControllerDeletePerson implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        Image mediumBackgroundImage = new Image("resourses/2.jpg");
+        Image mediumBackgroundImage = new Image("resources/2.jpg");
         BackgroundImage backgroundImage = new BackgroundImage(mediumBackgroundImage, BackgroundRepeat.REPEAT, BackgroundRepeat.REPEAT, BackgroundPosition.CENTER, BackgroundSize.DEFAULT);
         anchorPane.setBackground(new Background(backgroundImage));
 
-        Image checkImage = new Image("resourses/check.png");
+        Image checkImage = new Image("resources/check.png");
         okDeleteButton.setGraphic(new ImageView(checkImage));
         okDeleteButton.setStyle("-fx-background-color: TRANSPARENT");
 

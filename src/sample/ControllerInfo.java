@@ -2,9 +2,7 @@ package sample;
 
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Button;
 import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 
 import java.net.URL;
@@ -18,7 +16,7 @@ public class ControllerInfo implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
 
-        Image image = new Image("resourses/credit.png");
+        Image image = new Image("resources/credit.png");
         BackgroundImage backgroundImage = new BackgroundImage(image, BackgroundRepeat.REPEAT, BackgroundRepeat.REPEAT, BackgroundPosition.CENTER, BackgroundSize.DEFAULT);
         pane.setBackground(new Background(backgroundImage));
 
