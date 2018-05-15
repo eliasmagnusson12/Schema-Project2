@@ -37,10 +37,11 @@ public class ControllerResetPasswordHelp implements Initializable {
         backButton.setGraphic(new ImageView(back));
         backButton.setStyle("-fx-background-color: TRANSPARENT");
 
-        textLabel.setText("Börja med att skriva in din email adress som du tidigare har uppgett som din kontakt \n" +
-                "email i fältet för email, klicka sedan på knappen reset password och ett mail kommer att \n" +
-                "skickas dig med ett nytt tillfälligt lösenord om du har angivit rätt email adress. \n" +
-                "Gå sedan in under inställningar och ändra ditt lösenord till ett nytt som du själv väljer.");
+
+        textLabel.setText("Start by entering the email that is connected to your Schedule account in the enter \n" +
+                          "email field, after that press the reset password button below and an email will be sent \n" +
+                          "to you with a new temporary password. This new password can be changed in the \n" +
+                          "settings menu, simply press settings then change password and follow the \ninstructions.");
 
 
     }
