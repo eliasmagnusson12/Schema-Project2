@@ -70,6 +70,8 @@ public class ControllerChangeSchedule implements Initializable {
             addNamesToList(selectedItems);
         }));
 
+        startTextField.addEventFilter(KeyEvent.KEY_TYPED, letter_Validation(4));
+        endTextField.addEventFilter(KeyEvent.KEY_TYPED, letter_Validation(4));
     }
 
     private void showUnderDepartments() {
@@ -139,13 +141,24 @@ public class ControllerChangeSchedule implements Initializable {
 
     @FXML
     private void handleStartTextField() {
-        startTextField.addEventFilter(KeyEvent.KEY_TYPED, letter_Validation(4));
-        endTextField.addEventFilter(KeyEvent.KEY_TYPED, letter_Validation(4));
+
         startTextField.textProperty().addListener(new ChangeListener<String>() {
             @Override
             public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
                 if (!newValue.matches("\\d{0,7}([\\.]\\d{0,4})?")) {
                     startTextField.setText(oldValue);
+                }
+            }
+        });
+    }
+    @FXML
+    private void handleEndTextField() {
+
+        endTextField.textProperty().addListener(new ChangeListener<String>() {
+            @Override
+            public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
+                if (!newValue.matches("\\d{0,7}([\\.]\\d{0,4})?")) {
+                    endTextField.setText(oldValue);
                 }
             }
         });
@@ -158,6 +171,10 @@ public class ControllerChangeSchedule implements Initializable {
             public void handle(KeyEvent event) {
                 TextField textField = (TextField) event.getSource();
                 if (textField.getText().length() >= max_Lengh) {
+                    event.consume();
+                }
+                if (event.getCharacter().matches("\\d{0,7}([\\.]\\d{0,4})?")) {
+                } else {
                     event.consume();
                 }
             }

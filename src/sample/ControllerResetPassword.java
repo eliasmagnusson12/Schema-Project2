@@ -7,10 +7,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.Hyperlink;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
@@ -28,7 +25,6 @@ import java.sql.SQLException;
 import java.util.ResourceBundle;
 
 
-
 public class ControllerResetPassword implements Initializable {
 
     @FXML
@@ -40,12 +36,14 @@ public class ControllerResetPassword implements Initializable {
     @FXML
     private Hyperlink helpLink;
     @FXML
-    private Label confirm;
+    private Label successLabel;
     @FXML
     private Button backButton;
 
+    String error;
 
     private DBConnect db = new DBConnect();
+
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         Image image = new Image("resources/2.jpg");
@@ -57,17 +55,19 @@ public class ControllerResetPassword implements Initializable {
         backButton.setStyle("-fx-background-color: TRANSPARENT");
 
     }
+
     @FXML
     private void handlePressHelpLink(ActionEvent event) throws IOException {
         Stage stage = new Stage();
         FXMLLoader fxmlLoader = new FXMLLoader();
-        fxmlLoader.setLocation(getClass().getResource(  "sampleResetPasswordHelp.fxml"));
+        fxmlLoader.setLocation(getClass().getResource("sampleResetPasswordHelp.fxml"));
         stage.setTitle("Reset Password Help");
         Scene scene = new Scene(fxmlLoader.load());
         stage.setScene(scene);
         stage.show();
         ((Node) (event.getSource())).getScene().getWindow().hide();
     }
+
     @FXML
     private void handlePressBackButton(ActionEvent event) throws IOException {
         Stage stage = new Stage();
@@ -80,6 +80,7 @@ public class ControllerResetPassword implements Initializable {
         stage.show();
         ((Node) (event.getSource())).getScene().getWindow().hide();
     }
+
     @FXML
     private void handleHoverEffect(MouseEvent event) {
         Button button = (Button) event.getSource();
@@ -94,22 +95,50 @@ public class ControllerResetPassword implements Initializable {
 
     @FXML
     private void forgotPW() throws SQLException, MessagingException {
+        String email = emailTextField.getText();
 
-     String email = emailTextField.getText();
+        String pwChars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+        String pw = RandomStringUtils.random(8, pwChars);
 
-     ControllerMail cm = new ControllerMail();
-     boolean mm = cm.forgotPW(email);
+        DBConnect dbConnect = new DBConnect();
+        boolean answer = false;
+        String socialSecurityNumber = dbConnect.getSocialSecurityNumber(email);
 
-         if(mm){
+        if (socialSecurityNumber == null) {
 
-             confirm.setText("Your password has been successfully changed");
-         }else{
+        } else {
+            answer = dbConnect.changePassword(socialSecurityNumber, pw);
 
-             confirm.setTextFill(Color.RED);
-             confirm.setText("Something went wrong");
-         }
-        PauseTransition visiblePaus = new PauseTransition(Duration.seconds(3));
-        visiblePaus.setOnFinished(event -> confirm.setVisible(false));
-        visiblePaus.play();
+            if (answer) {
+                sendMail(email, pw);
+            } else {
+                error = "Could not change password!";
+                callAlert(error);
+            }
+        }
     }
+    private void sendMail(String email, String pw) throws MessagingException, SQLException {
+        ControllerMail controllerMail = new ControllerMail();
+        boolean answer = controllerMail.sendNewPassword(email, pw);
+
+        if (answer) {
+            successLabel.setVisible(true);
+            successLabel.setTextFill(Color.GREEN);
+            successLabel.setText("Your password has been successfully changed");
+        } else {
+            successLabel.setVisible(true);
+            successLabel.setTextFill(Color.RED);
+            successLabel.setText("Something went wrong");
+        }
+        PauseTransition visiblePause = new PauseTransition(Duration.seconds(3));
+        visiblePause.setOnFinished(event -> successLabel.setVisible(false));
+        visiblePause.play();
     }
+
+    private void callAlert(String error) {
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setTitle("Error");
+        alert.setHeaderText(error);
+        alert.showAndWait();
+    }
+}

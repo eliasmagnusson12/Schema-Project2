@@ -9,7 +9,6 @@
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 
-
 <AnchorPane fx:id="anchorPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="480.0" prefWidth="640.0" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.ControllerChangeSchedule">
    <children>
       <ChoiceBox fx:id="personChoiceBox" layoutX="211.0" layoutY="38.0" prefWidth="150.0" />
@@ -21,11 +20,11 @@
       </MenuButton>
       <Label alignment="CENTER" layoutX="471.0" layoutY="271.0" text="End:" />
       <Label alignment="CENTER" contentDisplay="CENTER" layoutX="468.0" layoutY="196.0" text="Start:" />
-      <TextField fx:id="endTextField" alignment="CENTER" layoutX="520.0" layoutY="266.0" prefHeight="31.0" prefWidth="68.0" promptText="0000" />
+      <TextField fx:id="endTextField" alignment="CENTER" layoutX="520.0" layoutY="266.0" onKeyTyped="#handleEndTextField" prefHeight="31.0" prefWidth="68.0" promptText="0000" />
       <TextField fx:id="startTextField" alignment="CENTER" layoutX="520.0" layoutY="191.0" onKeyTyped="#handleStartTextField" prefHeight="31.0" prefWidth="68.0" promptText="0000" />
       <Button fx:id="addButton" layoutX="524.0" layoutY="371.0" mnemonicParsing="false" onAction="#handleAddButton" onMouseEntered="#handleHoverEffect" onMouseExited="#handleNoHoverEffect" prefHeight="60.0" prefWidth="60.0" />
       <Button fx:id="toolTipButton" layoutX="531.0" layoutY="145.0" mnemonicParsing="false" prefHeight="31.0" prefWidth="29.0" />
       <DatePicker fx:id="datePicker" layoutX="143.0" layoutY="225.0" />
-      <Label fx:id="successLabel" alignment="CENTER" layoutX="100.0" layoutY="361.0" prefHeight="31.0" prefWidth="286.0" />
+      <Label fx:id="successLabel" alignment="CENTER" layoutX="109.0" layoutY="356.0" prefHeight="31.0" prefWidth="286.0" />
    </children>
 </AnchorPane>

@@ -13,8 +13,6 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
-import javafx.scene.paint.Color;
-import javafx.util.Duration;
 import org.apache.commons.lang3.RandomStringUtils;
 
 import javax.mail.*;
@@ -44,8 +42,8 @@ public class ControllerMail implements Initializable {
     private Label messageSent;
 
     private String email;
-
     private String pw;
+    private boolean answer;
 
     private ObservableSet<CheckBox> selectedCheckBoxes = FXCollections.observableSet();
     private ObservableSet<CheckBox> unselectedCheckBoxes = FXCollections.observableSet();
@@ -210,7 +208,7 @@ public class ControllerMail implements Initializable {
 
         try {
             String pwChars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
-             pw = RandomStringUtils.random(8, pwChars);
+            pw = RandomStringUtils.random(8, pwChars);
 
             MimeMessage message = new MimeMessage(session);
             message.setFrom(new InternetAddress(from));
@@ -236,47 +234,41 @@ public class ControllerMail implements Initializable {
     }
 
 
-    public boolean forgotPW(String email) throws MessagingException, SQLException {
+    public boolean sendNewPassword(String email, String pw) throws MessagingException, SQLException {
+        try {
+            String from = "kristianstad.gadors@hotmail.com";
+            String pass = "gadors123";
 
+            String to = email;
 
-        String from = "kristianstad.gadors@hotmail.com";
-        String pass = "gadors123";
+            String host = "smtp-mail.outlook.com";
+            Properties properties = System.getProperties();
 
-        String to = email;
+            properties.put("mail.smtp.starttls.enable", "true");
+            properties.put("mail.smtp.host", host);
+            properties.put("mail.smtp.user", from);
+            properties.put("mail.smtp.password", pass);
+            properties.put("mail.smtp.port", "587");
+            properties.put("mail.smtp.auth", "true");
 
-        String host = "smtp.live.com";
-        Properties properties = System.getProperties();
+            Session session = Session.getDefaultInstance(properties);
 
-        properties.put("mail.smtp.starttls.enable", "true");
-        properties.put("mail.smtp.host", host);
-        properties.put("mail.smtp.user", from);
-        properties.put("mail.smtp.password", pass);
-        properties.put("mail.smtp.port", "587");
-        properties.put("mail.smtp.auth", "true");
+            MimeMessage message = new MimeMessage(session);
+            message.setFrom(new InternetAddress(from));
+            message.addRecipients(RecipientType.TO, to);
 
-        Session session = Session.getDefaultInstance(properties);
+            message.setSubject("Your new password");
+            message.setText("Your new password is " + pw + "\n\nYou can not respond to this mail. ");
 
-        String pwChars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
-        pw = RandomStringUtils.random(8, pwChars);
+            Transport transport = session.getTransport("smtp");
+            transport.connect(host, from, pass);
+            transport.sendMessage(message, message.getAllRecipients());
+            transport.close();
 
-        MimeMessage message = new MimeMessage(session);
-        message.setFrom(new InternetAddress(from));
-        message.addRecipients(RecipientType.TO, to);
-
-        message.setSubject("Your new password");
-        message.setText("Your new password is " + pw + "\n\nYou can not respond to this mail. ");
-
-
-        Transport transport = session.getTransport("smtp");
-        transport.connect(host, from, pass);
-        transport.sendMessage(message, message.getAllRecipients());
-        transport.close();
-
-
-        DBConnect db = new DBConnect();
-        String username = db.getSocialSecurityNumber(email);
-        boolean mm = db.changePassword(username, pw);
-
-        return mm;
+            answer = true;
+        }catch (Exception e){
+            answer = false;
         }
+        return answer;
     }
+}

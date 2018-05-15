@@ -40,7 +40,7 @@ public class ControllerCalendar implements Initializable {
     @FXML
     private Button monday, tuesday, wednesday, thursday, friday, saturday, sunday;
     @FXML
-    private Button changeScheduleButton, addEmployeeButton, deleteEmployeeButton, lastWeek, nextWeek, homeButton, savePdfButton;
+    private Button changeScheduleButton, addEmployeeButton, deleteEmployeeButton, lastWeek, nextWeek, homeButton, savePdfButton, updateButton;
     @FXML
     private TextField textFieldMonday, textFieldTuesday, textFieldWednesday, textFieldThursday, textFieldFriday, textFieldSaturday, textFieldSunday;
     @FXML
@@ -48,7 +48,7 @@ public class ControllerCalendar implements Initializable {
     @FXML
     private Group group;
     @FXML
-    private VBox mondayVBox;
+    private VBox mondayVBox, tuesdayVBox, wednesdayVBox, thursdayVBox, fridayVBox, saturdayVBox, sundayVBox;
 
     private Week week;
     private String weekString;
@@ -56,7 +56,7 @@ public class ControllerCalendar implements Initializable {
     private int amount = 0;
     private Calendar calendar = new GregorianCalendar(Locale.ENGLISH);
     private ArrayList<Schedule> scheduleList = new ArrayList<>();
-    private ArrayList<Button> listOfButtons = new ArrayList<>();
+    private ArrayList<Button> listOfMondayButtons = new ArrayList<>();
     private DBConnect dbConnect = new DBConnect();
 
     @Override
@@ -129,13 +129,7 @@ public class ControllerCalendar implements Initializable {
         sunday.prefWidthProperty().bind(gridPane.widthProperty());
 
         nextWeek.layoutXProperty().bind(gridPane.widthProperty().add(285));
-//        textFieldMonday.prefHeightProperty().bind(gridPane.heightProperty());
-//        textFieldTuesday.prefHeightProperty().bind(gridPane.heightProperty());
-//        textFieldWednesday.prefHeightProperty().bind(gridPane.heightProperty());
-//        textFieldThursday.prefHeightProperty().bind(gridPane.heightProperty());
-//        textFieldFriday.prefHeightProperty().bind(gridPane.heightProperty());
-//        textFieldSaturday.prefHeightProperty().bind(gridPane.heightProperty());
-//        textFieldSunday.prefHeightProperty().bind(gridPane.heightProperty());
+
         weekLabel.prefWidthProperty().bind(miniGridPane.widthProperty());
         addEmployeeButton.layoutXProperty().bind(gridPane.widthProperty().add(385));
         changeScheduleButton.layoutXProperty().bind(gridPane.widthProperty().add(385));
@@ -149,8 +143,14 @@ public class ControllerCalendar implements Initializable {
         weekString = Integer.toString(week.getWeek());
         setWeekLabel(weekString);
 
-        getScheduleList();
         setToday();
+
+        try {
+            scheduleList = dbConnect.getSchedule();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        getScheduleList();
     }
 
     private void setWeekLabel(String weekString) {
@@ -416,45 +416,49 @@ public class ControllerCalendar implements Initializable {
         stage.show();
     }
 
-    private void getScheduleList() {
+    public void getScheduleList() {
+        amount = 0;
 
-        try {
-            scheduleList = dbConnect.getSchedule();
-        } catch (SQLException e) {
-            e.printStackTrace();
+        mondayVBox.setMaxHeight(gridPane.getHeight());
+        mondayVBox.setSpacing(5);
+
+        mondayVBox.getChildren().clear();
+        listOfMondayButtons.clear();
+
+        int displayedWeek = Integer.valueOf(weekString);
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        Calendar cal = Calendar.getInstance();
+        cal.set(Calendar.WEEK_OF_YEAR, displayedWeek);
+        cal.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY);
+
+        for (int i = 0; i < scheduleList.size(); i++) {
+            Schedule schedule = scheduleList.get(i);
+
+            if (schedule.getDate().equals(sdf.format(cal.getTime()))) {
+                amount++;
+                System.out.println(amount);
+            }
         }
 
-            mondayVBox.getChildren().clear();
+            for (int i = 0; i < amount; i++) {
+                Button button = new Button();
+                listOfMondayButtons.add(button);
+                button.setStyle("-fx-background-color: LIGHTBLUE");
+                button.setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE);
 
-            int displayedWeek = Integer.valueOf(weekString);
-            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-            Calendar cal = Calendar.getInstance();
-            cal.set(Calendar.WEEK_OF_YEAR, displayedWeek);
-            cal.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY);
-
-
-            Button button = null;
-            for (int i = 0; i < scheduleList.size(); i++) {
-                Schedule schedule = scheduleList.get(i);
-
-                if (schedule.getDate().equals(sdf.format(cal.getTime()))) {
-                    amount++;
-                    System.out.println(amount);
-                }
+                mondayVBox.getChildren().add(listOfMondayButtons.get(i));
             }
-                for (int i = 0; i < amount; i++) {
-                    button = new Button();
-                    listOfButtons.add(button);
-                    button.setStyle("-fx-background-color: LIGHTBLUE");
-                    button.setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE);
 
-                    mondayVBox.setMinHeight(gridPane.getHeight());
-                    button.setMinHeight(mondayVBox.getPrefHeight());
-                    mondayVBox.setSpacing(5);
-                    mondayVBox.getChildren().add(listOfButtons.get(i));
-
+            for (Button b : listOfMondayButtons){
+                b.setMinHeight(mondayVBox.getHeight() / amount);
+                b.setMaxHeight(mondayVBox.getHeight() / amount);
 
             }
+        }
+
+        @FXML
+    private void handleUpdateButton(ActionEvent event){
+        getScheduleList();
         }
     }
 

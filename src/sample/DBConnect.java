@@ -334,9 +334,14 @@ public class DBConnect {
             String socialSecurityNumber = null;
             String sql = ("SELECT person_socialSecurityNumber FROM email WHERE email = '" + email + "';");
             ResultSet rs = st.executeQuery(sql);
+
             if (rs.next()) {
                 socialSecurityNumber = rs.getString("person_socialSecurityNumber");
+            }else {
+                error = "find this email";
+                callAlert(error);
             }
+
             return socialSecurityNumber;
         }
     }

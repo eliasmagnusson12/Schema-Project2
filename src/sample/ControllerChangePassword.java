@@ -1,5 +1,6 @@
 package sample;
 
+import javafx.animation.PauseTransition;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -10,6 +11,8 @@ import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.image.Image;
 import javafx.scene.layout.*;
+import javafx.scene.paint.Color;
+import javafx.util.Duration;
 
 import java.net.URL;
 import java.sql.SQLException;
@@ -55,23 +58,34 @@ public class ControllerChangePassword implements Initializable {
 
             DBConnect dbConnect = new DBConnect();
             answer = dbConnect.changePassword(username, password);
-        }else{
+        } else {
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("Error");
             alert.setHeaderText("New password must match confirm password");
             alert.showAndWait();
 
         }
+        displaySuccessLabel(answer);
 
-        if (answer){
-            successLabel.setText("Successfully changed password!");
-            newPassword.clear();
-            confirmPassword.clear();
-            newPassword.setPromptText("Enter new password");
-            confirmPassword.setPromptText("Confirm new password");
-        }else {
-            successLabel.setText("Something went wrong!");
-        }
+    }
+
+        private void displaySuccessLabel(boolean answer) {
+            if (answer) {
+                successLabel.setVisible(true);
+                successLabel.setTextFill(Color.GREEN);
+                successLabel.setText("Successfully changed password!");
+            } else {
+                successLabel.setVisible(true);
+                successLabel.setTextFill(Color.RED);
+                successLabel.setText("Something went wrong!");
+            }
+            PauseTransition visiblePause = new PauseTransition(
+                    Duration.seconds(3)
+            );
+            visiblePause.setOnFinished(
+                    event -> successLabel.setVisible(false)
+            );
+            visiblePause.play();
         }
     }
 
