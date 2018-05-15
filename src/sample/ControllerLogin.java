@@ -33,8 +33,6 @@ public class ControllerLogin implements Initializable {
     private TextField usernameTextField, passwordTextField;
     @FXML
     private CheckBox checkBoxUsername, checkBoxPassword;
-    @FXML
-    private Hyperlink forgotLink;
 
     private String saveUsername, savePassword;
 
@@ -90,7 +88,7 @@ public class ControllerLogin implements Initializable {
             alert.setHeaderText("Please enter password");
             alert.showAndWait();
 
-        }else if (dbConnect.isPasswordCorrect(username, password)) {
+        }else if (DBConnect.getInstance().isPasswordCorrect(username, password)) {
 
             dbConnect.setUser(username);
             dbConnect.getAllEmployees();
@@ -178,13 +176,13 @@ public class ControllerLogin implements Initializable {
 
             if (bufferedReader.readLine().equals("true")) {
                 checkBoxUsername.fire();
-                String username = new String(bufferedReader.readLine());
+                String username = bufferedReader.readLine();
                 usernameTextField.setText(username);
 
             }
             if (bufferedReader.readLine().equals("true")) {
                 checkBoxPassword.fire();
-                String password = new String(bufferedReader.readLine());
+                String password = bufferedReader.readLine();
                 passwordTextField.setText(password);
             }
             bufferedReader.close();

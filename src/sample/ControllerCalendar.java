@@ -1,5 +1,6 @@
 package sample;
 
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 
 import javafx.fxml.FXML;
@@ -99,6 +100,15 @@ public class ControllerCalendar implements Initializable {
         smallLogoImageView.layoutXProperty().bind(gridPane.widthProperty().add(275));
         smallLogoImageView.layoutYProperty().bind(gridPane.heightProperty());
 
+        monday.setBorder(new Border(new BorderStroke(Color.WHITE, BorderStrokeStyle.SOLID, null, new BorderWidths(2))));
+        tuesday.setBorder(new Border(new BorderStroke(Color.WHITE, BorderStrokeStyle.SOLID, null, new BorderWidths(2))));
+        wednesday.setBorder(new Border(new BorderStroke(Color.WHITE, BorderStrokeStyle.SOLID, null, new BorderWidths(2))));
+        thursday.setBorder(new Border(new BorderStroke(Color.WHITE, BorderStrokeStyle.SOLID, null, new BorderWidths(2))));
+        friday.setBorder(new Border(new BorderStroke(Color.WHITE, BorderStrokeStyle.SOLID, null, new BorderWidths(2))));
+        saturday.setBorder(new Border(new BorderStroke(Color.WHITE, BorderStrokeStyle.SOLID, null, new BorderWidths(2))));
+        sunday.setBorder(new Border(new BorderStroke(Color.WHITE, BorderStrokeStyle.SOLID, null, new BorderWidths(2))));
+
+
         setUserInfo();
 
         if (Singleton.getInstance().getUser().getRole().equals("Boss") || Singleton.getInstance().getUser().getRole().equals("Admin")) {
@@ -127,10 +137,10 @@ public class ControllerCalendar implements Initializable {
         gridPane.prefHeightProperty().bind(pane.heightProperty().multiply(0.8));
         gridPane.setStyle("-fx-padding: 1;" +
                 "-fx-border-style: solid inside;" +
-                "-fx-border-width: 5;" +
+                "-fx-border-width: 2;" +
                 "-fx-border-insets: 0;" +
                 "-fx-border-radius: 3;" +
-                "-fx-border-color: SILVER;");
+                "-fx-border-color: WHITESMOKE;");
 
         miniGridPane.prefWidthProperty().bind(pane.widthProperty().multiply(0.6));
 
@@ -166,6 +176,13 @@ public class ControllerCalendar implements Initializable {
         }
         getScheduleList();
 
+        Platform.runLater(new Runnable() {
+            @Override
+            public void run() {
+                weekLabel.requestFocus();
+            }
+        });
+
     }
 
     private void setWeekLabel(String weekString) {
@@ -182,25 +199,25 @@ public class ControllerCalendar implements Initializable {
 
                 switch (calendar.get(Calendar.DAY_OF_WEEK)) {
                     case Calendar.MONDAY:
-                        monday.setBorder(new Border(new BorderStroke(Color.LIGHTSEAGREEN, BorderStrokeStyle.SOLID, null, new BorderWidths(4))));
+                        monday.setBorder(new Border(new BorderStroke(Color.LIGHTSEAGREEN, BorderStrokeStyle.SOLID, null, new BorderWidths(3))));
                         break;
                     case Calendar.TUESDAY:
-                        tuesday.setBorder(new Border(new BorderStroke(Color.LIGHTSEAGREEN, BorderStrokeStyle.SOLID, null, new BorderWidths(4))));
+                        tuesday.setBorder(new Border(new BorderStroke(Color.LIGHTSEAGREEN, BorderStrokeStyle.SOLID, null, new BorderWidths(3))));
                         break;
                     case Calendar.WEDNESDAY:
-                        wednesday.setBorder(new Border(new BorderStroke(Color.LIGHTSEAGREEN, BorderStrokeStyle.SOLID, null, new BorderWidths(4))));
+                        wednesday.setBorder(new Border(new BorderStroke(Color.LIGHTSEAGREEN, BorderStrokeStyle.SOLID, null, new BorderWidths(3))));
                         break;
                     case Calendar.THURSDAY:
-                        thursday.setBorder(new Border(new BorderStroke(Color.LIGHTSEAGREEN, BorderStrokeStyle.SOLID, null, new BorderWidths(4))));
+                        thursday.setBorder(new Border(new BorderStroke(Color.LIGHTSEAGREEN, BorderStrokeStyle.SOLID, null, new BorderWidths(3))));
                         break;
                     case Calendar.FRIDAY:
-                        friday.setBorder(new Border(new BorderStroke(Color.LIGHTSEAGREEN, BorderStrokeStyle.SOLID, null, new BorderWidths(4))));
+                        friday.setBorder(new Border(new BorderStroke(Color.LIGHTSEAGREEN, BorderStrokeStyle.SOLID, null, new BorderWidths(3))));
                         break;
                     case Calendar.SATURDAY:
-                        saturday.setBorder(new Border(new BorderStroke(Color.LIGHTSEAGREEN, BorderStrokeStyle.SOLID, null, new BorderWidths(4))));
+                        saturday.setBorder(new Border(new BorderStroke(Color.LIGHTSEAGREEN, BorderStrokeStyle.SOLID, null, new BorderWidths(3))));
                         break;
                     case Calendar.SUNDAY:
-                        sunday.setBorder(new Border(new BorderStroke(Color.LIGHTSEAGREEN, BorderStrokeStyle.SOLID, null, new BorderWidths(4))));
+                        sunday.setBorder(new Border(new BorderStroke(Color.LIGHTSEAGREEN, BorderStrokeStyle.SOLID, null, new BorderWidths(3))));
                         break;
                 }
             } else {
@@ -555,11 +572,11 @@ public class ControllerCalendar implements Initializable {
         listOfAllButtons.add(button);
         button.setStyle("-fx-background-color: LIGHTBLUE");
         button.setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE);
-        button.setStyle("-fx-padding: 10;" +
+        button.setStyle("-fx-padding: 5;" +
                 "-fx-border-style: solid inside;" +
                 "-fx-border-width: 1;" +
                 "-fx-border-insets: 0;" +
-                "-fx-border-radius: 5;" +
+                "-fx-border-radius: 3;" +
                 "-fx-border-color: blue;");
 
         String[] splitTime = schedule.getTime().split(" ");
@@ -637,13 +654,13 @@ public class ControllerCalendar implements Initializable {
         GridPane.setVgrow(saturdayVBox, Priority.ALWAYS);
         GridPane.setVgrow(sundayVBox, Priority.ALWAYS);
 
-        mondayVBox.setSpacing(4);
-        tuesdayVBox.setSpacing(4);
-        wednesdayVBox.setSpacing(4);
-        thursdayVBox.setSpacing(4);
-        fridayVBox.setSpacing(4);
-        saturdayVBox.setSpacing(4);
-        sundayVBox.setSpacing(4);
+        mondayVBox.setSpacing(3);
+        tuesdayVBox.setSpacing(3);
+        wednesdayVBox.setSpacing(3);
+        thursdayVBox.setSpacing(3);
+        fridayVBox.setSpacing(3);
+        saturdayVBox.setSpacing(3);
+        sundayVBox.setSpacing(3);
     }
 
     private void clear() {

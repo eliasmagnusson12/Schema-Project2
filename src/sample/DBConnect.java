@@ -3,17 +3,19 @@ package sample;
 
 import javafx.scene.control.Alert;
 import java.sql.*;
+import java.sql.DriverManager;
 import java.time.LocalDate;
 import java.util.ArrayList;
 
 
 public class DBConnect {
 
-    private String url = "jdbc:mysql://den1.mysql2.gear.host/gadorsmydb?user=gadorsmydb&password=Xf8Q-P3WxQR_"; //githost address
+    private String url = "jdbc:mysql://den1.mysql2.gear.host/gadorsmydb?user=gadorsmydb&password=Xf8Q-P3WxQR_";
     private Statement st;
     private String dataBasePassword;
     private String sql;
-    private Connection c;
+    private static DBConnect instance;
+    private static Connection connect;
 
     private String firstName;
     private String lastName;
@@ -21,7 +23,7 @@ public class DBConnect {
     private String role;
     private String email;
     private String phoneNumber;
-    private String departementName;
+    private String departmentName;
     private String ssn;
 
     private String error;
@@ -35,11 +37,19 @@ public class DBConnect {
 
     public DBConnect() {
         try {
-            c = DriverManager.getConnection(url);
-            st = c.createStatement();
+            connect = DriverManager.getConnection(url);
+            st = connect.createStatement();
         } catch (SQLException ex) {
             System.out.println("Failed to connect to database!");
         }
+
+    }
+
+    public static DBConnect getInstance(){
+        if (instance == null){
+            instance = new DBConnect();
+        }
+        return instance;
     }
 
     public void setUser(String username) throws SQLException {
@@ -56,7 +66,7 @@ public class DBConnect {
             role = rs.getString("role");
             email = rs.getString("email");
             phoneNumber = rs.getString("phoneNumber");
-            departementName = rs.getString("underDepartment_underDepartmentName");
+            departmentName = rs.getString("underDepartment_underDepartmentName");
             ssn = username;
         }
         User user = new User();
@@ -66,14 +76,13 @@ public class DBConnect {
         user.setRole(role);
         user.setEmail(email);
         user.setPhoneNumber(phoneNumber);
-        user.setDepartmentName(departementName);
+        user.setDepartmentName(departmentName);
         user.setSsn(ssn);
 
         Singleton.getInstance().setUser(user);
     }
 
     public boolean isPasswordCorrect(String username, String password) {
-
         try {
             sql = ("SELECT password FROM person, login WHERE socialSecurityNumber = login.person_socialSecurityNumber and socialSecurityNumber = '" + username + "';");
             ResultSet rs = st.executeQuery(sql);
@@ -89,11 +98,7 @@ public class DBConnect {
             alert.setTitle("Error");
             alert.showAndWait();
         }
-        if (dataBasePassword.equals(password)) {
-            return true;
-        } else {
-            return false;
-        }
+        return dataBasePassword.equals(password);
     }
 
     public ArrayList getUnderDepartments(String department) {
