@@ -203,6 +203,7 @@ public class DBConnect {
         int action;
         boolean answer = false;
         String sql = ("UPDATE login SET password = '" + password + "' WHERE person_socialSecurityNumber = '" + ssn + "';");
+
         try {
             action = st.executeUpdate(sql);
             if (action > 0) {
@@ -327,5 +328,15 @@ public class DBConnect {
             scheduleList.add(schedule);
         }
         return scheduleList;
+        }
+
+        public String getSocialSecurityNumber(String email) throws SQLException {
+            String socialSecurityNumber = null;
+            String sql = ("SELECT person_socialSecurityNumber FROM email WHERE email = '" + email + "';");
+            ResultSet rs = st.executeQuery(sql);
+            if (rs.next()) {
+                socialSecurityNumber = rs.getString("person_socialSecurityNumber");
+            }
+            return socialSecurityNumber;
         }
     }

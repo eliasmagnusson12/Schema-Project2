@@ -1,5 +1,6 @@
 package sample;
 
+import javafx.animation.PauseTransition;
 import javafx.beans.binding.Bindings;
 import javafx.beans.binding.IntegerBinding;
 import javafx.collections.FXCollections;
@@ -12,6 +13,8 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
+import javafx.scene.paint.Color;
+import javafx.util.Duration;
 import org.apache.commons.lang3.RandomStringUtils;
 
 import javax.mail.*;
@@ -20,6 +23,7 @@ import javax.mail.internet.AddressException;
 import javax.mail.internet.*;
 import javax.mail.internet.MimeMessage;
 import java.net.URL;
+import java.sql.SQLException;
 import java.util.Properties;
 import java.util.ResourceBundle;
 
@@ -231,4 +235,48 @@ public class ControllerMail implements Initializable {
         return pw;
     }
 
-}
+
+    public boolean forgotPW(String email) throws MessagingException, SQLException {
+
+
+        String from = "kristianstad.gadors@hotmail.com";
+        String pass = "gadors123";
+
+        String to = email;
+
+        String host = "smtp.live.com";
+        Properties properties = System.getProperties();
+
+        properties.put("mail.smtp.starttls.enable", "true");
+        properties.put("mail.smtp.host", host);
+        properties.put("mail.smtp.user", from);
+        properties.put("mail.smtp.password", pass);
+        properties.put("mail.smtp.port", "587");
+        properties.put("mail.smtp.auth", "true");
+
+        Session session = Session.getDefaultInstance(properties);
+
+        String pwChars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+        pw = RandomStringUtils.random(8, pwChars);
+
+        MimeMessage message = new MimeMessage(session);
+        message.setFrom(new InternetAddress(from));
+        message.addRecipients(RecipientType.TO, to);
+
+        message.setSubject("Your new password");
+        message.setText("Your new password is " + pw + "\n\nYou can not respond to this mail. ");
+
+
+        Transport transport = session.getTransport("smtp");
+        transport.connect(host, from, pass);
+        transport.sendMessage(message, message.getAllRecipients());
+        transport.close();
+
+
+        DBConnect db = new DBConnect();
+        String username = db.getSocialSecurityNumber(email);
+        boolean mm = db.changePassword(username, pw);
+
+        return mm;
+        }
+    }

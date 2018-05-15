@@ -1,5 +1,6 @@
 package sample;
 
+import javafx.animation.PauseTransition;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -14,11 +15,16 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
+import javafx.scene.paint.Color;
 import javafx.stage.Stage;
+import javafx.util.Duration;
+import org.apache.commons.lang3.RandomStringUtils;
 
 
+import javax.mail.MessagingException;
 import java.io.IOException;
 import java.net.URL;
+import java.sql.SQLException;
 import java.util.ResourceBundle;
 
 
@@ -34,10 +40,12 @@ public class ControllerResetPassword implements Initializable {
     @FXML
     private Hyperlink helpLink;
     @FXML
-    private Label labelResetPassword;
+    private Label confirm;
     @FXML
     private Button backButton;
 
+
+    private DBConnect db = new DBConnect();
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         Image image = new Image("resources/2.jpg");
@@ -84,4 +92,24 @@ public class ControllerResetPassword implements Initializable {
         button.setStyle("-fx-background-color: TRANSPARENT");
     }
 
-}
+    @FXML
+    private void forgotPW() throws SQLException, MessagingException {
+
+     String email = emailTextField.getText();
+
+     ControllerMail cm = new ControllerMail();
+     boolean mm = cm.forgotPW(email);
+
+         if(mm){
+
+             confirm.setText("Your password has been successfully changed");
+         }else{
+
+             confirm.setTextFill(Color.RED);
+             confirm.setText("Something went wrong");
+         }
+        PauseTransition visiblePaus = new PauseTransition(Duration.seconds(3));
+        visiblePaus.setOnFinished(event -> confirm.setVisible(false));
+        visiblePaus.play();
+    }
+    }
