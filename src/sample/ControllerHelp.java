@@ -36,9 +36,12 @@ public class ControllerHelp implements Initializable {
         tabInstruction.setStyle("-fx-background-color: SILVER");
         tabPane.setStyle("-fx-background-color: BLACK");
 
-        labelInstruction.setText("Sign in - To see your schedule you have to sign in with your social security number \nand your personal password. \n\n" +
-                                 "Send Email - To send an email you simply click the box of whom you want to contact,\nthen write your message with the appropriate subject and then just click send. \n\n" +
-                                 "Change password - To change your password, go into settings,\nclick the ''change password''-button then write your new desired password.");
+
+        labelInstruction.setText("Login - To see your schedule you need to login, press the login button and enter \nyour social security number and your personal password. If you dont remember \nyour password go to forgot password. \n\n" +
+        "Send email - To be able to sent a email to admins or your nearest supervisor, \nclick on the email icon and login using your social security number and your \npersonal password. Then simply check the box next to the name you want to \nadress and write your email in the field to the right. \n\n" +
+        "Change password - To change your current password press the settings icon and \nthen press change password, login using your social security number and your \ncurrent password. Enter the new password you want two times and its done. \n\n" +
+        "Fullscreen - To get the schedule view in fullscreen go to the settings icon and check \nthe box view Schedule in fullscreen.");
+
         labelContact.setText("Boss 1 - 07xxxxxxxx \n\n" +
                              "Boss 2 - 07xxxxxxxx\n\n" +
                              "Boss 3 - 07xxxxxxxx");
