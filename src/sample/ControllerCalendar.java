@@ -7,15 +7,13 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 
 
+import javafx.geometry.Pos;
 import javafx.print.PrinterJob;
 import javafx.scene.Group;
 import javafx.scene.Node;
 
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.ScrollPane;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.image.WritableImage;
@@ -42,8 +40,6 @@ public class ControllerCalendar implements Initializable {
     @FXML
     private Button changeScheduleButton, addEmployeeButton, deleteEmployeeButton, lastWeek, nextWeek, homeButton, savePdfButton, updateButton;
     @FXML
-    private TextField textFieldMonday, textFieldTuesday, textFieldWednesday, textFieldThursday, textFieldFriday, textFieldSaturday, textFieldSunday;
-    @FXML
     private Label nameLabel, weekLabel, loggedInLabel;
     @FXML
     private Group group;
@@ -52,11 +48,19 @@ public class ControllerCalendar implements Initializable {
 
     private Week week;
     private String weekString;
+    private String day;
     private int weekChosen = 0;
     private int amount = 0;
     private Calendar calendar = new GregorianCalendar(Locale.ENGLISH);
     private ArrayList<Schedule> scheduleList = new ArrayList<>();
     private ArrayList<Button> listOfMondayButtons = new ArrayList<>();
+    private ArrayList<Button> listOfTuesdayButtons = new ArrayList<>();
+    private ArrayList<Button> listOfWednesdayButtons = new ArrayList<>();
+    private ArrayList<Button> listOfThursdayButtons = new ArrayList<>();
+    private ArrayList<Button> listOfFridayButtons = new ArrayList<>();
+    private ArrayList<Button> listOfSaturdayButtons = new ArrayList<>();
+    private ArrayList<Button> listOfSundayButtons = new ArrayList<>();
+    private ArrayList<Button> listOfAllButtons = new ArrayList<>();
     private DBConnect dbConnect = new DBConnect();
 
     @Override
@@ -80,6 +84,10 @@ public class ControllerCalendar implements Initializable {
         Image pdfImage = new Image("resources/pdficon.png");
         savePdfButton.setGraphic(new ImageView(pdfImage));
         savePdfButton.setStyle("-fx-background-color: TRANSPARENT");
+
+        Image updateImage = new Image("resources/update.png");
+        updateButton.setGraphic(new ImageView(updateImage));
+        updateButton.setStyle("-fx-background-color: TRANSPARENT");
 
         Image addImage = new Image("resources/add.png");
         Image changeImage = new Image("resources/change.png");
@@ -117,6 +125,12 @@ public class ControllerCalendar implements Initializable {
         gridPane.prefWidthProperty().bind(pane.widthProperty().multiply(0.6));
 
         gridPane.prefHeightProperty().bind(pane.heightProperty().multiply(0.8));
+        gridPane.setStyle("-fx-padding: 1;" +
+                "-fx-border-style: solid inside;" +
+                "-fx-border-width: 5;" +
+                "-fx-border-insets: 0;" +
+                "-fx-border-radius: 3;" +
+                "-fx-border-color: SILVER;");
 
         miniGridPane.prefWidthProperty().bind(pane.widthProperty().multiply(0.6));
 
@@ -151,6 +165,7 @@ public class ControllerCalendar implements Initializable {
             e.printStackTrace();
         }
         getScheduleList();
+
     }
 
     private void setWeekLabel(String weekString) {
@@ -258,9 +273,7 @@ public class ControllerCalendar implements Initializable {
                 reportDate = df.format(seven);
                 sunday.setText(reportDate);
                 break;
-
         }
-
     }
 
     @FXML
@@ -419,46 +432,236 @@ public class ControllerCalendar implements Initializable {
     public void getScheduleList() {
         amount = 0;
 
-        mondayVBox.setMaxHeight(gridPane.getHeight());
-        mondayVBox.setSpacing(5);
-
-        mondayVBox.getChildren().clear();
-        listOfMondayButtons.clear();
+        setVBoxSizes();
+        clear();
 
         int displayedWeek = Integer.valueOf(weekString);
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
         Calendar cal = Calendar.getInstance();
         cal.set(Calendar.WEEK_OF_YEAR, displayedWeek);
         cal.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY);
+        day = "monday";
 
         for (int i = 0; i < scheduleList.size(); i++) {
             Schedule schedule = scheduleList.get(i);
 
             if (schedule.getDate().equals(sdf.format(cal.getTime()))) {
                 amount++;
-                System.out.println(amount);
+                createButton(schedule);
             }
         }
 
-            for (int i = 0; i < amount; i++) {
-                Button button = new Button();
+        cal.set(Calendar.DAY_OF_WEEK, Calendar.TUESDAY);
+        day = "tuesday";
+
+        for (int i = 0; i < scheduleList.size(); i++) {
+            Schedule schedule = scheduleList.get(i);
+
+            if (schedule.getDate().equals(sdf.format(cal.getTime()))) {
+                amount++;
+                createButton(schedule);
+            }
+        }
+
+        cal.set(Calendar.DAY_OF_WEEK, Calendar.WEDNESDAY);
+        day = "wednesday";
+
+        for (int i = 0; i < scheduleList.size(); i++) {
+            Schedule schedule = scheduleList.get(i);
+
+            if (schedule.getDate().equals(sdf.format(cal.getTime()))) {
+                amount++;
+                createButton(schedule);
+            }
+        }
+
+        cal.set(Calendar.DAY_OF_WEEK, Calendar.THURSDAY);
+        day = "thursday";
+
+        for (int i = 0; i < scheduleList.size(); i++) {
+            Schedule schedule = scheduleList.get(i);
+
+            if (schedule.getDate().equals(sdf.format(cal.getTime()))) {
+                amount++;
+                createButton(schedule);
+            }
+        }
+
+        cal.set(Calendar.DAY_OF_WEEK, Calendar.FRIDAY);
+        day = "friday";
+
+        for (int i = 0; i < scheduleList.size(); i++) {
+            Schedule schedule = scheduleList.get(i);
+
+            if (schedule.getDate().equals(sdf.format(cal.getTime()))) {
+                amount++;
+                createButton(schedule);
+            }
+        }
+
+        cal.set(Calendar.DAY_OF_WEEK, Calendar.SATURDAY);
+        day = "saturday";
+
+        for (int i = 0; i < scheduleList.size(); i++) {
+            Schedule schedule = scheduleList.get(i);
+
+            if (schedule.getDate().equals(sdf.format(cal.getTime()))) {
+                amount++;
+                createButton(schedule);
+            }
+        }
+
+        cal.set(Calendar.DAY_OF_WEEK, Calendar.SUNDAY);
+        day = "sunday";
+
+        for (int i = 0; i < scheduleList.size(); i++) {
+            Schedule schedule = scheduleList.get(i);
+
+            if (schedule.getDate().equals(sdf.format(cal.getTime()))) {
+                amount++;
+                createButton(schedule);
+            }
+        }
+            setButtonSize();
+
+    }
+    private void createButton(Schedule schedule) {
+
+        Button button = new Button();
+
+        switch (day){
+            case "monday":
                 listOfMondayButtons.add(button);
-                button.setStyle("-fx-background-color: LIGHTBLUE");
-                button.setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE);
+                break;
+            case "tuesday":
+                listOfTuesdayButtons.add(button);
+                break;
+            case "wednesday":
+                listOfWednesdayButtons.add(button);
+                break;
+            case "thursday":
+                listOfThursdayButtons.add(button);
+                break;
+            case "friday":
+                listOfFridayButtons.add(button);
+                break;
+            case "saturday":
+                listOfSaturdayButtons.add(button);
+                break;
+            case "sunday":
+                listOfSundayButtons.add(button);
+            break;
+        }
+        listOfAllButtons.add(button);
+        button.setStyle("-fx-background-color: LIGHTBLUE");
+        button.setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE);
+        button.setStyle("-fx-padding: 10;" +
+                "-fx-border-style: solid inside;" +
+                "-fx-border-width: 1;" +
+                "-fx-border-insets: 0;" +
+                "-fx-border-radius: 5;" +
+                "-fx-border-color: blue;");
 
-                mondayVBox.getChildren().add(listOfMondayButtons.get(i));
-            }
+        String[] splitTime = schedule.getTime().split(" ");
+        String firstTime = splitTime[0];
+        String secondTime = splitTime[1];
 
-            for (Button b : listOfMondayButtons){
-                b.setMinHeight(mondayVBox.getHeight() / amount);
-                b.setMaxHeight(mondayVBox.getHeight() / amount);
-
+        String initials = null;
+        String firstName = null;
+        String lastName = null;
+        String ssn = schedule.getSocialSecurityNumber();
+        ArrayList<Person> list = Singleton.getInstance().getListOfEmployees();
+        for (Person p : list) {
+            if (ssn.equals(p.getSocialSecurityNumber())) {
+                initials = p.getInitials();
+                firstName = p.getFirstName();
+                lastName = p.getLastName();
             }
         }
+        button.setText("     " + initials + "\n" + firstTime + "-" + secondTime);
+        button.setTooltip(new Tooltip(firstName + " " + lastName));
 
-        @FXML
-    private void handleUpdateButton(ActionEvent event){
-        getScheduleList();
+        switch (day){
+            case "monday":
+                mondayVBox.getChildren().add(button);
+                break;
+            case "tuesday":
+                tuesdayVBox.getChildren().add(button);
+                break;
+            case "wednesday":
+                wednesdayVBox.getChildren().add(button);
+                break;
+            case "thursday":
+                thursdayVBox.getChildren().add(button);
+                break;
+            case "friday":
+                fridayVBox.getChildren().add(button);
+                break;
+            case "saturday":
+                saturdayVBox.getChildren().add(button);
+                break;
+            case "sunday":
+                sundayVBox.getChildren().add(button);
+                break;
         }
     }
+
+    private void setButtonSize() {
+
+        for (int i = 0; i < listOfAllButtons.size(); i++) {
+            listOfAllButtons.get(i).prefHeightProperty().bind(mondayVBox.heightProperty());
+        }
+    }
+
+    @FXML
+    private void handleUpdateButton(ActionEvent event) throws SQLException {
+        scheduleList.clear();
+        scheduleList = dbConnect.getSchedule();
+        getScheduleList();
+    }
+
+    private void setVBoxSizes() {
+        mondayVBox.setAlignment(Pos.CENTER);
+        tuesdayVBox.setAlignment(Pos.CENTER);
+        wednesdayVBox.setAlignment(Pos.CENTER);
+        thursdayVBox.setAlignment(Pos.CENTER);
+        fridayVBox.setAlignment(Pos.CENTER);
+        saturdayVBox.setAlignment(Pos.CENTER);
+        sundayVBox.setAlignment(Pos.CENTER);
+
+        GridPane.setVgrow(mondayVBox, Priority.ALWAYS);
+        GridPane.setVgrow(tuesdayVBox, Priority.ALWAYS);
+        GridPane.setVgrow(wednesdayVBox, Priority.ALWAYS);
+        GridPane.setVgrow(thursdayVBox, Priority.ALWAYS);
+        GridPane.setVgrow(fridayVBox, Priority.ALWAYS);
+        GridPane.setVgrow(saturdayVBox, Priority.ALWAYS);
+        GridPane.setVgrow(sundayVBox, Priority.ALWAYS);
+
+        mondayVBox.setSpacing(4);
+        tuesdayVBox.setSpacing(4);
+        wednesdayVBox.setSpacing(4);
+        thursdayVBox.setSpacing(4);
+        fridayVBox.setSpacing(4);
+        saturdayVBox.setSpacing(4);
+        sundayVBox.setSpacing(4);
+    }
+
+    private void clear() {
+        mondayVBox.getChildren().clear();
+        tuesdayVBox.getChildren().clear();
+        wednesdayVBox.getChildren().clear();
+        thursdayVBox.getChildren().clear();
+        fridayVBox.getChildren().clear();
+        saturdayVBox.getChildren().clear();
+        sundayVBox.getChildren().clear();
+        listOfMondayButtons.clear();
+        listOfTuesdayButtons.clear();
+        listOfWednesdayButtons.clear();
+        listOfThursdayButtons.clear();
+        listOfFridayButtons.clear();
+        listOfSaturdayButtons.clear();
+        listOfSundayButtons.clear();
+        listOfAllButtons.clear();
+    }
+}
 
