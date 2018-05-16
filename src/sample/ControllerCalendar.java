@@ -3,6 +3,8 @@ package sample;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 
+import javafx.event.Event;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -25,6 +27,7 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.net.URL;
+import java.sql.Array;
 import java.sql.SQLException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -578,6 +581,14 @@ public class ControllerCalendar implements Initializable {
                 "-fx-border-insets: 0;" +
                 "-fx-border-radius: 3;" +
                 "-fx-border-color: blue;");
+        button.setId(schedule.getSocialSecurityNumber());
+
+        button.setOnMouseClicked(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                handleScheduleButtonPushed(event);
+            }
+        });
 
         String[] splitTime = schedule.getTime().split(" ");
         String firstTime = splitTime[0];
@@ -679,6 +690,85 @@ public class ControllerCalendar implements Initializable {
         listOfSaturdayButtons.clear();
         listOfSundayButtons.clear();
         listOfAllButtons.clear();
+    }
+
+    private void handleScheduleButtonPushed(Event event){
+
+        Button button = (Button)event.getSource();
+        final ContextMenu contextMenu = new ContextMenu();
+        MenuItem info = new MenuItem("Information");
+        MenuItem sick = new MenuItem("Report Sick");
+        MenuItem unavailable = new MenuItem("Report Unavailable");
+
+        contextMenu.getItems().addAll(info, sick, unavailable);
+
+        info.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                showInfo(button);
+            }
+        });
+        sick.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                if (button.getStyle().equals("-fx-background-color: YELLOW")) {
+                    button.setStyle("-fx-padding: 5;" +
+                            "-fx-border-style: solid inside;" +
+                            "-fx-border-width: 1;" +
+                            "-fx-border-insets: 0;" +
+                            "-fx-border-radius: 3;" +
+                            "-fx-border-color: blue;");
+
+                }else {
+                    button.setStyle("-fx-background-color: YELLOW");
+                }
+            }
+        });
+        unavailable.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                if (button.getStyle().equals("-fx-background-color: LIGHTBLUE")) {
+                    button.setStyle("-fx-padding: 5;" +
+                            "-fx-border-style: solid inside;" +
+                            "-fx-border-width: 1;" +
+                            "-fx-border-insets: 0;" +
+                            "-fx-border-radius: 3;" +
+                            "-fx-border-color: blue;");
+
+                }else {
+                    button.setStyle("-fx-background-color: LIGHTBLUE");
+                }
+            }
+        });
+
+        button.setContextMenu(contextMenu);
+
+    }
+
+    private void showInfo(Button button){
+
+        String socialSecurityNumber = button.getId();
+        Person person = null;
+
+
+        ArrayList<Person>list = Singleton.getInstance().getListOfEmployees();
+        for(int i = 0; i < Singleton.getInstance().getListOfEmployees().size(); i++ ){
+
+            if(list.get(i).getSocialSecurityNumber().equals(socialSecurityNumber)){
+
+                person = list.get(i);
+
+            }
+
+        }
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle("Information");
+        alert.setHeaderText(person.getFirstName() + " " + person.getLastName());
+        alert.setContentText("Social Security Number: " + person.getSocialSecurityNumber() + "\n" +
+        "Email: " + person.getEmail() + "\n" +
+        "Department: " + person.getDepartment() + "\n" +
+        "Phonenumber: " + person.getPhoneNumber());
+        alert.showAndWait();
     }
 }
 
