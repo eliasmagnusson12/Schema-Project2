@@ -27,6 +27,7 @@ import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
+import javax.swing.*;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.Array;
@@ -759,6 +760,37 @@ public class ControllerCalendar implements Initializable {
 
                 }else {
                     button.setStyle("-fx-background-color: YELLOW");
+
+                    contextMenu.hide();
+                    JOptionPane optionPane = new JOptionPane();
+                    Object[] options = {"Yes",
+                            "No"};
+                    int n = JOptionPane.showOptionDialog(optionPane,
+                            "Would you like to replace the employee?",
+                            "Options",
+                            JOptionPane.YES_NO_CANCEL_OPTION,
+                            JOptionPane.QUESTION_MESSAGE,
+                            null,
+                            options,
+                            options[1]);
+
+                    if (n==JOptionPane.YES_OPTION){
+                        Stage stage = new Stage();
+                        FXMLLoader fxmlLoader = new FXMLLoader();
+                        fxmlLoader.setLocation(getClass().getResource("sampleChangeSchedule.fxml"));
+                        stage.setTitle("Change Schedule");
+                        Scene scene = null;
+                        try {
+                            scene = new Scene(fxmlLoader.load(), 640, 480);
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                        stage.setResizable(false);
+                        stage.setScene(scene);
+                        stage.show();
+
+
+                    }
                 }
             }
         });
@@ -775,6 +807,37 @@ public class ControllerCalendar implements Initializable {
 
                 }else {
                     button.setStyle("-fx-background-color: LIGHTBLUE");
+
+                    contextMenu.hide();
+                    JOptionPane optionPane = new JOptionPane();
+                    Object[] options = {"Yes",
+                            "No"};
+                    int n = JOptionPane.showOptionDialog(optionPane,
+                            "Would you like to replace the employee?",
+                            "Options",
+                            JOptionPane.YES_NO_CANCEL_OPTION,
+                            JOptionPane.QUESTION_MESSAGE,
+                            null,
+                            options,
+                            options[1]);
+
+                    if (n==JOptionPane.YES_OPTION){
+                        Stage stage = new Stage();
+                        FXMLLoader fxmlLoader = new FXMLLoader();
+                        fxmlLoader.setLocation(getClass().getResource("sampleChangeSchedule.fxml"));
+                        stage.setTitle("Change Schedule");
+                        Scene scene = null;
+                        try {
+                            scene = new Scene(fxmlLoader.load(), 640, 480);
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                        stage.setResizable(false);
+                        stage.setScene(scene);
+                        stage.show();
+
+
+                    }
                 }
             }
         });
