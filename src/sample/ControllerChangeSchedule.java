@@ -20,8 +20,8 @@ import javafx.util.Duration;
 
 import java.net.URL;
 import java.sql.SQLException;
-import java.text.SimpleDateFormat;
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -44,6 +44,8 @@ public class ControllerChangeSchedule implements Initializable {
 
     private ArrayList<String> listOfNames = new ArrayList<>();
     private ObservableList<CheckMenuItem> list = FXCollections.observableArrayList();
+
+    private String times;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -226,6 +228,17 @@ public class ControllerChangeSchedule implements Initializable {
         button.setStyle("-fx-background-color: TRANSPARENT");
     }
 
+    public void setTimes(String times, String date){
+        String[] splitString = times.split("\\r?\\n");
+        String time = splitString[1];
 
+        String[] splitTime = time.split("\\-");
+        startTextField.setText(splitTime[0]);
+        endTextField.setText(splitTime[1]);
+
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        LocalDate localDate = LocalDate.parse(date, formatter);
+        datePicker.setValue(localDate);
+    }
 }
 

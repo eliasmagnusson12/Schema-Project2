@@ -17,6 +17,7 @@ import javafx.print.PrinterJob;
 import javafx.scene.Group;
 import javafx.scene.Node;
 
+import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
@@ -30,7 +31,6 @@ import javafx.stage.Stage;
 import javax.swing.*;
 import java.io.IOException;
 import java.net.URL;
-import java.sql.Array;
 import java.sql.SQLException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -56,11 +56,13 @@ public class ControllerCalendar implements Initializable {
     private ChoiceBox choiceBox;
 
     private Week week;
+    private String times;
+    private String date;
     private String weekString;
     private String day;
     private String choice = "Personal schedule";
     private int weekChosen = 0;
-    private int amount = 0;
+    private int color = 0;
     private Calendar calendar = new GregorianCalendar(Locale.ENGLISH);
     private ArrayList<Schedule> scheduleList = new ArrayList<>();
     private ArrayList<Button> listOfMondayButtons = new ArrayList<>();
@@ -71,7 +73,6 @@ public class ControllerCalendar implements Initializable {
     private ArrayList<Button> listOfSaturdayButtons = new ArrayList<>();
     private ArrayList<Button> listOfSundayButtons = new ArrayList<>();
     private ArrayList<Button> listOfAllButtons = new ArrayList<>();
-    private ArrayList<String> choiceboxlist;
     private DBConnect dbConnect = new DBConnect();
 
     @Override
@@ -133,7 +134,7 @@ public class ControllerCalendar implements Initializable {
 
             changeScheduleButton.setGraphic(new ImageView(changeImage));
             changeScheduleButton.setStyle("-fx-background-color: TRANSPARENT");
-            changeScheduleButton.setTooltip(new Tooltip("Add workshift"));
+            changeScheduleButton.setTooltip(new Tooltip("Add work shift"));
 
             deleteEmployeeButton.setGraphic(new ImageView(removeImage));
             deleteEmployeeButton.setStyle("-fx-background-color: TRANSPARENT");
@@ -169,9 +170,7 @@ public class ControllerCalendar implements Initializable {
         friday.prefWidthProperty().bind(gridPane.widthProperty());
         saturday.prefWidthProperty().bind(gridPane.widthProperty());
         sunday.prefWidthProperty().bind(gridPane.widthProperty());
-
         nextWeek.layoutXProperty().bind(gridPane.widthProperty().add(285));
-
         weekLabel.prefWidthProperty().bind(miniGridPane.widthProperty());
         addEmployeeButton.layoutXProperty().bind(gridPane.widthProperty().add(385));
         changeScheduleButton.layoutXProperty().bind(gridPane.widthProperty().add(385));
@@ -467,7 +466,6 @@ public class ControllerCalendar implements Initializable {
     }
 
     public void getScheduleList() {
-        amount = 0;
 
         setVBoxSizes();
         clear();
@@ -483,7 +481,6 @@ public class ControllerCalendar implements Initializable {
             Schedule schedule = scheduleList.get(i);
 
             if (schedule.getDate().equals(sdf.format(cal.getTime()))) {
-                amount++;
                 createButton(schedule);
             }
         }
@@ -495,7 +492,6 @@ public class ControllerCalendar implements Initializable {
             Schedule schedule = scheduleList.get(i);
 
             if (schedule.getDate().equals(sdf.format(cal.getTime()))) {
-                amount++;
                 createButton(schedule);
             }
         }
@@ -507,7 +503,6 @@ public class ControllerCalendar implements Initializable {
             Schedule schedule = scheduleList.get(i);
 
             if (schedule.getDate().equals(sdf.format(cal.getTime()))) {
-                amount++;
                 createButton(schedule);
             }
         }
@@ -519,7 +514,6 @@ public class ControllerCalendar implements Initializable {
             Schedule schedule = scheduleList.get(i);
 
             if (schedule.getDate().equals(sdf.format(cal.getTime()))) {
-                amount++;
                 createButton(schedule);
             }
         }
@@ -531,7 +525,6 @@ public class ControllerCalendar implements Initializable {
             Schedule schedule = scheduleList.get(i);
 
             if (schedule.getDate().equals(sdf.format(cal.getTime()))) {
-                amount++;
                 createButton(schedule);
             }
         }
@@ -543,7 +536,6 @@ public class ControllerCalendar implements Initializable {
             Schedule schedule = scheduleList.get(i);
 
             if (schedule.getDate().equals(sdf.format(cal.getTime()))) {
-                amount++;
                 createButton(schedule);
             }
         }
@@ -555,16 +547,18 @@ public class ControllerCalendar implements Initializable {
             Schedule schedule = scheduleList.get(i);
 
             if (schedule.getDate().equals(sdf.format(cal.getTime()))) {
-                amount++;
                 createButton(schedule);
             }
         }
-            setButtonSize();
+        setButtonSize();
 
     }
+
     private void createButton(Schedule schedule) {
 
         Button button = new Button();
+        button.setUserData(schedule);
+
 
         switch (day) {
             case "monday":
@@ -590,14 +584,20 @@ public class ControllerCalendar implements Initializable {
                 break;
         }
         listOfAllButtons.add(button);
-        button.setStyle("-fx-background-color: LIGHTBLUE");
+
         button.setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE);
-        button.setStyle("-fx-padding: 5;" +
-                "-fx-border-style: solid inside;" +
-                "-fx-border-width: 1;" +
-                "-fx-border-insets: 0;" +
-                "-fx-border-radius: 3;" +
-                "-fx-border-color: blue;");
+        if (schedule.getColor() == 1) {
+            button.setStyle("-fx-background-color: YELLOW");
+        }else if (schedule.getColor() == 2) {
+            button.setStyle("-fx-background-color: LIGHTBLUE");
+        }else {
+            button.setStyle("-fx-padding: 5;" +
+                    "-fx-border-style: solid inside;" +
+                    "-fx-border-width: 1;" +
+                    "-fx-border-insets: 0;" +
+                    "-fx-border-radius: 3;" +
+                    "-fx-border-color: blue;");
+        }
         button.setId(schedule.getSocialSecurityNumber());
 
         button.setOnMouseClicked(new EventHandler<MouseEvent>() {
@@ -626,6 +626,7 @@ public class ControllerCalendar implements Initializable {
         button.setText("     " + initials + "\n" + firstTime + "-" + secondTime);
         button.setTooltip(new Tooltip(firstName + " " + lastName));
 
+
         if (choice.equals("Personal schedule")) {
             if (button.getId().equals(Singleton.getInstance().getUser().getSsn())) {
                 switchDay(button);
@@ -643,8 +644,8 @@ public class ControllerCalendar implements Initializable {
         }
     }
 
-        private void switchDay(Button button) {
-        switch (day){
+    private void switchDay(Button button) {
+        switch (day) {
             case "monday":
                 mondayVBox.getChildren().add(button);
                 break;
@@ -678,13 +679,58 @@ public class ControllerCalendar implements Initializable {
 
     @FXML
     private void handleUpdateButton(ActionEvent event) throws SQLException {
+        String ssn = null;
+        String date = null;
+        int color = 0;
+
+        for (Button b : listOfAllButtons) {
+            if (b.getStyle().matches("-fx-background-color: YELLOW")){
+                Schedule schedule = (Schedule)b.getUserData();
+                color = 1;
+                ssn = schedule.getSocialSecurityNumber();
+                date = schedule.getDate();
+                String[] timeSplit = schedule.getTime().split("\\-");
+                String time = timeSplit[0];
+
+                if (dbConnect.setNewColor(color, ssn, date, time)){
+                }else {
+                    System.out.println("fel1");
+                }
+
+            }else if (b.getStyle().matches("-fx-background-color: LIGHTBLUE")){
+                Schedule schedule = (Schedule)b.getUserData();
+                color = 2;
+                ssn = schedule.getSocialSecurityNumber();
+                date = schedule.getDate();
+                String[] timeSplit = schedule.getTime().split("\\-");
+                String timeAfterSplit = timeSplit[0];
+                if (dbConnect.setNewColor(color, ssn, date, timeAfterSplit)){
+                }else {
+                    System.out.println("fel2");
+                }
+            }else {
+                Schedule schedule = (Schedule)b.getUserData();
+                color = 0;
+                ssn = schedule.getSocialSecurityNumber();
+                date = schedule.getDate();
+                String[] timeSplit = schedule.getTime().split("\\-");
+                String timeAfterSplit = timeSplit[0];
+                if (dbConnect.setNewColor(color, ssn, date, timeAfterSplit)){
+                }else {
+                    System.out.println("fel3");
+                }
+            }
+
+        }
+
         choice = choiceBox.getSelectionModel().getSelectedItem().toString();
-        if (choice == null){
+        if (choice == null) {
             choice = "Person schedule";
         }
         scheduleList.clear();
         scheduleList = dbConnect.getSchedule();
         getScheduleList();
+
     }
 
     private void setVBoxSizes() {
@@ -731,9 +777,13 @@ public class ControllerCalendar implements Initializable {
         listOfAllButtons.clear();
     }
 
-    private void handleScheduleButtonPushed(Event event){
+    private void handleScheduleButtonPushed(Event event) {
 
-        Button button = (Button)event.getSource();
+        Button button = (Button) event.getSource();
+        times = button.getText();
+        Schedule schedule = (Schedule)button.getUserData();
+        date = schedule.getDate();
+
         final ContextMenu contextMenu = new ContextMenu();
         MenuItem info = new MenuItem("Information");
         MenuItem sick = new MenuItem("Report Sick");
@@ -745,9 +795,12 @@ public class ControllerCalendar implements Initializable {
             @Override
             public void handle(ActionEvent event) {
                 showInfo(button);
+
             }
         });
+
         sick.setOnAction(new EventHandler<ActionEvent>() {
+
             @Override
             public void handle(ActionEvent event) {
                 if (button.getStyle().equals("-fx-background-color: YELLOW")) {
@@ -758,43 +811,16 @@ public class ControllerCalendar implements Initializable {
                             "-fx-border-radius: 3;" +
                             "-fx-border-color: blue;");
 
-                }else {
+                } else {
                     button.setStyle("-fx-background-color: YELLOW");
-
-                    contextMenu.hide();
-                    JOptionPane optionPane = new JOptionPane();
-                    Object[] options = {"Yes",
-                            "No"};
-                    int n = JOptionPane.showOptionDialog(optionPane,
-                            "Would you like to replace the employee?",
-                            "Options",
-                            JOptionPane.YES_NO_CANCEL_OPTION,
-                            JOptionPane.QUESTION_MESSAGE,
-                            null,
-                            options,
-                            options[1]);
-
-                    if (n==JOptionPane.YES_OPTION){
-                        Stage stage = new Stage();
-                        FXMLLoader fxmlLoader = new FXMLLoader();
-                        fxmlLoader.setLocation(getClass().getResource("sampleChangeSchedule.fxml"));
-                        stage.setTitle("Change Schedule");
-                        Scene scene = null;
-                        try {
-                            scene = new Scene(fxmlLoader.load(), 640, 480);
-                        } catch (IOException e) {
-                            e.printStackTrace();
-                        }
-                        stage.setResizable(false);
-                        stage.setScene(scene);
-                        stage.show();
-
-
-                    }
+                    openNextScene(contextMenu, button);
                 }
             }
         });
+
+
         unavailable.setOnAction(new EventHandler<ActionEvent>() {
+
             @Override
             public void handle(ActionEvent event) {
                 if (button.getStyle().equals("-fx-background-color: LIGHTBLUE")) {
@@ -805,57 +831,64 @@ public class ControllerCalendar implements Initializable {
                             "-fx-border-radius: 3;" +
                             "-fx-border-color: blue;");
 
-                }else {
+                } else {
                     button.setStyle("-fx-background-color: LIGHTBLUE");
-
-                    contextMenu.hide();
-                    JOptionPane optionPane = new JOptionPane();
-                    Object[] options = {"Yes",
-                            "No"};
-                    int n = JOptionPane.showOptionDialog(optionPane,
-                            "Would you like to replace the employee?",
-                            "Options",
-                            JOptionPane.YES_NO_CANCEL_OPTION,
-                            JOptionPane.QUESTION_MESSAGE,
-                            null,
-                            options,
-                            options[1]);
-
-                    if (n==JOptionPane.YES_OPTION){
-                        Stage stage = new Stage();
-                        FXMLLoader fxmlLoader = new FXMLLoader();
-                        fxmlLoader.setLocation(getClass().getResource("sampleChangeSchedule.fxml"));
-                        stage.setTitle("Change Schedule");
-                        Scene scene = null;
-                        try {
-                            scene = new Scene(fxmlLoader.load(), 640, 480);
-                        } catch (IOException e) {
-                            e.printStackTrace();
-                        }
-                        stage.setResizable(false);
-                        stage.setScene(scene);
-                        stage.show();
-
-
-                    }
+                    openNextScene(contextMenu, button);
                 }
             }
         });
-
         button.setContextMenu(contextMenu);
-
     }
 
-    private void showInfo(Button button){
+
+    private void openNextScene(ContextMenu contextMenu, Button button) {
+        contextMenu.hide();
+        JOptionPane optionPane = new JOptionPane();
+        Object[] options = {"Yes",
+                "No"};
+        int n = JOptionPane.showOptionDialog(optionPane,
+                "Would you like to replace the employee?",
+                "Options",
+                JOptionPane.YES_NO_CANCEL_OPTION,
+                JOptionPane.QUESTION_MESSAGE,
+                null,
+                options,
+                options[1]);
+
+        if (n == JOptionPane.YES_OPTION) {
+            Stage stage = new Stage();
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("sampleChangeSchedule.fxml"));
+            Parent root = null;
+            try {
+                root = (Parent) fxmlLoader.load();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+            ControllerChangeSchedule ccs = fxmlLoader.<ControllerChangeSchedule>getController();
+            ccs.setTimes(times, date);
+            stage.setTitle("Change Schedule");
+            Scene scene = new Scene(root);
+
+            stage.setResizable(false);
+            stage.setScene(scene);
+            stage.show();
+
+
+        }
+    }
+
+
+    private void showInfo(Button button) {
 
         String socialSecurityNumber = button.getId();
         Person person = null;
 
 
-        ArrayList<Person>list = Singleton.getInstance().getListOfEmployees();
-        for(int i = 0; i < Singleton.getInstance().getListOfEmployees().size(); i++ ){
+        ArrayList<Person> list = Singleton.getInstance().getListOfEmployees();
+        for (int i = 0; i < Singleton.getInstance().getListOfEmployees().size(); i++) {
 
-            if(list.get(i).getSocialSecurityNumber().equals(socialSecurityNumber)){
+            if (list.get(i).getSocialSecurityNumber().equals(socialSecurityNumber)) {
 
                 person = list.get(i);
 
@@ -866,9 +899,9 @@ public class ControllerCalendar implements Initializable {
         alert.setTitle("Information");
         alert.setHeaderText(person.getFirstName() + " " + person.getLastName());
         alert.setContentText("Social Security Number: " + person.getSocialSecurityNumber() + "\n" +
-        "Email: " + person.getEmail() + "\n" +
-        "Department: " + person.getDepartment() + "\n" +
-        "Phonenumber: " + person.getPhoneNumber());
+                "Email: " + person.getEmail() + "\n" +
+                "Department: " + person.getDepartment() + "\n" +
+                "Phonenumber: " + person.getPhoneNumber());
         alert.showAndWait();
     }
 
@@ -880,10 +913,5 @@ public class ControllerCalendar implements Initializable {
         choiceBox.setItems(list);
 
     }
-    @FXML
-    private void handleChoiceBox() {
-
-    }
-
 }
 

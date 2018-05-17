@@ -45,13 +45,6 @@ public class DBConnect {
 
     }
 
-    public static DBConnect getInstance(){
-        if (instance == null){
-            instance = new DBConnect();
-        }
-        return instance;
-    }
-
     public void setUser(String username) throws SQLException {
 
         String sql = ("SELECT * FROM person, email, phoneNumber, person_has_underdepartment WHERE socialSecurityNumber = '" + username + "' and socialSecurityNumber = email.Person_socialSecurityNumber " +
@@ -328,8 +321,8 @@ public class DBConnect {
             String ssn = rs.getString("person_socialSecurityNumber");
             String date = rs.getString("schedule_date_");
             String time = rs.getString("schedule_time_");
-
-            Schedule schedule = new Schedule(ssn, date, time);
+            int color = rs.getInt("schedule_color");
+            Schedule schedule = new Schedule(ssn, date, time, color);
             scheduleList.add(schedule);
         }
         return scheduleList;
@@ -348,5 +341,24 @@ public class DBConnect {
             }
 
             return socialSecurityNumber;
+        }
+
+        public boolean setNewColor(int color, String ssn, String date, String time){
+        int action = 0;
+        boolean answer = false;
+
+        String sql = ("UPDATE person_has_schedule SET schedule_color = " + color + " WHERE person_socialSecurityNumber = '" + ssn + "' and schedule_date_ = '" + date + "' and schedule_time_ = '" + time + "';");
+
+            try {
+                action = st.executeUpdate(sql);
+                if (action > 0) {
+                    answer = true;
+                }
+            } catch (Exception e) {
+                error = "update color";
+                callAlert(error);
+            }
+            return answer;
+
         }
     }

@@ -89,7 +89,7 @@ public class ControllerLogin implements Initializable {
             alert.setHeaderText("Please enter password");
             alert.showAndWait();
 
-        }else if (DBConnect.getInstance().isPasswordCorrect(username, password)) {
+        }else if (dbConnect.isPasswordCorrect(username, password)) {
 
             dbConnect.setUser(username);
             dbConnect.getAllEmployees();
