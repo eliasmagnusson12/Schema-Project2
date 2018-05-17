@@ -52,6 +52,7 @@ public class ControllerLogin implements Initializable {
         ImageView imageView1 = new ImageView(back);
         backButton.setGraphic(imageView1);
         backButton.setStyle("-fx-background-color: TRANSPARENT");
+        backButton.setTooltip(new Tooltip("Back"));
 
         Image signInImage = new Image("resources/signIn.png");
         ImageView signInImageView = new ImageView(signInImage);

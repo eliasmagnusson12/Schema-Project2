@@ -1,6 +1,8 @@
 package sample;
 
 import javafx.application.Platform;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 
 import javafx.event.Event;
@@ -25,7 +27,6 @@ import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
-import javax.swing.*;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.Array;
@@ -50,11 +51,13 @@ public class ControllerCalendar implements Initializable {
     private Group group;
     @FXML
     private VBox mondayVBox, tuesdayVBox, wednesdayVBox, thursdayVBox, fridayVBox, saturdayVBox, sundayVBox;
-
+    @FXML
+    private ChoiceBox choiceBox;
 
     private Week week;
     private String weekString;
     private String day;
+    private String choice = "Personal schedule";
     private int weekChosen = 0;
     private int amount = 0;
     private Calendar calendar = new GregorianCalendar(Locale.ENGLISH);
@@ -67,6 +70,7 @@ public class ControllerCalendar implements Initializable {
     private ArrayList<Button> listOfSaturdayButtons = new ArrayList<>();
     private ArrayList<Button> listOfSundayButtons = new ArrayList<>();
     private ArrayList<Button> listOfAllButtons = new ArrayList<>();
+    private ArrayList<String> choiceboxlist;
     private DBConnect dbConnect = new DBConnect();
 
     @Override
@@ -78,22 +82,27 @@ public class ControllerCalendar implements Initializable {
         Image forwardImage = new Image("resources/arrowF.png");
         nextWeek.setGraphic(new ImageView(forwardImage));
         nextWeek.setStyle("-fx-background-color: TRANSPARENT");
+        nextWeek.setTooltip(new Tooltip("Next week"));
 
         Image backImage = new Image("resources/arrowB.png");
         lastWeek.setGraphic(new ImageView(backImage));
         lastWeek.setStyle("-fx-background-color: TRANSPARENT");
+        lastWeek.setTooltip(new Tooltip("Last week"));
 
         Image homeImage = new Image("resources/home.png");
         homeButton.setGraphic(new ImageView(homeImage));
         homeButton.setStyle("-fx-background-color: TRANSPARENT");
+        homeButton.setTooltip(new Tooltip("Home"));
 
         Image pdfImage = new Image("resources/pdficon.png");
         savePdfButton.setGraphic(new ImageView(pdfImage));
         savePdfButton.setStyle("-fx-background-color: TRANSPARENT");
+        savePdfButton.setTooltip(new Tooltip("Print to PDF"));
 
         Image updateImage = new Image("resources/update.png");
         updateButton.setGraphic(new ImageView(updateImage));
         updateButton.setStyle("-fx-background-color: TRANSPARENT");
+        updateButton.setTooltip(new Tooltip("Update"));
 
         Image addImage = new Image("resources/add.png");
         Image changeImage = new Image("resources/change.png");
@@ -119,12 +128,15 @@ public class ControllerCalendar implements Initializable {
         if (Singleton.getInstance().getUser().getRole().equals("Boss") || Singleton.getInstance().getUser().getRole().equals("Admin")) {
             addEmployeeButton.setGraphic(new ImageView(addImage));
             addEmployeeButton.setStyle("-fx-background-color: TRANSPARENT");
+            addEmployeeButton.setTooltip(new Tooltip("Add employee"));
 
             changeScheduleButton.setGraphic(new ImageView(changeImage));
             changeScheduleButton.setStyle("-fx-background-color: TRANSPARENT");
+            changeScheduleButton.setTooltip(new Tooltip("Add workshift"));
 
             deleteEmployeeButton.setGraphic(new ImageView(removeImage));
             deleteEmployeeButton.setStyle("-fx-background-color: TRANSPARENT");
+            deleteEmployeeButton.setTooltip(new Tooltip("Remove employee"));
         } else {
 
             addEmployeeButton.setDisable(true);
@@ -173,6 +185,7 @@ public class ControllerCalendar implements Initializable {
         setWeekLabel(weekString);
 
         setToday();
+        setChoiceBox();
 
         try {
             scheduleList = dbConnect.getSchedule();
@@ -406,6 +419,7 @@ public class ControllerCalendar implements Initializable {
 
         ScrollPane root = new ScrollPane(imageview);
 
+
         PrinterJob job = PrinterJob.createPrinterJob();
         if (job != null) {
             job.showPrintDialog(stage);
@@ -551,7 +565,7 @@ public class ControllerCalendar implements Initializable {
 
         Button button = new Button();
 
-        switch (day){
+        switch (day) {
             case "monday":
                 listOfMondayButtons.add(button);
                 break;
@@ -572,7 +586,7 @@ public class ControllerCalendar implements Initializable {
                 break;
             case "sunday":
                 listOfSundayButtons.add(button);
-            break;
+                break;
         }
         listOfAllButtons.add(button);
         button.setStyle("-fx-background-color: LIGHTBLUE");
@@ -584,8 +598,6 @@ public class ControllerCalendar implements Initializable {
                 "-fx-border-radius: 3;" +
                 "-fx-border-color: blue;");
         button.setId(schedule.getSocialSecurityNumber());
-
-
 
         button.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
@@ -613,7 +625,24 @@ public class ControllerCalendar implements Initializable {
         button.setText("     " + initials + "\n" + firstTime + "-" + secondTime);
         button.setTooltip(new Tooltip(firstName + " " + lastName));
 
+        if (choice.equals("Personal schedule")) {
+            if (button.getId().equals(Singleton.getInstance().getUser().getSsn())) {
+                switchDay(button);
+            }
+        }
 
+        ArrayList<Person> employees = Singleton.getInstance().getListOfEmployees();
+        for (Person p : employees) {
+            if (button.getId().equals(p.getSocialSecurityNumber())) {
+                if (p.getDepartment().equals(choice)) {
+                    switchDay(button);
+
+                }
+            }
+        }
+    }
+
+        private void switchDay(Button button) {
         switch (day){
             case "monday":
                 mondayVBox.getChildren().add(button);
@@ -648,6 +677,10 @@ public class ControllerCalendar implements Initializable {
 
     @FXML
     private void handleUpdateButton(ActionEvent event) throws SQLException {
+        choice = choiceBox.getSelectionModel().getSelectedItem().toString();
+        if (choice == null){
+            choice = "Person schedule";
+        }
         scheduleList.clear();
         scheduleList = dbConnect.getSchedule();
         getScheduleList();
@@ -726,90 +759,22 @@ public class ControllerCalendar implements Initializable {
 
                 }else {
                     button.setStyle("-fx-background-color: YELLOW");
-
-                    contextMenu.hide();
-                    JOptionPane optionPane = new JOptionPane();
-                    Object[] options = {"Yes",
-                            "No"};
-                    int option = JOptionPane.showOptionDialog(optionPane,
-                            "Do you want to replace the employee?",
-                            "Option",
-                            JOptionPane.YES_NO_CANCEL_OPTION,
-                            JOptionPane.QUESTION_MESSAGE,
-                            null,
-                            options,
-                            options[1]);
-
-                    if(option==JOptionPane.YES_OPTION){
-
-                        Stage stage = new Stage();
-                        FXMLLoader fxmlLoader = new FXMLLoader();
-                        fxmlLoader.setLocation(getClass().getResource("sampleChangeSchedule.fxml"));
-                        stage.setTitle("Change Schedule");
-                        Scene scene = null;
-
-                        try {
-                            scene = new Scene(fxmlLoader.load(), 640, 480);
-
-                        } catch (IOException e) {
-                            e.printStackTrace();
-                        }
-                        stage.setResizable(false);
-                        stage.setScene(scene);
-                        stage.show();
-
-                    }
                 }
             }
         });
         unavailable.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-
                 if (button.getStyle().equals("-fx-background-color: LIGHTBLUE")) {
                     button.setStyle("-fx-padding: 5;" +
                             "-fx-border-style: solid inside;" +
                             "-fx-border-width: 1;" +
                             "-fx-border-insets: 0;" +
                             "-fx-border-radius: 3;" +
-                            "-fx-borddr-color: blue;");
+                            "-fx-border-color: blue;");
 
                 }else {
                     button.setStyle("-fx-background-color: LIGHTBLUE");
-
-                    contextMenu.hide();
-                    JOptionPane optionPane = new JOptionPane();
-                    Object[] options = {"Yes",
-                            "No"};
-                    int option = JOptionPane.showOptionDialog(optionPane,
-                            "Do you want to replace the employee?",
-                            "Option",
-                            JOptionPane.YES_NO_CANCEL_OPTION,
-                            JOptionPane.QUESTION_MESSAGE,
-                            null,
-                            options,
-                            options[1]);
-
-                    if(option==JOptionPane.YES_OPTION){
-
-                        Stage stage = new Stage();
-                        FXMLLoader fxmlLoader = new FXMLLoader();
-                        fxmlLoader.setLocation(getClass().getResource("sampleChangeSchedule.fxml"));
-                        stage.setTitle("Change Schedule");
-                        Scene scene = null;
-
-                        try {
-                            scene = new Scene(fxmlLoader.load(), 640, 480);
-
-                        } catch (IOException e) {
-                            e.printStackTrace();
-                        }
-                        stage.setResizable(false);
-                        stage.setScene(scene);
-                        stage.show();
-
-                    }
-
                 }
             }
         });
@@ -818,16 +783,16 @@ public class ControllerCalendar implements Initializable {
 
     }
 
-    private void showInfo(Button button) {
+    private void showInfo(Button button){
 
         String socialSecurityNumber = button.getId();
         Person person = null;
 
 
-        ArrayList<Person> list = Singleton.getInstance().getListOfEmployees();
-        for (int i = 0; i < Singleton.getInstance().getListOfEmployees().size(); i++) {
+        ArrayList<Person>list = Singleton.getInstance().getListOfEmployees();
+        for(int i = 0; i < Singleton.getInstance().getListOfEmployees().size(); i++ ){
 
-            if (list.get(i).getSocialSecurityNumber().equals(socialSecurityNumber)) {
+            if(list.get(i).getSocialSecurityNumber().equals(socialSecurityNumber)){
 
                 person = list.get(i);
 
@@ -838,10 +803,23 @@ public class ControllerCalendar implements Initializable {
         alert.setTitle("Information");
         alert.setHeaderText(person.getFirstName() + " " + person.getLastName());
         alert.setContentText("Social Security Number: " + person.getSocialSecurityNumber() + "\n" +
-                "Email: " + person.getEmail() + "\n" +
-                "Department: " + person.getDepartment() + "\n" +
-                "Phonenumber: " + person.getPhoneNumber());
+        "Email: " + person.getEmail() + "\n" +
+        "Department: " + person.getDepartment() + "\n" +
+        "Phonenumber: " + person.getPhoneNumber());
         alert.showAndWait();
+    }
+
+    private void setChoiceBox() {
+        ArrayList<String> choiceBoxList = Singleton.getInstance().getListOfUnderDepartments();
+        choiceBoxList.add("Personal schedule");
+        ObservableList<String> list = FXCollections.observableList(choiceBoxList);
+        choiceBox.setValue("Personal schedule");
+        choiceBox.setItems(list);
+
+    }
+    @FXML
+    private void handleChoiceBox() {
+
     }
 
 }

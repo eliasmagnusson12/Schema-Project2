@@ -41,14 +41,17 @@ public class ControllerMainMenu implements Initializable {
         Image exitImage = new Image("resources/exit.png");
         exitButton.setGraphic(new ImageView(exitImage));
         exitButton.setStyle("-fx-background-color: TRANSPARENT");
+        exitButton.setTooltip(new Tooltip("Exit"));
 
         Image settingsImage = new Image("resources/settings.png");
         settingsButton.setGraphic(new ImageView(settingsImage));
         settingsButton.setStyle("-fx-background-color: TRANSPARENT");
+        settingsButton.setTooltip(new Tooltip("Settings"));
 
         Image mailImage = new Image("resources/email.png");
         mailButton.setGraphic(new ImageView(mailImage));
         mailButton.setStyle("-fx-background-color: TRANSPARENT");
+        mailButton.setTooltip(new Tooltip("Mail"));
 
         Image loginImage = new Image("resources/login.png");
         loginButton.setGraphic(new ImageView(loginImage));
@@ -57,10 +60,12 @@ public class ControllerMainMenu implements Initializable {
         Image helpImage = new Image("resources/help.png");
         helpButton.setGraphic(new ImageView(helpImage));
         helpButton.setStyle("-fx-background-color: TRANSPARENT");
+        helpButton.setTooltip(new Tooltip("Help"));
 
         Image infoImage = new Image("resources/info.png");
         infoButton.setGraphic(new ImageView(infoImage));
         infoButton.setStyle("-fx-background-color: TRANSPARENT");
+        infoButton.setTooltip(new Tooltip("Information"));
 
     }
 
