@@ -36,7 +36,7 @@ public class ControllerChangeSchedule implements Initializable {
     @FXML
     private TextField startTextField, endTextField;
     @FXML
-    private Button addButton, toolTipButton;
+    private Button addButton, toolTipButton, button;
     @FXML
     private DatePicker datePicker;
     @FXML
@@ -225,5 +225,7 @@ public class ControllerChangeSchedule implements Initializable {
         Button button = (Button) event.getSource();
         button.setStyle("-fx-background-color: TRANSPARENT");
     }
+
+
 }
 

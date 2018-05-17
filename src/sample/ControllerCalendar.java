@@ -25,6 +25,7 @@ import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
+import javax.swing.*;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.Array;
@@ -49,6 +50,7 @@ public class ControllerCalendar implements Initializable {
     private Group group;
     @FXML
     private VBox mondayVBox, tuesdayVBox, wednesdayVBox, thursdayVBox, fridayVBox, saturdayVBox, sundayVBox;
+
 
     private Week week;
     private String weekString;
@@ -583,6 +585,8 @@ public class ControllerCalendar implements Initializable {
                 "-fx-border-color: blue;");
         button.setId(schedule.getSocialSecurityNumber());
 
+
+
         button.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent event) {
@@ -608,6 +612,7 @@ public class ControllerCalendar implements Initializable {
         }
         button.setText("     " + initials + "\n" + firstTime + "-" + secondTime);
         button.setTooltip(new Tooltip(firstName + " " + lastName));
+
 
         switch (day){
             case "monday":
@@ -721,22 +726,90 @@ public class ControllerCalendar implements Initializable {
 
                 }else {
                     button.setStyle("-fx-background-color: YELLOW");
+
+                    contextMenu.hide();
+                    JOptionPane optionPane = new JOptionPane();
+                    Object[] options = {"Yes",
+                            "No"};
+                    int option = JOptionPane.showOptionDialog(optionPane,
+                            "Do you want to replace the employee?",
+                            "Option",
+                            JOptionPane.YES_NO_CANCEL_OPTION,
+                            JOptionPane.QUESTION_MESSAGE,
+                            null,
+                            options,
+                            options[1]);
+
+                    if(option==JOptionPane.YES_OPTION){
+
+                        Stage stage = new Stage();
+                        FXMLLoader fxmlLoader = new FXMLLoader();
+                        fxmlLoader.setLocation(getClass().getResource("sampleChangeSchedule.fxml"));
+                        stage.setTitle("Change Schedule");
+                        Scene scene = null;
+
+                        try {
+                            scene = new Scene(fxmlLoader.load(), 640, 480);
+
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                        stage.setResizable(false);
+                        stage.setScene(scene);
+                        stage.show();
+
+                    }
                 }
             }
         });
         unavailable.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
+
                 if (button.getStyle().equals("-fx-background-color: LIGHTBLUE")) {
                     button.setStyle("-fx-padding: 5;" +
                             "-fx-border-style: solid inside;" +
                             "-fx-border-width: 1;" +
                             "-fx-border-insets: 0;" +
                             "-fx-border-radius: 3;" +
-                            "-fx-border-color: blue;");
+                            "-fx-borddr-color: blue;");
 
                 }else {
                     button.setStyle("-fx-background-color: LIGHTBLUE");
+
+                    contextMenu.hide();
+                    JOptionPane optionPane = new JOptionPane();
+                    Object[] options = {"Yes",
+                            "No"};
+                    int option = JOptionPane.showOptionDialog(optionPane,
+                            "Do you want to replace the employee?",
+                            "Option",
+                            JOptionPane.YES_NO_CANCEL_OPTION,
+                            JOptionPane.QUESTION_MESSAGE,
+                            null,
+                            options,
+                            options[1]);
+
+                    if(option==JOptionPane.YES_OPTION){
+
+                        Stage stage = new Stage();
+                        FXMLLoader fxmlLoader = new FXMLLoader();
+                        fxmlLoader.setLocation(getClass().getResource("sampleChangeSchedule.fxml"));
+                        stage.setTitle("Change Schedule");
+                        Scene scene = null;
+
+                        try {
+                            scene = new Scene(fxmlLoader.load(), 640, 480);
+
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                        stage.setResizable(false);
+                        stage.setScene(scene);
+                        stage.show();
+
+                    }
+
                 }
             }
         });
@@ -745,16 +818,16 @@ public class ControllerCalendar implements Initializable {
 
     }
 
-    private void showInfo(Button button){
+    private void showInfo(Button button) {
 
         String socialSecurityNumber = button.getId();
         Person person = null;
 
 
-        ArrayList<Person>list = Singleton.getInstance().getListOfEmployees();
-        for(int i = 0; i < Singleton.getInstance().getListOfEmployees().size(); i++ ){
+        ArrayList<Person> list = Singleton.getInstance().getListOfEmployees();
+        for (int i = 0; i < Singleton.getInstance().getListOfEmployees().size(); i++) {
 
-            if(list.get(i).getSocialSecurityNumber().equals(socialSecurityNumber)){
+            if (list.get(i).getSocialSecurityNumber().equals(socialSecurityNumber)) {
 
                 person = list.get(i);
 
@@ -765,10 +838,11 @@ public class ControllerCalendar implements Initializable {
         alert.setTitle("Information");
         alert.setHeaderText(person.getFirstName() + " " + person.getLastName());
         alert.setContentText("Social Security Number: " + person.getSocialSecurityNumber() + "\n" +
-        "Email: " + person.getEmail() + "\n" +
-        "Department: " + person.getDepartment() + "\n" +
-        "Phonenumber: " + person.getPhoneNumber());
+                "Email: " + person.getEmail() + "\n" +
+                "Department: " + person.getDepartment() + "\n" +
+                "Phonenumber: " + person.getPhoneNumber());
         alert.showAndWait();
     }
+
 }
 
