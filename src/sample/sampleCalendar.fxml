@@ -89,5 +89,19 @@
             <Font name="Microsoft Sans Serif" size="15.0" />
          </font>
       </Label>
+      <GridPane fx:id="miniGridPane1" layoutX="269.0" layoutY="649.0" prefHeight="31.0" prefWidth="742.0">
+         <columnConstraints>
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+         </columnConstraints>
+         <rowConstraints>
+            <RowConstraints />
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+         </rowConstraints>
+         <children>
+            <Button fx:id="dotsButton" mnemonicParsing="false" prefHeight="31.0" prefWidth="268.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+         </children>
+      </GridPane>
    </children>
 </Pane>

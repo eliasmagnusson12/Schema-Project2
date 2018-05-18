@@ -132,6 +132,7 @@ public class ControllerChangeSchedule implements Initializable {
             String lastName = splitName[1];
             LocalDate localDate = handleDatePicker();
 
+
             if (DBConnect.getDBCon().addToSchedule(startTime, endTime, firstName, lastName, localDate)) {
                 setSuccessLabel(true);
             } else {
@@ -237,7 +238,26 @@ public class ControllerChangeSchedule implements Initializable {
 
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
         LocalDate localDate = LocalDate.parse(date, formatter);
-        datePicker.setValue(localDate);
+
+        String[] splitDate = date.split("\\-");
+        String year = splitDate[0];
+        String month = splitDate[1];
+        String day = splitDate[2];
+
+        int yearInt = Integer.parseInt(year);
+        int monthInt = Integer.parseInt(month);
+        int dayInt = Integer.parseInt(day);
+
+        datePicker.setValue(LocalDate.of(yearInt, monthInt, dayInt));
+
     }
+//
+//    public static final LocalDate LOCAL_DATE(String date){
+//        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+//        LocalDate localDate = LocalDate.parse(date, formatter);
+//
+//        datePicker.setValue(LOCAL_DATE(date));
+//        return localDate;
+//    }
 }
 

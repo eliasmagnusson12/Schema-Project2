@@ -74,9 +74,6 @@ public class ControllerLogin implements Initializable {
         String username = usernameTextField.getText();
         String password = passwordTextField.getText();
 
-//        DBConnect dbConnect = new DBConnect();
-
-
         saveLoginData();
 
         if (username.isEmpty()) {

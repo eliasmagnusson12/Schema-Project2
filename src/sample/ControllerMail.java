@@ -13,6 +13,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
+import javafx.scene.paint.Color;
 import org.apache.commons.lang3.RandomStringUtils;
 
 import javax.mail.*;
@@ -133,6 +134,7 @@ public class ControllerMail implements Initializable {
             subject.setPromptText("Subject..");
             mailTextArea.setPromptText("Message..");
 
+            messageSent.setTextFill(Color.GREEN);
             messageSent.setText("Your message was sent successfully");
 
 

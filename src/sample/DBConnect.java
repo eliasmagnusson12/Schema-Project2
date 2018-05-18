@@ -31,14 +31,17 @@ public class DBConnect {
     private boolean sqlCheck = true;
     private boolean answer = true;
 
+    private ArrayList<String> lanternanlist = new ArrayList<>();
+    private ArrayList<String> åhagaList = new ArrayList<>();
     private ArrayList<String> list = new ArrayList<>();
+
     private ControllerMail cm = new ControllerMail();
     private ArrayList<Person> listOfEmployees = new ArrayList<>();
     private ArrayList<String> listOfUnderDepartments = new ArrayList<>();
     private ArrayList<Schedule> scheduleList = new ArrayList<>();
 
 
-    private DBConnect() {
+    public DBConnect() {
         try {
             connect = DriverManager.getConnection(url);
             st = connect.createStatement();
@@ -108,19 +111,33 @@ public class DBConnect {
         return dataBasePassword.equals(password);
     }
 
-    public ArrayList getUnderDepartments(String department) {
+    public void getUnderDepartments() {
+
+        if (lanternanlist != null){
+            lanternanlist.clear();
+        }
+        if (åhagaList != null){
+            åhagaList.clear();
+        }
         try {
-            sql = ("SELECT * FROM underDepartment WHERE department_departmentName = '" + department + "'");
+            sql = ("SELECT * FROM underDepartment;");
             rs = st.executeQuery(sql);
             while (rs.next()) {
-                list.add(rs.getString("underDepartmentName"));
+                if (rs.getString("department_departmentName").equals("Lanternan")) {
+                    lanternanlist.add(rs.getString("underDepartmentName"));
+                } else {
+                    åhagaList.add(rs.getString("underDepartmentName"));
+                }
             }
+
+
         } catch (Exception e) {
             error = "select from underDepartment";
             callAlert(error);
         }
-        return list;
     }
+
+
 
     public boolean addPerson(Person person) {
 
@@ -234,6 +251,9 @@ public class DBConnect {
     }
 
     public void getAllEmployees() throws SQLException {
+        if (listOfEmployees != null){
+            listOfEmployees.clear();
+        }
         String sql = ("SELECT * FROM person, email, phoneNumber, person_has_underdepartment WHERE socialSecurityNumber = email.Person_socialSecurityNumber " +
                 "and socialSecurityNumber = phonenumber.Person_socialSecurityNumber and socialSecurityNumber = person_has_underdepartment.person_socialSecurityNumber");
         rs = st.executeQuery(sql);
@@ -248,7 +268,11 @@ public class DBConnect {
     }
 
     public void getAllUnderDepartments() throws SQLException {
-        String sql = ("SELECT underDepartmentName from underdepartment");
+        if (listOfUnderDepartments != null){
+            listOfUnderDepartments.clear();
+        }
+
+        String sql = ("SELECT underDepartmentName from underDepartment");
         rs = st.executeQuery(sql);
 
         while (rs.next()) {
@@ -284,15 +308,20 @@ public class DBConnect {
             if (!rs.isBeforeFirst()) {
                 sqlCheck = true;
             }
-
-            String sqlCheckTwo = ("SELECT * FROM person_has_schedule where person_socialSecurityNumber = '" + socialSecurityNumber + "' and schedule_date_ = '" + date + "' and schedule_time_ = '" + time + "';");
-            rs = st.executeQuery(sqlCheckTwo);
-            if (!rs.isBeforeFirst() && sqlCheck) {
+            if (sqlCheck) {
                 try {
                     String sql = ("INSERT INTO schedule (date_, time_) " +
                             "VALUES ('" + date + "', '" + time + "');");
                     st.executeUpdate(sql);
+                } catch (Exception e) {
 
+                }
+            }
+
+            String sqlCheckTwo = ("SELECT * FROM person_has_schedule where person_socialSecurityNumber = '" + socialSecurityNumber + "' and schedule_date_ = '" + date + "' and schedule_time_ = '" + time + "';");
+            rs = st.executeQuery(sqlCheckTwo);
+            if (!rs.isBeforeFirst()) {
+                try{
                     String sqlTwo = ("INSERT INTO person_has_schedule (person_socialSecurityNumber, schedule_date_, schedule_time_) " +
                             "VALUES ('" + socialSecurityNumber + "', '" + date + "', '" + time + "');");
 
@@ -325,7 +354,10 @@ public class DBConnect {
         }
 
         public ArrayList getSchedule() throws SQLException {
-        String sql = ("SELECT * FROM person_has_schedule");
+        if (scheduleList != null){
+            scheduleList.clear();
+        }
+        String sql = ("SELECT * FROM person_has_schedule order by schedule_time_");
         rs = st.executeQuery(sql);
 
         while (rs.next()){
@@ -371,5 +403,14 @@ public class DBConnect {
             }
             return answer;
 
+        }
+
+        public ArrayList getListOfUnderDepartments(String department){
+        if (department.equals("Lanternan")){
+            list = lanternanlist;
+        }else if (department.equals("Åhaga")){
+            list = åhagaList;
+        }
+        return list;
         }
     }

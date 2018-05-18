@@ -8,7 +8,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane fx:id="anchorPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="480.0" prefWidth="640.0" xmlns="http://javafx.com/javafx/9" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.ControllerAddEmployee">
+<AnchorPane fx:id="anchorPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="480.0" prefWidth="640.0" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.ControllerAddEmployee">
    <children>
       <TextField fx:id="firstNameTextField" layoutX="208.0" layoutY="163.0" prefHeight="31.0" prefWidth="228.0" />
       <TextField fx:id="lastNameTextField" layoutX="206.0" layoutY="225.0" prefHeight="31.0" prefWidth="228.0" />
@@ -62,7 +62,6 @@
             <Font size="18.0" />
          </font></Label>
       <ChoiceBox fx:id="choiceBox" layoutX="500.0" layoutY="79.0" prefHeight="31.0" prefWidth="95.0" />
-      <Label fx:id="successLabel" alignment="CENTER" layoutX="463.0" layoutY="376.0" prefHeight="27.0" prefWidth="153.0" textFill="#1db92f" />
-      <Label fx:id="successLabel1" alignment="CENTER" layoutX="463.0" layoutY="406.0" prefHeight="27.0" prefWidth="153.0" textFill="#1db92f" />
+      <Label fx:id="successLabel" alignment="CENTER" layoutX="451.0" layoutY="376.0" prefHeight="60.0" prefWidth="177.0" textFill="#1db92f" />
    </children>
 </AnchorPane>

@@ -39,13 +39,13 @@ import java.util.*;
 public class ControllerCalendar implements Initializable {
 
     @FXML
-    private GridPane gridPane, miniGridPane;
+    private GridPane gridPane, miniGridPane, miniGridPane1;
     @FXML
     private Pane pane;
     @FXML
     private Button monday, tuesday, wednesday, thursday, friday, saturday, sunday;
     @FXML
-    private Button changeScheduleButton, addEmployeeButton, deleteEmployeeButton, lastWeek, nextWeek, homeButton, savePdfButton, updateButton;
+    private Button changeScheduleButton, addEmployeeButton, deleteEmployeeButton, lastWeek, nextWeek, homeButton, savePdfButton, updateButton, dotsButton;
     @FXML
     private Label nameLabel, weekLabel, loggedInLabel;
     @FXML
@@ -54,6 +54,7 @@ public class ControllerCalendar implements Initializable {
     private VBox mondayVBox, tuesdayVBox, wednesdayVBox, thursdayVBox, fridayVBox, saturdayVBox, sundayVBox;
     @FXML
     private ChoiceBox choiceBox;
+
 
     private Week week;
     private String times;
@@ -105,6 +106,10 @@ public class ControllerCalendar implements Initializable {
         updateButton.setGraphic(new ImageView(updateImage));
         updateButton.setStyle("-fx-background-color: TRANSPARENT");
         updateButton.setTooltip(new Tooltip("Update"));
+
+        Image dots = new Image("resources/dots.png");
+        dotsButton.setGraphic(new ImageView(dots));
+        dotsButton.setStyle("-fx-background-color: TRANSPARENT");
 
         Image addImage = new Image("resources/add.png");
         Image changeImage = new Image("resources/change.png");
@@ -163,6 +168,9 @@ public class ControllerCalendar implements Initializable {
 
         miniGridPane.prefWidthProperty().bind(pane.widthProperty().multiply(0.6));
 
+        miniGridPane1.prefWidthProperty().bind(pane.widthProperty().multiply(0.6));
+        miniGridPane1.layoutYProperty().bind(gridPane.heightProperty().add(110));
+
         monday.prefWidthProperty().bind(gridPane.widthProperty());
         tuesday.prefWidthProperty().bind(gridPane.widthProperty());
         wednesday.prefWidthProperty().bind(gridPane.widthProperty());
@@ -178,6 +186,8 @@ public class ControllerCalendar implements Initializable {
 
         loggedInLabel.layoutYProperty().bind(gridPane.heightProperty().add(60));
         nameLabel.layoutYProperty().bind(gridPane.heightProperty().add(80));
+
+        dotsButton.prefWidthProperty().bind(miniGridPane1.widthProperty());
 
 
         week = new Week();
@@ -593,10 +603,10 @@ public class ControllerCalendar implements Initializable {
         }else {
             button.setStyle("-fx-padding: 5;" +
                     "-fx-border-style: solid inside;" +
-                    "-fx-border-width: 1;" +
+                    "-fx-border-width: 2;" +
                     "-fx-border-insets: 0;" +
                     "-fx-border-radius: 3;" +
-                    "-fx-border-color: blue;");
+                    "-fx-border-color: lightblue;");
         }
         button.setId(schedule.getSocialSecurityNumber());
 
@@ -625,6 +635,7 @@ public class ControllerCalendar implements Initializable {
         }
         button.setText("     " + initials + "\n" + firstTime + "-" + secondTime);
         button.setTooltip(new Tooltip(firstName + " " + lastName));
+
 
 
         if (choice.equals("Personal schedule")) {
@@ -907,6 +918,12 @@ public class ControllerCalendar implements Initializable {
 
     private void setChoiceBox() {
         ArrayList<String> choiceBoxList = Singleton.getInstance().getListOfUnderDepartments();
+
+        for (int i = 0; i < choiceBoxList.size(); i++){
+            if (choiceBoxList.get(i).equals("Office")){
+                choiceBoxList.remove(i);
+            }
+        }
         choiceBoxList.add("Personal schedule");
         ObservableList<String> list = FXCollections.observableList(choiceBoxList);
         choiceBox.setValue("Personal schedule");

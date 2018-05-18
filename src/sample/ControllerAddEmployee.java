@@ -15,7 +15,6 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.util.Duration;
-
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
@@ -33,12 +32,15 @@ public class ControllerAddEmployee implements Initializable {
     @FXML
     private CheckBox checkBox1, checkBox2;
     @FXML
-    private Label successLabel, successLabel1;
+    private Label successLabel;
 
     private String department;
+    private boolean answer;
 
-    private ArrayList underDepartmentList;
-    private ObservableList<String> list;
+    ObservableList listLanternan;
+    ObservableList listÅhaga;
+    private ArrayList lanternanList;
+    private ArrayList åhagaList;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -54,6 +56,19 @@ public class ControllerAddEmployee implements Initializable {
         lastNameTextField.addEventFilter(KeyEvent.KEY_TYPED, letter_Validation(20));
 
         choiceBox.autosize();
+
+        fillLists();
+    }
+
+    private void fillLists() {
+
+            DBConnect.getDBCon().getUnderDepartments();
+            lanternanList = DBConnect.getDBCon().getListOfUnderDepartments("Lanternan");
+            listLanternan = FXCollections.observableList(lanternanList);
+
+            åhagaList = DBConnect.getDBCon().getListOfUnderDepartments("Åhaga");
+            listÅhaga = FXCollections.observableList(åhagaList);
+
     }
 
     @FXML
@@ -122,31 +137,38 @@ public class ControllerAddEmployee implements Initializable {
             checkBox1.setSelected(false);
 
         }
+
         setChoiceBox(department);
     }
 
     private void setChoiceBox(String department) {
+        for (int i = 0; i < listÅhaga.size(); i++){
+            if (listÅhaga.get(i).equals("Office")){
+                listÅhaga.remove(i);
+            }
+        }
+            if (department.equals("Lanternan")) {
+                choiceBox.setItems(listLanternan);
 
-        underDepartmentList = (DBConnect.getDBCon().getUnderDepartments(department));
-        list = FXCollections.observableList(underDepartmentList);
+            } else if (department.equals("Åhaga")) {
+                choiceBox.setItems(listÅhaga);
+            }
 
-        choiceBox.setItems(list);
     }
 
     private void setSuccessLabel(Person person) {
 
         successLabel.setVisible(true);
         successLabel.setTextFill(Color.GREEN);
-        successLabel1.setVisible(true);
-        successLabel1.setTextFill(Color.GREEN);
-        successLabel.setText("Successfully added " + person.getFirstName());
-        successLabel1.setText("to the database");
+        successLabel.setText("Successfully added " + person.getFirstName() + "\n" + "to the database");
+
 
         PauseTransition visiblePause = new PauseTransition(
                 Duration.seconds(3)
         );
         visiblePause.setOnFinished(
                 event -> successLabel.setVisible(false)
+
         );
         visiblePause.play();
     }
