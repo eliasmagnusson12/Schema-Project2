@@ -16,6 +16,7 @@ import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.util.Duration;
 import java.net.URL;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
 
@@ -34,6 +35,7 @@ public class ControllerAddEmployee implements Initializable {
     @FXML
     private Label successLabel;
 
+    private String error;
     private String department;
     private boolean answer;
 
@@ -89,30 +91,47 @@ public class ControllerAddEmployee implements Initializable {
     }
 
     @FXML
-    private void handleAddButton(ActionEvent event) {
-        String firstName = firstNameTextField.getText();
-        String lastName = lastNameTextField.getText();
-        String email = emailTextField.getText();
-        String phoneNumber = phoneNumberTextField.getText();
-        String socialSecurityNumber = socialSecurityNumberTextField.getText();
-        String role = "Employee";
-        String department = choiceBox.getSelectionModel().getSelectedItem().toString();
+    private void handleAddButton(ActionEvent event) throws SQLException {
+        if (firstNameTextField.getText().isEmpty()) {
+            error = "Must enter first name!";
+            callAlert(error);
+        } else if (lastNameTextField.getText().isEmpty()) {
+            error = "Must enter last name!";
+            callAlert(error);
+        } else if (emailTextField.getText().isEmpty()) {
+            error = "Must enter email!";
+            callAlert(error);
+        } else if (phoneNumberTextField.getText().isEmpty()) {
+            error = "Must enter phone number!";
+            callAlert(error);
+        } else if (socialSecurityNumberTextField.getText().isEmpty()) {
+            error = "Must enter social security number!";
+            callAlert(error);
 
-        String firstLetterFirstName;
-        firstLetterFirstName = String.valueOf(firstName.charAt(0));
+        } else {
+            String firstName = firstNameTextField.getText();
+            String lastName = lastNameTextField.getText();
+            String email = emailTextField.getText();
+            String phoneNumber = phoneNumberTextField.getText();
+            String socialSecurityNumber = socialSecurityNumberTextField.getText();
+            String role = "Employee";
+            String department = choiceBox.getSelectionModel().getSelectedItem().toString();
 
-        String firstLetterLastName;
-        firstLetterLastName = String.valueOf(lastName.charAt(0));
-        String initials = firstLetterFirstName + firstLetterLastName;
+            String firstLetterFirstName;
+            firstLetterFirstName = String.valueOf(firstName.charAt(0));
 
-        Person person = new Person(firstName, lastName, initials, role, email, phoneNumber, department, socialSecurityNumber);
+            String firstLetterLastName;
+            firstLetterLastName = String.valueOf(lastName.charAt(0));
+            String initials = firstLetterFirstName + firstLetterLastName;
 
-        if (DBConnect.getDBCon().addPerson(person)) {
-            setSuccessLabel(person);
+            Person person = new Person(firstName, lastName, initials, role, email, phoneNumber, department, socialSecurityNumber);
+
+            if (DBConnect.getDBCon().addPerson(person)) {
+                setSuccessLabel(person);
+            }
+            DBConnect.getDBCon().getAllEmployees();
         }
-
     }
-
     @FXML
     private void handleHoverEffect(MouseEvent event) {
         Button button = (Button) event.getSource();
@@ -171,5 +190,13 @@ public class ControllerAddEmployee implements Initializable {
 
         );
         visiblePause.play();
+    }
+
+    private void callAlert(String error){
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setTitle("Error");
+        alert.setHeaderText("Something went wrong!");
+        alert.setContentText(error);
+        alert.showAndWait();
     }
 }

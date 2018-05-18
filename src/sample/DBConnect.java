@@ -2,6 +2,7 @@ package sample;
 
 
 import javafx.scene.control.Alert;
+
 import java.sql.*;
 import java.sql.DriverManager;
 import java.time.LocalDate;
@@ -50,11 +51,11 @@ public class DBConnect {
         }
     }
 
-        public static synchronized DBConnect getDBCon() {
-            if (db == null) {
-                db = new DBConnect();
-            }
-            return db;
+    public static synchronized DBConnect getDBCon() {
+        if (db == null) {
+            db = new DBConnect();
+        }
+        return db;
     }
 
     public void setUser(String username) {
@@ -64,18 +65,18 @@ public class DBConnect {
         try {
             rs = st.executeQuery(sql);
 
-        while (rs.next()) {
+            while (rs.next()) {
 
-            firstName = rs.getString("firstName");
-            lastName = rs.getString("lastName");
-            initials = rs.getString("initials");
-            role = rs.getString("role");
-            email = rs.getString("email");
-            phoneNumber = rs.getString("phoneNumber");
-            departmentName = rs.getString("underDepartment_underDepartmentName");
-            ssn = username;
-        }
-        }catch (Exception e){
+                firstName = rs.getString("firstName");
+                lastName = rs.getString("lastName");
+                initials = rs.getString("initials");
+                role = rs.getString("role");
+                email = rs.getString("email");
+                phoneNumber = rs.getString("phoneNumber");
+                departmentName = rs.getString("underDepartment_underDepartmentName");
+                ssn = username;
+            }
+        } catch (Exception e) {
             error = "get user data";
             callAlert(error);
         }
@@ -113,10 +114,10 @@ public class DBConnect {
 
     public void getUnderDepartments() {
 
-        if (lanternanlist != null){
+        if (lanternanlist != null) {
             lanternanlist.clear();
         }
-        if (åhagaList != null){
+        if (åhagaList != null) {
             åhagaList.clear();
         }
         try {
@@ -138,7 +139,6 @@ public class DBConnect {
     }
 
 
-
     public boolean addPerson(Person person) {
 
         try {
@@ -151,7 +151,7 @@ public class DBConnect {
 
             check = "SELECT * FROM phoneNumber WHERE phoneNumber = '" + person.getPhoneNumber() + "';";
             rs = st.executeQuery(check);
-            if (rs.isBeforeFirst()){
+            if (rs.isBeforeFirst()) {
                 error = "add phone number";
                 sqlCheck = false;
             }
@@ -163,9 +163,10 @@ public class DBConnect {
                 sqlCheck = false;
 
             } else {
-                if (!cm.sendFirstPW(person)){
+                if (!cm.sendFirstPW(person)) {
                     sqlCheck = false;
                     error = "send email";
+
                 }
             }
         } catch (Exception e) {
@@ -199,7 +200,7 @@ public class DBConnect {
                 error = "add person to the database";
                 callAlert(error);
             }
-        }else {
+        } else {
             answer = false;
             callAlert(error);
         }
@@ -208,20 +209,22 @@ public class DBConnect {
 
     public boolean removePerson(String username) {
         try {
+            String sql = ("DELETE FROM person_has_schedule where person_socialSecurityNumber = '" + username + "';");
+            st.executeUpdate(sql);
 
-        String sqlOne = ("DELETE FROM phoneNumber where person_socialSecurityNumber = '" + username + "';");
+            String sqlOne = ("DELETE FROM phoneNumber where person_socialSecurityNumber = '" + username + "';");
             st.executeUpdate(sqlOne);
 
-        String sqlTwo = ("DELETE FROM email where person_socialSecurityNumber = '" + username + "';");
+            String sqlTwo = ("DELETE FROM email where person_socialSecurityNumber = '" + username + "';");
             st.executeUpdate(sqlTwo);
 
-        String sqlThree = ("DELETE FROM login where person_socialSecurityNumber = '" + username + "';");
+            String sqlThree = ("DELETE FROM login where person_socialSecurityNumber = '" + username + "';");
             st.executeUpdate(sqlThree);
 
-        String sqlFour = ("DELETE FROM person_has_underDepartment where person_socialSecurityNumber = '" + username + "';");
+            String sqlFour = ("DELETE FROM person_has_underDepartment where person_socialSecurityNumber = '" + username + "';");
             st.executeUpdate(sqlFour);
 
-        String sqlFive = ("DELETE FROM person where socialSecurityNumber = '" + username + "';");
+            String sqlFive = ("DELETE FROM person where socialSecurityNumber = '" + username + "';");
             st.executeUpdate(sqlFive);
 
         } catch (Exception e) {
@@ -251,7 +254,7 @@ public class DBConnect {
     }
 
     public void getAllEmployees() throws SQLException {
-        if (listOfEmployees != null){
+        if (listOfEmployees != null) {
             listOfEmployees.clear();
         }
         String sql = ("SELECT * FROM person, email, phoneNumber, person_has_underdepartment WHERE socialSecurityNumber = email.Person_socialSecurityNumber " +
@@ -268,7 +271,7 @@ public class DBConnect {
     }
 
     public void getAllUnderDepartments() throws SQLException {
-        if (listOfUnderDepartments != null){
+        if (listOfUnderDepartments != null) {
             listOfUnderDepartments.clear();
         }
 
@@ -321,7 +324,7 @@ public class DBConnect {
             String sqlCheckTwo = ("SELECT * FROM person_has_schedule where person_socialSecurityNumber = '" + socialSecurityNumber + "' and schedule_date_ = '" + date + "' and schedule_time_ = '" + time + "';");
             rs = st.executeQuery(sqlCheckTwo);
             if (!rs.isBeforeFirst()) {
-                try{
+                try {
                     String sqlTwo = ("INSERT INTO person_has_schedule (person_socialSecurityNumber, schedule_date_, schedule_time_) " +
                             "VALUES ('" + socialSecurityNumber + "', '" + date + "', '" + time + "');");
 
@@ -333,34 +336,34 @@ public class DBConnect {
                     error = "insert schedule";
                     callAlert(error);
                 }
-            }else {
+            } else {
                 Alert alert = new Alert(Alert.AlertType.INFORMATION);
                 alert.setTitle("Info");
                 alert.setHeaderText("This employee already has this time registered!");
                 alert.showAndWait();
             }
-            }catch(Exception e){
-                error = "check count";
-                callAlert(error);
-            }
+        } catch (Exception e) {
+            error = "check count";
+            callAlert(error);
+        }
         return answer;
     }
 
-        private void callAlert (String error){
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setTitle("Error");
-            alert.setHeaderText("Error while trying to " + error + "!");
-            alert.showAndWait();
-        }
+    private void callAlert(String error) {
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setTitle("Error");
+        alert.setHeaderText("Error while trying to " + error + "!");
+        alert.showAndWait();
+    }
 
-        public ArrayList getSchedule() throws SQLException {
-        if (scheduleList != null){
+    public ArrayList getSchedule() throws SQLException {
+        if (scheduleList != null) {
             scheduleList.clear();
         }
         String sql = ("SELECT * FROM person_has_schedule order by schedule_time_");
         rs = st.executeQuery(sql);
 
-        while (rs.next()){
+        while (rs.next()) {
             String ssn = rs.getString("person_socialSecurityNumber");
             String date = rs.getString("schedule_date_");
             String time = rs.getString("schedule_time_");
@@ -369,48 +372,48 @@ public class DBConnect {
             scheduleList.add(schedule);
         }
         return scheduleList;
+    }
+
+    public String getSocialSecurityNumber(String email) throws SQLException {
+        String socialSecurityNumber = null;
+        String sql = ("SELECT person_socialSecurityNumber FROM email WHERE email = '" + email + "';");
+        rs = st.executeQuery(sql);
+
+        if (rs.next()) {
+            socialSecurityNumber = rs.getString("person_socialSecurityNumber");
+        } else {
+            error = "find this email";
+            callAlert(error);
         }
 
-        public String getSocialSecurityNumber(String email) throws SQLException {
-            String socialSecurityNumber = null;
-            String sql = ("SELECT person_socialSecurityNumber FROM email WHERE email = '" + email + "';");
-            rs = st.executeQuery(sql);
+        return socialSecurityNumber;
+    }
 
-            if (rs.next()) {
-                socialSecurityNumber = rs.getString("person_socialSecurityNumber");
-            }else {
-                error = "find this email";
-                callAlert(error);
-            }
-
-            return socialSecurityNumber;
-        }
-
-        public boolean setNewColor(int color, String ssn, String date, String time){
+    public boolean setNewColor(int color, String ssn, String date, String time) {
         int action = 0;
         boolean answer = false;
 
         String sql = ("UPDATE person_has_schedule SET schedule_color = " + color + " WHERE person_socialSecurityNumber = '" + ssn + "' and schedule_date_ = '" + date + "' and schedule_time_ = '" + time + "';");
 
-            try {
-                action = st.executeUpdate(sql);
-                if (action > 0) {
-                    answer = true;
-                }
-            } catch (Exception e) {
-                error = "update color";
-                callAlert(error);
+        try {
+            action = st.executeUpdate(sql);
+            if (action > 0) {
+                answer = true;
             }
-            return answer;
-
+        } catch (Exception e) {
+            error = "update color";
+            callAlert(error);
         }
+        return answer;
 
-        public ArrayList getListOfUnderDepartments(String department){
-        if (department.equals("Lanternan")){
+    }
+
+    public ArrayList getListOfUnderDepartments(String department) {
+        if (department.equals("Lanternan")) {
             list = lanternanlist;
-        }else if (department.equals("Åhaga")){
+        } else if (department.equals("Åhaga")) {
             list = åhagaList;
         }
         return list;
-        }
     }
+}

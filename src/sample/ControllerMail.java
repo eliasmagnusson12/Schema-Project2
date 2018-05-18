@@ -226,12 +226,6 @@ public class ControllerMail implements Initializable {
 
 
         } catch (Exception e) {
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setTitle("Error");
-            alert.setHeaderText("Failed to send email to this address!");
-            alert.setContentText("Please enter an existing email address.");
-            alert.showAndWait();
-
             answer = false;
         }
         return answer;

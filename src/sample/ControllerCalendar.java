@@ -704,8 +704,6 @@ public class ControllerCalendar implements Initializable {
                 String time = timeSplit[0];
 
                 if (DBConnect.getDBCon().setNewColor(color, ssn, date, time)){
-                }else {
-                    System.out.println("fel1");
                 }
 
             }else if (b.getStyle().matches("-fx-background-color: LIGHTBLUE")){
@@ -716,9 +714,8 @@ public class ControllerCalendar implements Initializable {
                 String[] timeSplit = schedule.getTime().split("\\-");
                 String timeAfterSplit = timeSplit[0];
                 if (DBConnect.getDBCon().setNewColor(color, ssn, date, timeAfterSplit)){
-                }else {
-                    System.out.println("fel2");
                 }
+
             }else {
                 Schedule schedule = (Schedule)b.getUserData();
                 color = 0;
@@ -727,11 +724,8 @@ public class ControllerCalendar implements Initializable {
                 String[] timeSplit = schedule.getTime().split("\\-");
                 String timeAfterSplit = timeSplit[0];
                 if (DBConnect.getDBCon().setNewColor(color, ssn, date, timeAfterSplit)){
-                }else {
-                    System.out.println("fel3");
                 }
             }
-
         }
 
         choice = choiceBox.getSelectionModel().getSelectedItem().toString();
