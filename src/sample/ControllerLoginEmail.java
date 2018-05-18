@@ -37,11 +37,10 @@ public class ControllerLoginEmail implements Initializable {
         String username = usernameTextField.getText();
         String password = passwordTextField.getText();
 
-        DBConnect dbConnect = new DBConnect();
 
-        if (dbConnect.isPasswordCorrect(username, password)) {
+        if (DBConnect.getDBCon().isPasswordCorrect(username, password)) {
 
-            dbConnect.setUser(username);
+            DBConnect.getDBCon().setUser(username);
 
             Stage stage = new Stage();
             FXMLLoader fxmlLoader = new FXMLLoader();

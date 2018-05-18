@@ -132,8 +132,7 @@ public class ControllerChangeSchedule implements Initializable {
             String lastName = splitName[1];
             LocalDate localDate = handleDatePicker();
 
-            DBConnect dbConnect = new DBConnect();
-            if (dbConnect.addToSchedule(startTime, endTime, firstName, lastName, localDate)) {
+            if (DBConnect.getDBCon().addToSchedule(startTime, endTime, firstName, lastName, localDate)) {
                 setSuccessLabel(true);
             } else {
                 setSuccessLabel(false);

@@ -26,7 +26,7 @@
                   <Insets bottom="50.0" />
                </VBox.margin>
             </Button>
-            <Label fx:id="okLabel" alignment="CENTER" prefHeight="31.0" prefWidth="499.0">
+            <Label fx:id="successLabel" alignment="CENTER" prefHeight="31.0" prefWidth="499.0">
                <VBox.margin>
                   <Insets bottom="50.0" />
                </VBox.margin>

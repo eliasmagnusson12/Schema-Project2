@@ -25,10 +25,8 @@ public class Main extends Application {
 
 
     public static void main(String[] args) throws SQLException {
+        DBConnect.getDBCon();
         launch(args);
-        DBConnect dbConnect = new DBConnect();
-        //dbConnect.getFirstName();
-
 
 
     }

@@ -42,7 +42,6 @@ public class ControllerMail implements Initializable {
     private Label messageSent;
 
     private String email;
-    private String pw;
     private boolean answer;
 
     private ObservableSet<CheckBox> selectedCheckBoxes = FXCollections.observableSet();
@@ -187,7 +186,8 @@ public class ControllerMail implements Initializable {
         });
     }
 
-    public String sendFirstPW(Person person) throws AddressException {
+    public boolean sendFirstPW(Person person) throws AddressException {
+        answer = true;
 
         String from = "kristianstad.gadors@hotmail.com";
         String pass = "gadors123";
@@ -207,15 +207,14 @@ public class ControllerMail implements Initializable {
         Session session = Session.getDefaultInstance(properties);
 
         try {
-            String pwChars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
-            pw = RandomStringUtils.random(8, pwChars);
+
 
             MimeMessage message = new MimeMessage(session);
             message.setFrom(new InternetAddress(from));
             message.addRecipients(RecipientType.TO, to);
 
             message.setSubject("Your password");
-            message.setText("Your password is " + pw + "\n\nYou can not respond to this mail. ");
+            message.setText("Your password is " + getPW() + "\n\nYou can not respond to this mail. ");
 
 
             Transport transport = session.getTransport("smtp");
@@ -224,13 +223,16 @@ public class ControllerMail implements Initializable {
             transport.close();
 
 
-        } catch (NoSuchProviderException e) {
-            e.printStackTrace();
+        } catch (Exception e) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Error");
+            alert.setHeaderText("Failed to send email to this address!");
+            alert.setContentText("Please enter an existing email address.");
+            alert.showAndWait();
 
-        } catch (MessagingException e) {
-            e.printStackTrace();
+            answer = false;
         }
-        return pw;
+        return answer;
     }
 
 
@@ -270,5 +272,12 @@ public class ControllerMail implements Initializable {
             answer = false;
         }
         return answer;
+    }
+
+    public String getPW() {
+        String pwChars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+        String pw = RandomStringUtils.random(8, pwChars);
+
+        return pw;
     }
 }

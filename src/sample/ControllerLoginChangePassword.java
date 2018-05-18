@@ -40,7 +40,6 @@ public class ControllerLoginChangePassword implements Initializable {
         username = usernameTextField.getText();
         String password = passwordTextField.getText();
 
-        DBConnect dbConnect = new DBConnect();
 
         if (username.isEmpty()) {
             Alert alert = new Alert(Alert.AlertType.ERROR);
@@ -53,9 +52,9 @@ public class ControllerLoginChangePassword implements Initializable {
             alert.setHeaderText("Please enter password");
             alert.showAndWait();
 
-        } else if ((dbConnect.isPasswordCorrect(username, password))) {
+        } else if ((DBConnect.getDBCon().isPasswordCorrect(username, password))) {
 
-            dbConnect.setUser(username);
+            DBConnect.getDBCon().setUser(username);
 
             Stage stage = new Stage();
             FXMLLoader fxmlLoader = new FXMLLoader();

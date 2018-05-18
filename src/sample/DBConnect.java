@@ -11,11 +11,12 @@ import java.util.ArrayList;
 public class DBConnect {
 
     private String url = "jdbc:mysql://den1.mysql2.gear.host/gadorsmydb?user=gadorsmydb&password=Xf8Q-P3WxQR_";
-    private Statement st;
     private String dataBasePassword;
     private String sql;
-    private static DBConnect instance;
+    private static DBConnect db;
     private static Connection connect;
+    private Statement st;
+    private ResultSet rs;
 
     private String firstName;
     private String lastName;
@@ -25,8 +26,10 @@ public class DBConnect {
     private String phoneNumber;
     private String departmentName;
     private String ssn;
-
     private String error;
+
+    private boolean sqlCheck = true;
+    private boolean answer = true;
 
     private ArrayList<String> list = new ArrayList<>();
     private ControllerMail cm = new ControllerMail();
@@ -35,21 +38,28 @@ public class DBConnect {
     private ArrayList<Schedule> scheduleList = new ArrayList<>();
 
 
-    public DBConnect() {
+    private DBConnect() {
         try {
             connect = DriverManager.getConnection(url);
             st = connect.createStatement();
         } catch (SQLException ex) {
             System.out.println("Failed to connect to database!");
         }
-
     }
 
-    public void setUser(String username) throws SQLException {
+        public static synchronized DBConnect getDBCon() {
+            if (db == null) {
+                db = new DBConnect();
+            }
+            return db;
+    }
 
-        String sql = ("SELECT * FROM person, email, phoneNumber, person_has_underdepartment WHERE socialSecurityNumber = '" + username + "' and socialSecurityNumber = email.Person_socialSecurityNumber " +
-                "and socialSecurityNumber = phonenumber.Person_socialSecurityNumber and socialSecurityNumber = person_has_underdepartment.person_socialSecurityNumber");
-        ResultSet rs = st.executeQuery(sql);
+    public void setUser(String username) {
+
+        String sql = ("SELECT * FROM person, email, phoneNumber, person_has_underDepartment WHERE socialSecurityNumber = '" + username + "' and socialSecurityNumber = email.Person_socialSecurityNumber " +
+                "and socialSecurityNumber = phoneNumber.Person_socialSecurityNumber and socialSecurityNumber = person_has_underDepartment.person_socialSecurityNumber");
+        try {
+            rs = st.executeQuery(sql);
 
         while (rs.next()) {
 
@@ -61,6 +71,10 @@ public class DBConnect {
             phoneNumber = rs.getString("phoneNumber");
             departmentName = rs.getString("underDepartment_underDepartmentName");
             ssn = username;
+        }
+        }catch (Exception e){
+            error = "get user data";
+            callAlert(error);
         }
         User user = new User();
         user.setFirstName(firstName);
@@ -78,7 +92,7 @@ public class DBConnect {
     public boolean isPasswordCorrect(String username, String password) {
         try {
             sql = ("SELECT password FROM person, login WHERE socialSecurityNumber = login.person_socialSecurityNumber and socialSecurityNumber = '" + username + "';");
-            ResultSet rs = st.executeQuery(sql);
+            rs = st.executeQuery(sql);
             if (rs.next()) {
                 dataBasePassword = rs.getString("password");
             } else {
@@ -97,7 +111,7 @@ public class DBConnect {
     public ArrayList getUnderDepartments(String department) {
         try {
             sql = ("SELECT * FROM underDepartment WHERE department_departmentName = '" + department + "'");
-            ResultSet rs = st.executeQuery(sql);
+            rs = st.executeQuery(sql);
             while (rs.next()) {
                 list.add(rs.getString("underDepartmentName"));
             }
@@ -108,98 +122,103 @@ public class DBConnect {
         return list;
     }
 
-    public void addPerson(Person person) {
-        try {
-            sql = "INSERT INTO person (socialSecurityNumber, firstName, lastName, initials, role) " +
-                    "VALUES('" + person.getSocialSecurityNumber() + "', '" + person.getFirstName() + "', '" + person.getLastName() + "', '" + person.getInitials() + "', '" + person.getRole() + "');";
-            st.executeUpdate(sql);
-        } catch (Exception e) {
-            error = "insert person";
-            callAlert(error);
-        }
+    public boolean addPerson(Person person) {
 
         try {
-            String sqlTwo = ("INSERT INTO person_has_underdepartment (person_socialSecurityNumber, underDepartment_underDepartmentName) " +
-                    "VALUES ('" + person.getSocialSecurityNumber() + "', '" + person.getDepartment() + "');");
-            st.executeUpdate(sqlTwo);
-        } catch (Exception e) {
-            error = "insert person_has_underDepartment";
-            callAlert(error);
-        }
+            String check = "SELECT socialSecurityNumber FROM person WHERE socialSecurityNumber = '" + person.getSocialSecurityNumber() + "';";
+            rs = st.executeQuery(check);
+            if (rs.isBeforeFirst()) {
+                error = "add social security number";
+                sqlCheck = false;
+            }
 
-        try {
-            String sqlThree = ("INSERT INTO login (password, person_socialSecurityNumber) " +
-                    "VALUES ('" + cm.sendFirstPW(person) + "', '" + person.getSocialSecurityNumber() + "');");
-            st.executeUpdate(sqlThree);
-        } catch (Exception e) {
-            error = "insert login";
-            callAlert(error);
-        }
+            check = "SELECT * FROM phoneNumber WHERE phoneNumber = '" + person.getPhoneNumber() + "';";
+            rs = st.executeQuery(check);
+            if (rs.isBeforeFirst()){
+                error = "add phone number";
+                sqlCheck = false;
+            }
 
-        try {
-            String sqlFour = ("INSERT INTO email (email, person_socialSecurityNumber) " +
-                    "VALUES ('" + person.getEmail() + "', '" + person.getSocialSecurityNumber() + "');");
-            st.executeUpdate(sqlFour);
-        } catch (Exception e) {
-            error = "insert email";
-            callAlert(error);
-        }
+            check = "SELECT * FROM email WHERE email = '" + person.getEmail() + "';";
+            rs = st.executeQuery(check);
+            if (rs.isBeforeFirst()) {
+                error = "add email";
+                sqlCheck = false;
 
-        try {
-            String sqlFive = ("INSERT INTO phoneNumber (phoneNumber, person_socialSecurityNumber) " +
-                    "VALUES ('" + person.getPhoneNumber() + "', '" + person.getSocialSecurityNumber() + "');");
-            st.executeUpdate(sqlFive);
+            } else {
+                if (!cm.sendFirstPW(person)){
+                    sqlCheck = false;
+                    error = "send email";
+                }
+            }
         } catch (Exception e) {
-            error = "insert phone number";
+            error = "add person to database";
             callAlert(error);
         }
+        if (sqlCheck) {
+            try {
+                sql = "INSERT INTO person (socialSecurityNumber, firstName, lastName, initials, role) " +
+                        "VALUES('" + person.getSocialSecurityNumber() + "', '" + person.getFirstName() + "', '" + person.getLastName() + "', '" + person.getInitials() + "', '" + person.getRole() + "');";
+                st.executeUpdate(sql);
+
+                sql = ("INSERT INTO person_has_underdepartment (person_socialSecurityNumber, underDepartment_underDepartmentName) " +
+                        "VALUES ('" + person.getSocialSecurityNumber() + "', '" + person.getDepartment() + "');");
+                st.executeUpdate(sql);
+
+                String sqlThree = ("INSERT INTO login (password, person_socialSecurityNumber) " +
+                        "VALUES ('" + cm.getPW() + "', '" + person.getSocialSecurityNumber() + "');");
+                st.executeUpdate(sqlThree);
+
+                String sqlFour = ("INSERT INTO email (email, person_socialSecurityNumber) " +
+                        "VALUES ('" + person.getEmail() + "', '" + person.getSocialSecurityNumber() + "');");
+                st.executeUpdate(sqlFour);
+
+                String sqlFive = ("INSERT INTO phoneNumber (phoneNumber, person_socialSecurityNumber) " +
+                        "VALUES ('" + person.getPhoneNumber() + "', '" + person.getSocialSecurityNumber() + "');");
+                st.executeUpdate(sqlFive);
+
+            } catch (Exception e) {
+                answer = false;
+                error = "add person to the database";
+                callAlert(error);
+            }
+        }else {
+            answer = false;
+            callAlert(error);
+        }
+        return answer;
     }
 
-    public void removePerson(String username) {
-        String sqlOne = ("DELETE FROM phoneNumber where person_socialSecurityNumber = '" + username + "';");
+    public boolean removePerson(String username) {
         try {
+
+        String sqlOne = ("DELETE FROM phoneNumber where person_socialSecurityNumber = '" + username + "';");
             st.executeUpdate(sqlOne);
-        } catch (Exception e) {
-            error = "delete phone number";
-            callAlert(error);
-        }
 
         String sqlTwo = ("DELETE FROM email where person_socialSecurityNumber = '" + username + "';");
-        try {
             st.executeUpdate(sqlTwo);
-        } catch (Exception e) {
-            error = "delete email";
-            callAlert(error);
-        }
 
         String sqlThree = ("DELETE FROM login where person_socialSecurityNumber = '" + username + "';");
-        try {
             st.executeUpdate(sqlThree);
-        } catch (Exception e) {
-            error = "delete login";
-            callAlert(error);
-        }
 
-        String sqlFour = ("DELETE FROM person_has_underdepartment where person_socialSecurityNumber = '" + username + "';");
-        try {
+        String sqlFour = ("DELETE FROM person_has_underDepartment where person_socialSecurityNumber = '" + username + "';");
             st.executeUpdate(sqlFour);
-        } catch (Exception e) {
-            error = "delete under department";
-            callAlert(error);
-        }
 
         String sqlFive = ("DELETE FROM person where socialSecurityNumber = '" + username + "';");
-        try {
             st.executeUpdate(sqlFive);
+
         } catch (Exception e) {
-            error = "delete person";
+            answer = false;
+            error = "remove person from the database";
             callAlert(error);
         }
+        return answer;
     }
 
-    public boolean changePassword(String ssn, String password) throws SQLException {
+    public boolean changePassword(String ssn, String password) {
         int action;
         boolean answer = false;
+
         String sql = ("UPDATE login SET password = '" + password + "' WHERE person_socialSecurityNumber = '" + ssn + "';");
 
         try {
@@ -217,7 +236,7 @@ public class DBConnect {
     public void getAllEmployees() throws SQLException {
         String sql = ("SELECT * FROM person, email, phoneNumber, person_has_underdepartment WHERE socialSecurityNumber = email.Person_socialSecurityNumber " +
                 "and socialSecurityNumber = phonenumber.Person_socialSecurityNumber and socialSecurityNumber = person_has_underdepartment.person_socialSecurityNumber");
-        ResultSet rs = st.executeQuery(sql);
+        rs = st.executeQuery(sql);
 
         while (rs.next()) {
             Person person = new Person(rs.getString("firstName"), rs.getString("lastName"), rs.getString("initials"), rs.getString("role"),
@@ -230,7 +249,7 @@ public class DBConnect {
 
     public void getAllUnderDepartments() throws SQLException {
         String sql = ("SELECT underDepartmentName from underdepartment");
-        ResultSet rs = st.executeQuery(sql);
+        rs = st.executeQuery(sql);
 
         while (rs.next()) {
             String underDepartmentName = rs.getString("underDepartmentName");
@@ -249,7 +268,7 @@ public class DBConnect {
 
         try {
             String sql = ("SELECT socialSecurityNumber FROM person WHERE firstName = '" + firstName + "' and lastName = '" + lastName + "';");
-            ResultSet rs = st.executeQuery(sql);
+            rs = st.executeQuery(sql);
 
             if (rs.next()) {
                 socialSecurityNumber = rs.getString("socialSecurityNumber");
@@ -261,31 +280,23 @@ public class DBConnect {
 
         try {
             String sqlCheckOne = ("SELECT * FROM schedule where date_ = '" + date + "' and time_ = '" + time + "';");
-            ResultSet rs = st.executeQuery(sqlCheckOne);
+            rs = st.executeQuery(sqlCheckOne);
             if (!rs.isBeforeFirst()) {
-                try {
-                    String sqlTwo = ("INSERT INTO schedule (date_, time_) " +
-                            "VALUES ('" + date + "', '" + time + "');");
-                    st.executeUpdate(sqlTwo);
-                } catch (Exception e) {
-                    error = "insert date and time";
-                    callAlert(error);
-                }
+                sqlCheck = true;
             }
-        } catch (Exception e) {
-            error = "check count";
-            callAlert(error);
-        }
 
-        try {
             String sqlCheckTwo = ("SELECT * FROM person_has_schedule where person_socialSecurityNumber = '" + socialSecurityNumber + "' and schedule_date_ = '" + date + "' and schedule_time_ = '" + time + "';");
-            ResultSet rs = st.executeQuery(sqlCheckTwo);
-            if (!rs.isBeforeFirst()) {
+            rs = st.executeQuery(sqlCheckTwo);
+            if (!rs.isBeforeFirst() && sqlCheck) {
                 try {
-                    String sqlThree = ("INSERT INTO person_has_schedule (person_socialSecurityNumber, schedule_date_, schedule_time_) " +
+                    String sql = ("INSERT INTO schedule (date_, time_) " +
+                            "VALUES ('" + date + "', '" + time + "');");
+                    st.executeUpdate(sql);
+
+                    String sqlTwo = ("INSERT INTO person_has_schedule (person_socialSecurityNumber, schedule_date_, schedule_time_) " +
                             "VALUES ('" + socialSecurityNumber + "', '" + date + "', '" + time + "');");
 
-                    action = st.executeUpdate(sqlThree);
+                    action = st.executeUpdate(sqlTwo);
                     if (action > 0) {
                         answer = true;
                     }
@@ -300,7 +311,7 @@ public class DBConnect {
                 alert.showAndWait();
             }
             }catch(Exception e){
-                error = "check count 2";
+                error = "check count";
                 callAlert(error);
             }
         return answer;
@@ -315,7 +326,7 @@ public class DBConnect {
 
         public ArrayList getSchedule() throws SQLException {
         String sql = ("SELECT * FROM person_has_schedule");
-        ResultSet rs = st.executeQuery(sql);
+        rs = st.executeQuery(sql);
 
         while (rs.next()){
             String ssn = rs.getString("person_socialSecurityNumber");
@@ -331,7 +342,7 @@ public class DBConnect {
         public String getSocialSecurityNumber(String email) throws SQLException {
             String socialSecurityNumber = null;
             String sql = ("SELECT person_socialSecurityNumber FROM email WHERE email = '" + email + "';");
-            ResultSet rs = st.executeQuery(sql);
+            rs = st.executeQuery(sql);
 
             if (rs.next()) {
                 socialSecurityNumber = rs.getString("person_socialSecurityNumber");

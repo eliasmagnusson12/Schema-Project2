@@ -74,7 +74,8 @@ public class ControllerLogin implements Initializable {
         String username = usernameTextField.getText();
         String password = passwordTextField.getText();
 
-        DBConnect dbConnect = new DBConnect();
+//        DBConnect dbConnect = new DBConnect();
+
 
         saveLoginData();
 
@@ -89,11 +90,11 @@ public class ControllerLogin implements Initializable {
             alert.setHeaderText("Please enter password");
             alert.showAndWait();
 
-        }else if (dbConnect.isPasswordCorrect(username, password)) {
+        }else if (DBConnect.getDBCon().isPasswordCorrect(username, password)) {
 
-            dbConnect.setUser(username);
-            dbConnect.getAllEmployees();
-            dbConnect.getAllUnderDepartments();
+            DBConnect.getDBCon().setUser(username);
+            DBConnect.getDBCon().getAllEmployees();
+            DBConnect.getDBCon().getAllUnderDepartments();
 
             Stage stage = new Stage();
             FXMLLoader fxmlLoader = new FXMLLoader();

@@ -42,7 +42,6 @@ public class ControllerResetPassword implements Initializable {
 
     String error;
 
-    private DBConnect db = new DBConnect();
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -100,14 +99,13 @@ public class ControllerResetPassword implements Initializable {
         String pwChars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
         String pw = RandomStringUtils.random(8, pwChars);
 
-        DBConnect dbConnect = new DBConnect();
         boolean answer = false;
-        String socialSecurityNumber = dbConnect.getSocialSecurityNumber(email);
+        String socialSecurityNumber = DBConnect.getDBCon().getSocialSecurityNumber(email);
 
         if (socialSecurityNumber == null) {
 
         } else {
-            answer = dbConnect.changePassword(socialSecurityNumber, pw);
+            answer = DBConnect.getDBCon().changePassword(socialSecurityNumber, pw);
 
             if (answer) {
                 sendMail(email, pw);

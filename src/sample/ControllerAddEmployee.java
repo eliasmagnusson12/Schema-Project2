@@ -1,5 +1,6 @@
 package sample;
 
+import javafx.animation.PauseTransition;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -12,6 +13,9 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
+import javafx.scene.paint.Color;
+import javafx.util.Duration;
+
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
@@ -33,6 +37,8 @@ public class ControllerAddEmployee implements Initializable {
 
     private String department;
 
+    private ArrayList underDepartmentList;
+    private ObservableList<String> list;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -59,7 +65,7 @@ public class ControllerAddEmployee implements Initializable {
                 if (textField.getText().length() >= max_Lengh) {
                     event.consume();
                 }
-                if (event.getCharacter().matches("[A-Za-z]")) {
+                if (event.getCharacter().matches("[A-Öa-ö]")) {
                 } else {
                     event.consume();
                 }
@@ -86,12 +92,9 @@ public class ControllerAddEmployee implements Initializable {
 
         Person person = new Person(firstName, lastName, initials, role, email, phoneNumber, department, socialSecurityNumber);
 
-
-            DBConnect dbConnect = new DBConnect();
-            dbConnect.addPerson(person);
-
-            successLabel.setText("Successfully added "+person.getFirstName());
-            successLabel1.setText(" to the database.");
+        if (DBConnect.getDBCon().addPerson(person)) {
+            setSuccessLabel(person);
+        }
 
     }
 
@@ -108,12 +111,13 @@ public class ControllerAddEmployee implements Initializable {
     }
 
     @FXML
-    private void handleCheckBoxes(ActionEvent event){
+    private void handleCheckBoxes(ActionEvent event) {
+
         CheckBox checkBox = (CheckBox) event.getSource();
-        if (checkBox.getId().equals("checkBox1")){
+        if (checkBox.getId().equals("checkBox1")) {
             department = "Lanternan";
             checkBox2.setSelected(false);
-        }else if (checkBox.getId().equals("checkBox2")){
+        } else if (checkBox.getId().equals("checkBox2")) {
             department = "Åhaga";
             checkBox1.setSelected(false);
 
@@ -122,10 +126,28 @@ public class ControllerAddEmployee implements Initializable {
     }
 
     private void setChoiceBox(String department) {
-        DBConnect dbConnect = new DBConnect();
-        ArrayList underDepartmentList = (dbConnect.getUnderDepartments(department));
-        ObservableList<String> list = FXCollections.observableList(underDepartmentList);
 
-            choiceBox.setItems(list);
+        underDepartmentList = (DBConnect.getDBCon().getUnderDepartments(department));
+        list = FXCollections.observableList(underDepartmentList);
+
+        choiceBox.setItems(list);
+    }
+
+    private void setSuccessLabel(Person person) {
+
+        successLabel.setVisible(true);
+        successLabel.setTextFill(Color.GREEN);
+        successLabel1.setVisible(true);
+        successLabel1.setTextFill(Color.GREEN);
+        successLabel.setText("Successfully added " + person.getFirstName());
+        successLabel1.setText("to the database");
+
+        PauseTransition visiblePause = new PauseTransition(
+                Duration.seconds(3)
+        );
+        visiblePause.setOnFinished(
+                event -> successLabel.setVisible(false)
+        );
+        visiblePause.play();
     }
 }

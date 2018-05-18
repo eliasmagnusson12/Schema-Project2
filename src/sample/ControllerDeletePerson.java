@@ -1,5 +1,6 @@
 package sample;
 
+import javafx.animation.PauseTransition;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -11,6 +12,8 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
+import javafx.scene.paint.Color;
+import javafx.util.Duration;
 
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -24,7 +27,7 @@ public class ControllerDeletePerson implements Initializable {
     @FXML
     private TextField ssnTextField;
     @FXML
-    private Label okLabel;
+    private Label successLabel;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -48,10 +51,10 @@ public class ControllerDeletePerson implements Initializable {
     private void handleOkDeleteButton(ActionEvent event){
         String username = ssnTextField.getText();
 
-        DBConnect dbConnect = new DBConnect();
-        dbConnect.removePerson(username);
+        if (DBConnect.getDBCon().removePerson(username)){
+            setSuccessLabel();
+        }
 
-        okLabel.setText("Done!");
 
     }
 
@@ -65,5 +68,21 @@ public class ControllerDeletePerson implements Initializable {
     private void handleNoHoverEffect(MouseEvent event) {
         Button button = (Button) event.getSource();
         button.setStyle("-fx-background-color: TRANSPARENT");
+    }
+
+    private void setSuccessLabel(){
+
+        successLabel.setVisible(true);
+        successLabel.setTextFill(Color.GREEN);
+        successLabel.setText("Successfully removed this person from the database!");
+
+
+        PauseTransition visiblePause = new PauseTransition(
+                Duration.seconds(3)
+        );
+        visiblePause.setOnFinished(
+                event -> successLabel.setVisible(false)
+        );
+        visiblePause.play();
     }
 }

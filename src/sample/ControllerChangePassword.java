@@ -56,8 +56,7 @@ public class ControllerChangePassword implements Initializable {
         String username = Singleton.getInstance().getUser().getSsn();
         if (newPassword.getText().equals(confirmPassword.getText())) {
 
-            DBConnect dbConnect = new DBConnect();
-            answer = dbConnect.changePassword(username, password);
+            answer = DBConnect.getDBCon().changePassword(username, password);
         } else {
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("Error");

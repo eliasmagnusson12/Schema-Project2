@@ -73,7 +73,7 @@ public class ControllerCalendar implements Initializable {
     private ArrayList<Button> listOfSaturdayButtons = new ArrayList<>();
     private ArrayList<Button> listOfSundayButtons = new ArrayList<>();
     private ArrayList<Button> listOfAllButtons = new ArrayList<>();
-    private DBConnect dbConnect = new DBConnect();
+
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -188,7 +188,7 @@ public class ControllerCalendar implements Initializable {
         setChoiceBox();
 
         try {
-            scheduleList = dbConnect.getSchedule();
+            scheduleList = DBConnect.getDBCon().getSchedule();
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -692,7 +692,7 @@ public class ControllerCalendar implements Initializable {
                 String[] timeSplit = schedule.getTime().split("\\-");
                 String time = timeSplit[0];
 
-                if (dbConnect.setNewColor(color, ssn, date, time)){
+                if (DBConnect.getDBCon().setNewColor(color, ssn, date, time)){
                 }else {
                     System.out.println("fel1");
                 }
@@ -704,7 +704,7 @@ public class ControllerCalendar implements Initializable {
                 date = schedule.getDate();
                 String[] timeSplit = schedule.getTime().split("\\-");
                 String timeAfterSplit = timeSplit[0];
-                if (dbConnect.setNewColor(color, ssn, date, timeAfterSplit)){
+                if (DBConnect.getDBCon().setNewColor(color, ssn, date, timeAfterSplit)){
                 }else {
                     System.out.println("fel2");
                 }
@@ -715,7 +715,7 @@ public class ControllerCalendar implements Initializable {
                 date = schedule.getDate();
                 String[] timeSplit = schedule.getTime().split("\\-");
                 String timeAfterSplit = timeSplit[0];
-                if (dbConnect.setNewColor(color, ssn, date, timeAfterSplit)){
+                if (DBConnect.getDBCon().setNewColor(color, ssn, date, timeAfterSplit)){
                 }else {
                     System.out.println("fel3");
                 }
@@ -728,7 +728,7 @@ public class ControllerCalendar implements Initializable {
             choice = "Person schedule";
         }
         scheduleList.clear();
-        scheduleList = dbConnect.getSchedule();
+        scheduleList = DBConnect.getDBCon().getSchedule();
         getScheduleList();
 
     }
