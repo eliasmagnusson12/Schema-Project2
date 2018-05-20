@@ -114,7 +114,7 @@ public class ControllerAddEmployee implements Initializable {
             String email = emailTextField.getText();
             String phoneNumber = phoneNumberTextField.getText();
             String socialSecurityNumber = socialSecurityNumberTextField.getText();
-            String role = "Employee";
+            String role = "Admin";
             String department = choiceBox.getSelectionModel().getSelectedItem().toString();
 
             String firstLetterFirstName;

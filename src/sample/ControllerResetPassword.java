@@ -43,6 +43,7 @@ public class ControllerResetPassword implements Initializable {
     String error;
 
 
+
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         Image image = new Image("resources/2.jpg");
@@ -108,14 +109,14 @@ public class ControllerResetPassword implements Initializable {
             answer = DBConnect.getDBCon().changePassword(socialSecurityNumber, pw);
 
             if (answer) {
-                sendMail(email, pw);
+                sendMail(email, pw, socialSecurityNumber);
             } else {
                 error = "Could not change password!";
                 callAlert(error);
             }
         }
     }
-    private void sendMail(String email, String pw) throws MessagingException, SQLException {
+    private void sendMail(String email, String pw, String socialSecurityNumber) throws MessagingException, SQLException {
         ControllerMail controllerMail = new ControllerMail();
         boolean answer = controllerMail.sendNewPassword(email, pw);
 

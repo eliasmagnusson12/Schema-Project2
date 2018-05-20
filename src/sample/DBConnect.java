@@ -28,6 +28,7 @@ public class DBConnect {
     private String departmentName;
     private String ssn;
     private String error;
+    private String pw;
 
     private boolean sqlCheck = true;
     private boolean answer = true;
@@ -163,7 +164,8 @@ public class DBConnect {
                 sqlCheck = false;
 
             } else {
-                if (!cm.sendFirstPW(person)) {
+                pw = cm.sendFirstPW(person);
+                if (pw.isEmpty()) {
                     sqlCheck = false;
                     error = "send email";
 
@@ -184,7 +186,7 @@ public class DBConnect {
                 st.executeUpdate(sql);
 
                 String sqlThree = ("INSERT INTO login (password, person_socialSecurityNumber) " +
-                        "VALUES ('" + cm.getPW() + "', '" + person.getSocialSecurityNumber() + "');");
+                        "VALUES ('" + pw + "', '" + person.getSocialSecurityNumber() + "');");
                 st.executeUpdate(sqlThree);
 
                 String sqlFour = ("INSERT INTO email (email, person_socialSecurityNumber) " +

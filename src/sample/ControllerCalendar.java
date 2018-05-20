@@ -210,7 +210,6 @@ public class ControllerCalendar implements Initializable {
                 weekLabel.requestFocus();
             }
         });
-
     }
 
     private void setWeekLabel(String weekString) {
@@ -690,6 +689,10 @@ public class ControllerCalendar implements Initializable {
 
     @FXML
     private void handleUpdateButton(ActionEvent event) throws SQLException {
+        update();
+    }
+
+    public void update() throws SQLException {
         String ssn = null;
         String date = null;
         int color = 0;

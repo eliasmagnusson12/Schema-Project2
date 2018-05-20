@@ -43,6 +43,7 @@ public class ControllerMail implements Initializable {
     private Label messageSent;
 
     private String email;
+    private String pw;
     private boolean answer;
 
     private ObservableSet<CheckBox> selectedCheckBoxes = FXCollections.observableSet();
@@ -188,7 +189,7 @@ public class ControllerMail implements Initializable {
         });
     }
 
-    public boolean sendFirstPW(Person person) throws AddressException {
+    public String sendFirstPW(Person person) throws AddressException {
         answer = true;
 
         String from = "kristianstad.gadors@hotmail.com";
@@ -215,8 +216,9 @@ public class ControllerMail implements Initializable {
             message.setFrom(new InternetAddress(from));
             message.addRecipients(RecipientType.TO, to);
 
+            pw = getPW();
             message.setSubject("Your password");
-            message.setText("Your password is " + getPW() + "\n\nYou can not respond to this mail. ");
+            message.setText("Your password is " + pw + "\n\nYou can not respond to this mail. ");
 
 
             Transport transport = session.getTransport("smtp");
@@ -228,12 +230,13 @@ public class ControllerMail implements Initializable {
         } catch (Exception e) {
             answer = false;
         }
-        return answer;
+        return pw;
     }
 
 
     public boolean sendNewPassword(String email, String pw) throws MessagingException, SQLException {
         try {
+            answer = true;
             String from = "kristianstad.gadors@hotmail.com";
             String pass = "gadors123";
 
@@ -263,7 +266,7 @@ public class ControllerMail implements Initializable {
             transport.sendMessage(message, message.getAllRecipients());
             transport.close();
 
-            answer = true;
+
         }catch (Exception e){
             answer = false;
         }
