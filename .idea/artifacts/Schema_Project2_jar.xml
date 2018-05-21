@@ -1,0 +1,12 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="Schema-Project2:jar">
+    <output-path>$PROJECT_DIR$/out/artifacts/Schema_Project2_jar</output-path>
+    <root id="archive" name="Schema-Project2.jar">
+      <element id="module-output" name="Schema-Project2" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/src/resources/mysql-connector-java-5.1.46.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/src/resources/common-lang3.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/src/resources/activation.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/src/resources/javax.mail.jar" path-in-jar="/" />
+    </root>
+  </artifact>
+</component>
