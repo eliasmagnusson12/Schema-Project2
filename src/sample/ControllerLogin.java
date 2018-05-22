@@ -102,6 +102,7 @@ public class ControllerLogin implements Initializable {
             }
             Scene scene = new Scene(fxmlLoader.load());
             stage.setScene(scene);
+            stage.getIcons().add(new Image("resources/s.png"));
             stage.show();
             ((Node) (event.getSource())).getScene().getWindow().hide();
         }else {
@@ -120,6 +121,7 @@ public class ControllerLogin implements Initializable {
         stage.setTitle("Schedule 1.0");
         Scene scene = new Scene(fxmlLoader.load());
         stage.setResizable(false);
+        stage.getIcons().add(new Image("resources/s.png"));
         stage.setScene(scene);
         stage.show();
         ((Node) (event.getSource())).getScene().getWindow().hide();
@@ -208,6 +210,7 @@ public class ControllerLogin implements Initializable {
         fxmlLoader.setLocation(getClass().getResource(  "sampleResetPassword.fxml"));
         stage.setTitle("Reset Password");
         Scene scene = new Scene(fxmlLoader.load());
+        stage.getIcons().add(new Image("resources/s.png"));
         stage.setScene(scene);
         stage.show();
         ((Node) (event.getSource())).getScene().getWindow().hide();

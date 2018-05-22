@@ -386,6 +386,7 @@ public class ControllerCalendar implements Initializable {
         stage.setTitle("Schedule 1.0");
         Scene scene = new Scene(fxmlLoader.load());
         stage.setResizable(false);
+        stage.getIcons().add(new Image("resources/s.png"));
         stage.setScene(scene);
         stage.show();
         ((Node) (event.getSource())).getScene().getWindow().hide();
@@ -445,6 +446,7 @@ public class ControllerCalendar implements Initializable {
         stage.setTitle("Add Person");
         Scene scene = new Scene(fxmlLoader.load());
         stage.setResizable(false);
+        stage.getIcons().add(new Image("resources/s.png"));
         stage.setScene(scene);
         stage.show();
     }
@@ -457,6 +459,7 @@ public class ControllerCalendar implements Initializable {
         stage.setTitle("Remove Person");
         Scene scene = new Scene(fxmlLoader.load(), 640, 480);
         stage.setResizable(false);
+        stage.getIcons().add(new Image("resources/s.png"));
         stage.setScene(scene);
         stage.show();
 
@@ -470,6 +473,7 @@ public class ControllerCalendar implements Initializable {
         stage.setTitle("Change Schedule");
         Scene scene = new Scene(fxmlLoader.load(), 640, 480);
         stage.setResizable(false);
+        stage.getIcons().add(new Image("resources/s.png"));
         stage.setScene(scene);
         stage.show();
     }

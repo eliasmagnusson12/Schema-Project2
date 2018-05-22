@@ -4,6 +4,7 @@ import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.image.Image;
 import javafx.stage.Stage;
 
 
@@ -18,6 +19,7 @@ public class Main extends Application {
         primaryStage.setTitle("Schedule 1.0");
         primaryStage.setResizable(false);
         primaryStage.setScene(new Scene(root));
+        primaryStage.getIcons().add(new Image("resources/s.png"));
         primaryStage.show();
 
 

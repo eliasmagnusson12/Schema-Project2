@@ -39,6 +39,7 @@ public class ControllerSettings implements Initializable {
         stage.setTitle("Change Password");
         Scene scene = new Scene(fxmlLoader.load());
         stage.setResizable(false);
+        stage.getIcons().add(new Image("resources/s.png"));
         stage.setScene(scene);
         stage.show();
         ((Node) (event.getSource())).getScene().getWindow().hide();

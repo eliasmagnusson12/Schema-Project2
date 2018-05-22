@@ -77,6 +77,7 @@ public class ControllerMainMenu implements Initializable {
         stage.setTitle("Schedule 1.0");
         Scene scene = new Scene(fxmlLoader.load());
         stage.setResizable(false);
+        stage.getIcons().add(new Image("resources/s.png"));
         stage.setScene(scene);
         stage.show();
         ((Node) (event.getSource())).getScene().getWindow().hide();
@@ -115,6 +116,7 @@ public class ControllerMainMenu implements Initializable {
         stage.setTitle("Settings");
         Scene scene = new Scene(fxmlLoader.load());
         stage.setResizable(false);
+        stage.getIcons().add(new Image("resources/s.png"));
         stage.setScene(scene);
         stage.show();
     }
@@ -127,6 +129,7 @@ public class ControllerMainMenu implements Initializable {
         stage.setTitle("Mail");
         Scene scene = new Scene(fxmlLoader.load());
         stage.setResizable(false);
+        stage.getIcons().add(new Image("resources/s.png"));
         stage.setScene(scene);
         stage.show();
     }
@@ -139,6 +142,7 @@ public class ControllerMainMenu implements Initializable {
         stage.setTitle("Information");
         Scene scene = new Scene(fxmlLoader.load());
         stage.setResizable(false);
+        stage.getIcons().add(new Image("resources/s.png"));
         stage.setScene(scene);
         stage.show();
     }
@@ -151,6 +155,7 @@ public class ControllerMainMenu implements Initializable {
         stage.setTitle("Help");
         Scene scene = new Scene(fxmlLoader.load());
         stage.setResizable(false);
+        stage.getIcons().add(new Image("resources/s.png"));
         stage.setScene(scene);
         stage.show();
     }

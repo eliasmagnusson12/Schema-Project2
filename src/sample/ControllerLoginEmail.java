@@ -46,6 +46,7 @@ public class ControllerLoginEmail implements Initializable {
             FXMLLoader fxmlLoader = new FXMLLoader();
             fxmlLoader.setLocation(getClass().getResource(  "sampleMail.fxml"));
             stage.setTitle("Mail");
+            stage.getIcons().add(new Image("resources/s.png"));
             Scene scene = new Scene(fxmlLoader.load());
             stage.setScene(scene);
             stage.show();

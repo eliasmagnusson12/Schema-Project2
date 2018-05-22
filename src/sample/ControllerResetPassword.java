@@ -63,6 +63,7 @@ public class ControllerResetPassword implements Initializable {
         fxmlLoader.setLocation(getClass().getResource("sampleResetPasswordHelp.fxml"));
         stage.setTitle("Reset Password Help");
         Scene scene = new Scene(fxmlLoader.load());
+        stage.getIcons().add(new Image("resources/s.png"));
         stage.setScene(scene);
         stage.show();
         ((Node) (event.getSource())).getScene().getWindow().hide();
